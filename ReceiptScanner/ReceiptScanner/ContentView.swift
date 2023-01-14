@@ -6,16 +6,96 @@
 //
 
 import SwiftUI
+import Vision
+import VisionKit
 
 struct ContentView: View {
+    @EnvironmentObject var viewModel: AppViewModel
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        switch viewModel.dataScannerAccessStatus {
+        case .scannerAvailable:
+            mainView
+        case .cameraNotAvailable:
+            Text("Camera isn't available")
+        case .scannerNotAvailable:
+            Text("This device doesn't support text scanning")
+        case .notDetermined:
+            Text("Requestion amera access")
+        case .cameraAccessNotGranted:
+            Text("Please provide access to the camera in settings")
         }
-        .padding()
+    }
+    
+    private var mainView: some View {
+        VStack {
+            DataScannerView(
+                recognizedItems: $viewModel.recognizedItems,
+                recognizedDataTypes: [ viewModel.recognizedDataType ],
+                recognizesMultipleItems: viewModel.recognizesMultipleItems
+            )
+            .ignoresSafeArea()
+            .id(viewModel.dataScannerViewId)
+            
+            bottomContainerView
+                .onChange(of: viewModel.scanType) { _ in viewModel.recognizedItems = [] }
+                .onChange(of: viewModel.textContentType) { _ in viewModel.recognizedItems = [] }
+                .onChange(of: viewModel.recognizesMultipleItems) { _ in viewModel.recognizedItems = []}
+        }
+    }
+    
+    private var headerView: some View {
+        VStack {
+            HStack {
+                Picker("Scan Type", selection: $viewModel.scanType) {
+                    Text("Barcode").tag(ScanType.barcode)
+                    Text("Text").tag(ScanType.text)
+                }
+                .pickerStyle(.segmented)
+                
+                Toggle("Scan multiple", isOn: $viewModel.recognizesMultipleItems)
+                
+                Spacer()
+            }
+            .padding()
+            
+            if viewModel.scanType == .text {
+                Picker("Text content type", selection: $viewModel.textContentType) {
+                    ForEach(viewModel.textContentTypes, id: \.0) { (title, textType) in
+                        Text(title).tag(textType)
+                    }
+                }
+                .pickerStyle(.segmented)
+            }
+            
+            Text(viewModel.headerText)
+                .padding(.top)
+        }
+        .padding(.horizontal)
+    }
+    
+    private var bottomContainerView: some View {
+        VStack {
+            headerView
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 16) {
+                    ForEach(viewModel.recognizedItems) { item in
+                        switch item {
+                        case .barcode(let barcode):
+                            Text(barcode.payloadStringValue ?? "Unknown barcode")
+                            
+                        case .text(let text):
+                            Text(text.transcript)
+                            
+                        @unknown default:
+                            Text("Unknown")
+                        }
+                    }
+                }
+                .padding()
+            }
+            .frame(height: 200)
+        }
     }
 }
 

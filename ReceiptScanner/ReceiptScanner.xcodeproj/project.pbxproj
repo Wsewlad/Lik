@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		829EC20F2972E65F002D0CA0 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 829EC20E2972E65F002D0CA0 /* ComposableArchitecture */; };
+		829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC2102973112B002D0CA0 /* AppViewModel.swift */; };
+		829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21229731769002D0CA0 /* DataScannerView.swift */; };
+		829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */; };
 		82A39D5A2972E327004F6267 /* ReceiptScannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D592972E327004F6267 /* ReceiptScannerApp.swift */; };
 		82A39D5C2972E327004F6267 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D5B2972E327004F6267 /* ContentView.swift */; };
 		82A39D5E2972E32C004F6267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D5D2972E32C004F6267 /* Assets.xcassets */; };
@@ -35,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
+		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
 		82A39D562972E327004F6267 /* ReceiptScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReceiptScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A39D592972E327004F6267 /* ReceiptScannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptScannerApp.swift; sourceTree = "<group>"; };
 		82A39D5B2972E327004F6267 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,6 +106,9 @@
 				82A39D5B2972E327004F6267 /* ContentView.swift */,
 				82A39D5D2972E32C004F6267 /* Assets.xcassets */,
 				82A39D5F2972E32C004F6267 /* Preview Content */,
+				829EC2102973112B002D0CA0 /* AppViewModel.swift */,
+				829EC21229731769002D0CA0 /* DataScannerView.swift */,
+				829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */,
 			);
 			path = ReceiptScanner;
 			sourceTree = "<group>";
@@ -267,6 +276,9 @@
 			files = (
 				82A39D5C2972E327004F6267 /* ContentView.swift in Sources */,
 				82A39D5A2972E327004F6267 /* ReceiptScannerApp.swift in Sources */,
+				829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */,
+				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,
+				829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +440,7 @@
 				DEVELOPMENT_TEAM = N37DY79DRF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "App uses camera to scan text";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -457,6 +470,7 @@
 				DEVELOPMENT_TEAM = N37DY79DRF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "App uses camera to scan text";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

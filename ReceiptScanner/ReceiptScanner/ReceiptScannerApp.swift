@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct ReceiptScannerApp: App {
+    @StateObject private var viewModel = AppViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(viewModel)
+                .task {
+                    await viewModel.requestDataScannerAccessStatus()
+                }
         }
     }
 }
