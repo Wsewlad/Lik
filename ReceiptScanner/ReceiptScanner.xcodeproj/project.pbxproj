@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		82985A5929760296002BB673 /* TextScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82985A5829760296002BB673 /* TextScanner.swift */; };
 		829EC20F2972E65F002D0CA0 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 829EC20E2972E65F002D0CA0 /* ComposableArchitecture */; };
 		829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC2102973112B002D0CA0 /* AppViewModel.swift */; };
 		829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21229731769002D0CA0 /* DataScannerView.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		82985A5829760296002BB673 /* TextScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScanner.swift; sourceTree = "<group>"; };
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
 		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				829EC2102973112B002D0CA0 /* AppViewModel.swift */,
 				829EC21229731769002D0CA0 /* DataScannerView.swift */,
 				829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */,
+				82985A5829760296002BB673 /* TextScanner.swift */,
 			);
 			path = ReceiptScanner;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82A39D5C2972E327004F6267 /* ContentView.swift in Sources */,
+				82985A5929760296002BB673 /* TextScanner.swift in Sources */,
 				82A39D5A2972E327004F6267 /* ReceiptScannerApp.swift in Sources */,
 				829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */,
 				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,

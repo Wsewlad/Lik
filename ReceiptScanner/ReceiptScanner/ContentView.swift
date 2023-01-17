@@ -11,6 +11,8 @@ import VisionKit
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: AppViewModel
+    @State private var isCameraPresented: Bool = false
+    @State private var recognizedText: String = ""
     
     var body: some View {
         switch viewModel.dataScannerAccessStatus {
@@ -29,18 +31,45 @@ struct ContentView: View {
     
     private var mainView: some View {
         VStack {
-            DataScannerView(
-                recognizedItems: $viewModel.recognizedItems,
-                recognizedDataTypes: [ viewModel.recognizedDataType ],
-                recognizesMultipleItems: viewModel.recognizesMultipleItems
-            )
-            .ignoresSafeArea()
-            .id(viewModel.dataScannerViewId)
+//            DataScannerView(
+//                recognizedItems: $viewModel.recognizedItems,
+//                recognizedDataTypes: [ viewModel.recognizedDataType ],
+//                recognizesMultipleItems: viewModel.recognizesMultipleItems
+//            )
+            Text(recognizedText)
             
-            bottomContainerView
-                .onChange(of: viewModel.scanType) { _ in viewModel.recognizedItems = [] }
-                .onChange(of: viewModel.textContentType) { _ in viewModel.recognizedItems = [] }
-                .onChange(of: viewModel.recognizesMultipleItems) { _ in viewModel.recognizedItems = []}
+            Button(action: {
+                guard VNDocumentCameraViewController.isSupported else { print("Document scanning not supported"); return }
+                isCameraPresented.toggle()
+                
+            }) {
+                Text("Open camera")
+            }
+            .sheet(isPresented: $isCameraPresented) {
+                DocumentCamera(
+                    cancelAction: { isCameraPresented = false },
+                    resultAction: { result in
+                        switch result {
+                        case let .success(scan):
+                            let extractedImages = TextScanner.extractImages(from: scan)
+                            let processedText = TextScanner.recognizeText(from: extractedImages)
+                            DispatchQueue.main.async {
+                                self.recognizedText = processedText
+                            }
+                            
+                        case let .failure(error):
+                            print(error.localizedDescription)
+                        }
+                        
+                        isCameraPresented = false
+                    }
+                )
+            }
+            
+//            bottomContainerView
+//                .onChange(of: viewModel.scanType) { _ in viewModel.recognizedItems = [] }
+//                .onChange(of: viewModel.textContentType) { _ in viewModel.recognizedItems = [] }
+//                .onChange(of: viewModel.recognizesMultipleItems) { _ in viewModel.recognizedItems = []}
         }
     }
     
