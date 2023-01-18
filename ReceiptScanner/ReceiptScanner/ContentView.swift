@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var isCameraPresented: Bool = false
     @State private var recognizedText: String = ""
     
+    @StateObject private var textScanner: TextScanner = .init()
+    
     var body: some View {
         switch viewModel.dataScannerAccessStatus {
         case .scannerAvailable:
@@ -31,32 +33,50 @@ struct ContentView: View {
     
     private var mainView: some View {
         VStack {
-//            DataScannerView(
-//                recognizedItems: $viewModel.recognizedItems,
-//                recognizedDataTypes: [ viewModel.recognizedDataType ],
-//                recognizesMultipleItems: viewModel.recognizesMultipleItems
-//            )
-            Text(recognizedText)
+            ScrollView {
+                VStack {
+                    HStack {
+                        Text("Назва")
+                        Spacer()
+                        Text("Кількість")
+                        Spacer()
+                        Text("Ціна")
+                    }
+                    .bold()
+                    .padding()
+                    
+                    Divider()
+                    
+                    ForEach(textScanner.contents.items, id: \.name) { item in
+                        HStack {
+                            Text(item.name)
+                            Spacer()
+                            Text(item.amount)
+                            Spacer()
+                            Text(item.price)
+                        }
+                        .padding()
+                    }
+                }
+            }
             
             Button(action: {
-                guard VNDocumentCameraViewController.isSupported else { print("Document scanning not supported"); return }
-                isCameraPresented.toggle()
+                guard VNDocumentCameraViewController.isSupported
+                else { print("Document scanning not supported"); return }
                 
+                isCameraPresented.toggle()
             }) {
                 Text("Open camera")
             }
+            .padding()
             .sheet(isPresented: $isCameraPresented) {
                 DocumentCamera(
                     cancelAction: { isCameraPresented = false },
                     resultAction: { result in
                         switch result {
                         case let .success(scan):
-                            let extractedImages = TextScanner.extractImages(from: scan)
-                            let processedText = TextScanner.recognizeText(from: extractedImages)
-                            DispatchQueue.main.async {
-                                self.recognizedText = processedText
-                            }
-                            
+                            textScanner.parseData(from: scan)
+
                         case let .failure(error):
                             print(error.localizedDescription)
                         }
@@ -65,65 +85,6 @@ struct ContentView: View {
                     }
                 )
             }
-            
-//            bottomContainerView
-//                .onChange(of: viewModel.scanType) { _ in viewModel.recognizedItems = [] }
-//                .onChange(of: viewModel.textContentType) { _ in viewModel.recognizedItems = [] }
-//                .onChange(of: viewModel.recognizesMultipleItems) { _ in viewModel.recognizedItems = []}
-        }
-    }
-    
-    private var headerView: some View {
-        VStack {
-            HStack {
-                Picker("Scan Type", selection: $viewModel.scanType) {
-                    Text("Barcode").tag(ScanType.barcode)
-                    Text("Text").tag(ScanType.text)
-                }
-                .pickerStyle(.segmented)
-                
-                Toggle("Scan multiple", isOn: $viewModel.recognizesMultipleItems)
-                
-                Spacer()
-            }
-            .padding()
-            
-            if viewModel.scanType == .text {
-                Picker("Text content type", selection: $viewModel.textContentType) {
-                    ForEach(viewModel.textContentTypes, id: \.0) { (title, textType) in
-                        Text(title).tag(textType)
-                    }
-                }
-                .pickerStyle(.segmented)
-            }
-            
-            Text(viewModel.headerText)
-                .padding(.top)
-        }
-        .padding(.horizontal)
-    }
-    
-    private var bottomContainerView: some View {
-        VStack {
-            headerView
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 16) {
-                    ForEach(viewModel.recognizedItems) { item in
-                        switch item {
-                        case .barcode(let barcode):
-                            Text(barcode.payloadStringValue ?? "Unknown barcode")
-                            
-                        case .text(let text):
-                            Text(text.transcript)
-                            
-                        @unknown default:
-                            Text("Unknown")
-                        }
-                    }
-                }
-                .padding()
-            }
-            .frame(height: 200)
         }
     }
 }
