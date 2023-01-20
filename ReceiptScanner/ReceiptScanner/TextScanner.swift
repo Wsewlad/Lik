@@ -50,6 +50,12 @@ class TextScanner: ObservableObject {
         }
     }
     
+    func parseData(from image: UIImage) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.processImage(image: image)
+        }
+    }
+    
     private func processImage(image: UIImage) {
         guard let cgImage = image.cgImage else {
             print("Failed to get cgimage from input image")
@@ -80,7 +86,7 @@ class TextScanner: ObservableObject {
         
         //        textRecognitionRequest.supportedRecognitionLanguages()
         textRecognitionRequest.recognitionLanguages = ["uk-UA"]
-        textRecognitionRequest.customWords = ["завжди", "з", "собою", "спрей", "антисептичний"]
+        textRecognitionRequest.customWords = ["чек", "ЧЕК"]
         textRecognitionRequest.usesLanguageCorrection = true
         textRecognitionRequest.recognitionLevel = .accurate
     }
@@ -88,7 +94,7 @@ class TextScanner: ObservableObject {
 
 extension TextScanner: RecognizedTextDataSource {
         func addRecognizedText(recognizedText: [VNRecognizedTextObservation]) {
-            let observations = recognizedText.sorted { $0.boundingBox.minY > $1.boundingBox.minY && $0.boundingBox.minX > $1.boundingBox.minX }
+            let observations = recognizedText.sorted { $0.boundingBox.minY.rounded() > $1.boundingBox.minY.rounded() && $0.boundingBox.minX.rounded() > $1.boundingBox.minX.rounded() }
             
             var startParsing: Bool = false
             
@@ -108,47 +114,48 @@ extension TextScanner: RecognizedTextDataSource {
                     .lowercased()
                 
                 let curr = observation
-                print(text, observation.boundingBox.minY.formatted(), prev.boundingBox.maxX < curr.boundingBox.minX ? curr.boundingBox.minX.formatted() : prev.boundingBox.maxX.formatted())
+                
+                print(text, observation.boundingBox.minY.rounded(), prev.boundingBox.maxX < curr.boundingBox.minX ? curr.boundingBox.minX.rounded() : prev.boundingBox.maxX.rounded())
                 
                 if prevTexLowercased.contains("сума") {
                     return
                 }
                 
-                if prevTexLowercased.starts(with: "чек") || prevTexLowercased.starts(with: "#чек") {
+                if prevTexLowercased.starts(with: "чек") || prevTexLowercased.starts(with: "#чек") || prevTexLowercased.starts(with: "hufk") {
                     startParsing = true
                 }
                 
                 guard startParsing else { continue }
     
-                if let name = currName, let amount = currAmount, let price = currPrice {
-                    contents.items.append((name: name, amount: amount, price: price))
-                    currName = nil
-                    currAmount = nil
-                    currPrice = nil
-                } else {
-                    let converted = text
-                        .replacingOccurrences(of: "[^0-9\\,\\.]+", with: "", options: .regularExpression)
-                        .replacingOccurrences(of: ",", with: ".")
-                    
-                    if text.lowercased().contains("x") {
+                if let name = currName {
+                    if currAmount != nil || !(text.lowercased().contains("х") || text.lowercased().contains("x")) {
+                        let amount = currAmount != nil ? currAmount! : "шт"
+                        let price = text
+                            .replacingOccurrences(of: "[^0-9\\,\\.]+", with: "", options: .regularExpression)
+                            .replacingOccurrences(of: ",", with: ".")
+                        
+                        contents.items.append((name: name, amount: amount, price: price))
+                        currName = nil
+                        currAmount = nil
+                        currPrice = nil
+                    } else {
                         currAmount = text
                             .lowercased()
                             .trimmingCharacters(in: .whitespacesAndNewlines)
                             .replacingOccurrences(of: ",", with: ".")
-                        
-                    } else if let _ = try? Float(converted, format: .number) {
-                        currPrice = converted
-                        
-                    } else {
-                        if let name = currName, let price = currPrice {
-                            contents.items.append((name: name, amount: "шт", price: price))
-                            currName = nil
-                            currAmount = nil
-                            currPrice = nil
-                        }
-                        currName = text
                     }
+                } else {
+                    currName = text
                 }
             }
         }
+}
+
+extension CGFloat {
+    func rounded() -> Self {
+        Foundation.round(self * 100) / 100.0
+    }
+    func formatted2() -> String {
+        String(format: "%.2f", self)
+    }
 }

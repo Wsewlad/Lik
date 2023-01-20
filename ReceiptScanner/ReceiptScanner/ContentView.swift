@@ -12,6 +12,7 @@ import VisionKit
 struct ContentView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @State private var isCameraPresented: Bool = false
+    @State private var isFileImporterPresented: Bool = false
     @State private var recognizedText: String = ""
     
     @StateObject private var textScanner: TextScanner = .init()
@@ -60,14 +61,28 @@ struct ContentView: View {
                 }
             }
             
-            Button(action: {
+            Button("Open file", action: { isFileImporterPresented.toggle() })
+            .padding()
+            .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic]) { result in
+                switch result {
+                case let .success(url):
+                    guard url.startAccessingSecurityScopedResource(), let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) else {
+                        print("Can't read file")
+                        return
+                    }
+                    url.stopAccessingSecurityScopedResource()
+                    textScanner.parseData(from: image)
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+            Button("Open camera", action: {
                 guard VNDocumentCameraViewController.isSupported
                 else { print("Document scanning not supported"); return }
                 
                 isCameraPresented.toggle()
-            }) {
-                Text("Open camera")
-            }
+            })
             .padding()
             .sheet(isPresented: $isCameraPresented) {
                 DocumentCamera(
