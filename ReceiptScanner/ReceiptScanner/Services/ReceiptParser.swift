@@ -20,17 +20,29 @@ class ReceiptParser: RecognizedTextDataSourceDelegate {
     }
     
     func parse(_ observations: [VNRecognizedTextObservation]) {
-        // TODO: - change id constructing logic
-        var receipt: Receipt = .init(
-            id: .init(value: DateFormatter().string(from: Date())),
-            date: Date(),
-            products: [],
-            sum: 0
-        )
-        
         let observations = observations.sorted { $0.boundingBox.minY.rounded() > $1.boundingBox.minY.rounded() && $0.boundingBox.minX.rounded() > $1.boundingBox.minX.rounded() }
         
         var startParsing: Bool = false
+        
+        let fullText = observations.reduce((text: "", prevMinY: 0.0, prevMinX: 0.0)) {
+            var text = $0.text
+            if $0.prevMinY == $1.boundingBox.minY.rounded() || $0.prevMinX < $1.boundingBox.minX.rounded() {
+                text += "  " + $1.topCandidates(1).first!.string
+            } else {
+                text += "\n" + $1.topCandidates(1).first!.string
+            }
+            
+            return (text, $1.boundingBox.minY.rounded(), $1.boundingBox.minX.rounded())
+        }
+        
+        // TODO: - change id constructing logic
+        var receipt: Receipt = .init(
+            id: .init(value: DateFormatter.monthDayYearTimeStyle.string(from: Date())),
+            date: Date(),
+            products: [],
+            sum: 0,
+            text: fullText.text
+        )
         
         var currName: String?
         var currAmount: String?
@@ -38,7 +50,7 @@ class ReceiptParser: RecognizedTextDataSourceDelegate {
         let maximumCandidates = 1
         for observation in observations {
             guard let candidate = observation.topCandidates(maximumCandidates).first else { continue }
-            var text = candidate.string
+            let text = candidate.string
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             
             let prev = observations[safeIndex: (observations.firstIndex(of: observation) ?? 1) - 1] ?? observation
@@ -49,6 +61,8 @@ class ReceiptParser: RecognizedTextDataSourceDelegate {
             let curr = observation
             
             print(text, observation.boundingBox.minY.rounded(), prev.boundingBox.maxX < curr.boundingBox.minX ? curr.boundingBox.minX.rounded() : prev.boundingBox.maxX.rounded())
+            
+//            print(observations.map { "\($0.topCandidates(maximumCandidates).first!.string) minY: \($0.boundingBox.minY.rounded()), minX: \($0.boundingBox.minX.rounded())" })
             
             if prevTexLowercased.contains("сума") {
                 self.onDidParse(receipt)
@@ -89,6 +103,6 @@ class ReceiptParser: RecognizedTextDataSourceDelegate {
             }
         }
         
-//        self.onDidParse(receipt)
+        self.onDidParse(receipt)
     }
 }

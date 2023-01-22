@@ -28,7 +28,10 @@ struct ContentView: View {
                 }
                 .navigationTitle("Receipts")
                 .onAppear {
-                    textScanner.delegate = ReceiptParser(onDidParse: { receipts.append($0) })
+                    guard textScanner.delegate == nil else { return }
+                    textScanner.delegate = ReceiptParser {
+                        receipts.append($0)
+                    }
                 }
             case .cameraNotAvailable:
                 Text("Camera isn't available")
@@ -47,7 +50,7 @@ struct ContentView: View {
 private extension ContentView {
     var receiptsListView: some View {
         ScrollView {
-            LazyVStack(spacing: 15) {
+            VStack(spacing: 15) {
                 ForEach(receipts, id: \.id) { receipt in
                     ReceiptView(receipt: receipt)
                 }
@@ -66,7 +69,10 @@ private extension ContentView {
             .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic]) { result in
                 switch result {
                 case let .success(url):
-                    guard url.startAccessingSecurityScopedResource(), let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) else {
+                    guard url.startAccessingSecurityScopedResource(),
+                          let imageData = try? Data(contentsOf: url),
+                          let image = UIImage(data: imageData)
+                    else {
                         print("Can't read file")
                         return
                     }

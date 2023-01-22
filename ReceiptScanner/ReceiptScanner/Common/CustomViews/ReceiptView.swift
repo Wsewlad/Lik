@@ -12,7 +12,7 @@ struct ReceiptView: View {
     
     var body: some View {
         VStack {
-            Text(DateFormatter().string(from: receipt.date))
+            Text(DateFormatter.monthDayYearTimeStyle.string(from: receipt.date))
                 .font(.title2)
             Divider()
             ForEach(receipt.products, id: \.id) { product in
@@ -31,6 +31,10 @@ struct ReceiptView: View {
                         .font(.caption)
                 }
             }
+            
+            Text(receipt.text)
+                .font(.body)
+                .padding()
         }
     }
 }
@@ -46,7 +50,8 @@ struct ReceiptView_Previews: PreviewProvider {
                     .init(id: .init(value: "2"), name: "Рул300КиївхлМакВ/гВу", quantity: 0.300, price: 100, cost: 30),
                     .init(id: .init(value: "3"), name: "КартопляКгБіла", quantity: 1.000, price: 8.99, cost: 8.99)
                 ],
-                sum: 150
+                sum: 150,
+                text: "Хл300КиївхлСімейнНар  18.99\nРул300КиївхлМакВ/гВу  0.300 x 100  30"
             )
         )
     }

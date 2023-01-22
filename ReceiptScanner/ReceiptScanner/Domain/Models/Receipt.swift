@@ -18,4 +18,5 @@ struct Receipt: Codable {
     var products: [Product]
     var sum: Double
     var snapshotUrl: URL?
+    var text: String
 }
