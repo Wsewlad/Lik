@@ -16,3 +16,9 @@ extension CGFloat {
         String(format: "%.2f", self)
     }
 }
+
+extension Double {
+    func formatted(points: Int) -> String {
+        String(format: "%.\(points)f", self)
+    }
+}

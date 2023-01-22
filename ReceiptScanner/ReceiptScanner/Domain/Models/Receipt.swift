@@ -14,7 +14,7 @@ struct Receipt: Codable {
     
     var id: Id
     var shop: Shop?
-    var date: Date?
+    var date: Date
     var products: [Product]
     var sum: Double
     var snapshotUrl: URL?

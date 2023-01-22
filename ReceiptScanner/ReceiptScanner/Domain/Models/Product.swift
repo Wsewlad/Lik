@@ -14,7 +14,7 @@ struct Product: Codable {
     
     var id: Id
     var name: String
-    var quantity: Double
+    var quantity: Double?
     var price: Double
     var cost: Double
 }
