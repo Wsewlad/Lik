@@ -9,16 +9,6 @@ import Foundation
 import VisionKit
 import Vision
 
-extension Array {
-    public subscript(safeIndex index: Int) -> Element? {
-        guard index >= 0, index < endIndex else {
-            return nil
-        }
-
-        return self[index]
-    }
-}
-
 protocol RecognizedTextDataSource: AnyObject {
     func addRecognizedText(recognizedText: [VNRecognizedTextObservation])
 }
@@ -85,9 +75,9 @@ class TextScanner: ObservableObject {
         }
         
         //        textRecognitionRequest.supportedRecognitionLanguages()
-        textRecognitionRequest.recognitionLanguages = ["uk-UA"]
-        textRecognitionRequest.customWords = ["чек", "ЧЕК"]
         textRecognitionRequest.usesLanguageCorrection = true
+        textRecognitionRequest.recognitionLanguages = ["uk-UA"]
+        textRecognitionRequest.customWords = Array(kCustomWords)
         textRecognitionRequest.recognitionLevel = .accurate
     }
 }
@@ -100,7 +90,6 @@ extension TextScanner: RecognizedTextDataSource {
             
             var currName: String?
             var currAmount: String?
-            var currPrice: String?
             
             let maximumCandidates = 1
             for observation in observations {
@@ -137,7 +126,6 @@ extension TextScanner: RecognizedTextDataSource {
                         contents.items.append((name: name, amount: amount, price: price))
                         currName = nil
                         currAmount = nil
-                        currPrice = nil
                     } else {
                         currAmount = text
                             .lowercased()
@@ -149,13 +137,4 @@ extension TextScanner: RecognizedTextDataSource {
                 }
             }
         }
-}
-
-extension CGFloat {
-    func rounded() -> Self {
-        Foundation.round(self * 100) / 100.0
-    }
-    func formatted2() -> String {
-        String(format: "%.2f", self)
-    }
 }

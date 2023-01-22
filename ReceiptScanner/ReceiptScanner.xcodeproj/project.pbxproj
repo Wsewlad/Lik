@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8297090A297D52FF00D70871 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970909297D52FF00D70871 /* CGFloat.swift */; };
+		8297090E297D54AE00D70871 /* CustomWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297090D297D54AE00D70871 /* CustomWords.swift */; };
+		82970910297D61D100D70871 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297090F297D61D100D70871 /* Array.swift */; };
+		82970914297D626400D70871 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970913297D626400D70871 /* Receipt.swift */; };
+		82970916297D62BA00D70871 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970915297D62BA00D70871 /* Product.swift */; };
+		82970918297D63B100D70871 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970917297D63B100D70871 /* Shop.swift */; };
 		82985A5929760296002BB673 /* TextScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82985A5829760296002BB673 /* TextScanner.swift */; };
 		829EC20F2972E65F002D0CA0 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 829EC20E2972E65F002D0CA0 /* ComposableArchitecture */; };
 		829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC2102973112B002D0CA0 /* AppViewModel.swift */; };
@@ -39,6 +45,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		82970909297D52FF00D70871 /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
+		8297090D297D54AE00D70871 /* CustomWords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWords.swift; sourceTree = "<group>"; };
+		8297090F297D61D100D70871 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		82970913297D626400D70871 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
+		82970915297D62BA00D70871 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		82970917297D63B100D70871 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		82985A5829760296002BB673 /* TextScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScanner.swift; sourceTree = "<group>"; };
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
@@ -81,6 +93,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		82970907297D52D500D70871 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				8297090B297D543400D70871 /* CustomViews */,
+				82970908297D52DB00D70871 /* Extenssions */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		82970908297D52DB00D70871 /* Extenssions */ = {
+			isa = PBXGroup;
+			children = (
+				82970909297D52FF00D70871 /* CGFloat.swift */,
+				8297090F297D61D100D70871 /* Array.swift */,
+			);
+			path = Extenssions;
+			sourceTree = "<group>";
+		};
+		8297090B297D543400D70871 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				829EC21229731769002D0CA0 /* DataScannerView.swift */,
+				829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		8297090C297D545700D70871 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				82985A5829760296002BB673 /* TextScanner.swift */,
+				8297090D297D54AE00D70871 /* CustomWords.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		82970911297D624900D70871 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				82970912297D624F00D70871 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		82970912297D624F00D70871 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				82970913297D626400D70871 /* Receipt.swift */,
+				82970915297D62BA00D70871 /* Product.swift */,
+				82970917297D63B100D70871 /* Shop.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		82A39D4D2972E327004F6267 = {
 			isa = PBXGroup;
 			children = (
@@ -104,14 +170,14 @@
 		82A39D582972E327004F6267 /* ReceiptScanner */ = {
 			isa = PBXGroup;
 			children = (
+				82970911297D624900D70871 /* Domain */,
+				8297090C297D545700D70871 /* Services */,
+				82970907297D52D500D70871 /* Common */,
 				82A39D592972E327004F6267 /* ReceiptScannerApp.swift */,
 				82A39D5B2972E327004F6267 /* ContentView.swift */,
 				82A39D5D2972E32C004F6267 /* Assets.xcassets */,
 				82A39D5F2972E32C004F6267 /* Preview Content */,
 				829EC2102973112B002D0CA0 /* AppViewModel.swift */,
-				829EC21229731769002D0CA0 /* DataScannerView.swift */,
-				829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */,
-				82985A5829760296002BB673 /* TextScanner.swift */,
 			);
 			path = ReceiptScanner;
 			sourceTree = "<group>";
@@ -277,11 +343,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82970914297D626400D70871 /* Receipt.swift in Sources */,
+				82970910297D61D100D70871 /* Array.swift in Sources */,
 				82A39D5C2972E327004F6267 /* ContentView.swift in Sources */,
+				82970918297D63B100D70871 /* Shop.swift in Sources */,
 				82985A5929760296002BB673 /* TextScanner.swift in Sources */,
+				8297090A297D52FF00D70871 /* CGFloat.swift in Sources */,
+				82970916297D62BA00D70871 /* Product.swift in Sources */,
 				82A39D5A2972E327004F6267 /* ReceiptScannerApp.swift in Sources */,
 				829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */,
 				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,
+				8297090E297D54AE00D70871 /* CustomWords.swift in Sources */,
 				829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
