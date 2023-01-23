@@ -57,6 +57,7 @@
 		82970919297D672600D70871 /* ReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptParser.swift; sourceTree = "<group>"; };
 		8297091B297D728500D70871 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		8297091D297DE0F900D70871 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		8297091F297DF00400D70871 /* ParsersPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ParsersPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		82985A5829760296002BB673 /* TextScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScanner.swift; sourceTree = "<group>"; };
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
@@ -159,6 +160,7 @@
 		82A39D4D2972E327004F6267 = {
 			isa = PBXGroup;
 			children = (
+				8297091F297DF00400D70871 /* ParsersPlayground.playground */,
 				82A39D582972E327004F6267 /* ReceiptScanner */,
 				82A39D692972E32C004F6267 /* ReceiptScannerTests */,
 				82A39D732972E32C004F6267 /* ReceiptScannerUITests */,
