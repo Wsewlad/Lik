@@ -56,7 +56,7 @@ private extension ContentView {
                     ReceiptView(receipt: receipt)
                 }
             }
-            .padding(.horizontal, 16)
+            .padding([.horizontal, .bottom], 16)
         }
     }
 }
