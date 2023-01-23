@@ -14,7 +14,9 @@ struct ReceiptView: View {
         VStack {
             Text(DateFormatter.monthDayYearTimeStyle.string(from: receipt.date))
                 .font(.title2)
+            
             Divider()
+            
             ForEach(receipt.products, id: \.id) { product in
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
@@ -32,10 +34,21 @@ struct ReceiptView: View {
                 }
             }
             
-            Text(receipt.text)
-                .font(.body)
-                .padding()
+            Divider()
+            
+            DisclosureGroup("Raw text") {
+                Text(receipt.text)
+                    .font(.body)
+                    .padding()
+            }
         }
+        .padding()
+        .foregroundColor(.primary)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.ultraThickMaterial)
+                .shadow(color: .secondary.opacity(0.5), radius: 5, x: 0, y: 3)
+        )
     }
 }
 
@@ -54,5 +67,7 @@ struct ReceiptView_Previews: PreviewProvider {
                 text: "Хл300КиївхлСімейнНар  18.99\nРул300КиївхлМакВ/гВу  0.300 x 100  30"
             )
         )
+        .padding()
+        .preferredColorScheme(.dark)
     }
 }

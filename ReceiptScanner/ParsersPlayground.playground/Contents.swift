@@ -25,3 +25,26 @@ func parseLatLong(_ str: String) -> Coordinate? {
 }
 
 print(parseLatLong("40.6782 N, 73.9442 W"))
+
+struct Parser<A> {
+  let run: (inout String) -> A?
+}
+
+let int = Parser<Int> { str in
+    let prefix = str.prefix(while: { $0.isNumber })
+    guard let int = Int(prefix) else { return nil }
+    str.removeFirst(prefix.count)
+    return int
+}
+
+extension Parser {
+    func run(_ str: String) -> (match: A?, rest: String) {
+        var str = str
+        let match = self.run(&str)
+        return (match, str)
+    }
+}
+
+int.run("42")
+int.run("42 Hello World")
+int.run("Hello World")

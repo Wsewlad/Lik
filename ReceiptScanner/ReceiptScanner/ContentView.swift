@@ -26,6 +26,7 @@ struct ContentView: View {
                     
                     buttonsView
                 }
+                .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle("Receipts")
                 .onAppear {
                     guard textScanner.delegate == nil else { return }
@@ -63,49 +64,57 @@ private extension ContentView {
 //MARK: - Buttons View
 private extension ContentView {
     var buttonsView: some View {
-        VStack {
-            Button("Open file", action: { isFileImporterPresented.toggle() })
-            .padding()
-            .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic]) { result in
-                switch result {
-                case let .success(url):
-                    guard url.startAccessingSecurityScopedResource(),
-                          let imageData = try? Data(contentsOf: url),
-                          let image = UIImage(data: imageData)
-                    else {
-                        print("Can't read file")
-                        return
-                    }
-                    url.stopAccessingSecurityScopedResource()
-                    textScanner.parseData(from: image)
-                case let .failure(error):
-                    print(error.localizedDescription)
-                }
-            }
+        VStack(spacing: 25) {
+            Button("Open file") { isFileImporterPresented.toggle() }
+                .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic], onCompletion: fileImportResult(result:))
             
-            Button("Open camera", action: {
+            Button("Open camera") {
                 guard VNDocumentCameraViewController.isSupported
                 else { print("Document scanning not supported"); return }
-                
                 isCameraPresented.toggle()
-            })
-            .padding()
+            }
             .sheet(isPresented: $isCameraPresented) {
                 DocumentCamera(
                     cancelAction: { isCameraPresented = false },
-                    resultAction: { result in
-                        switch result {
-                        case let .success(scan):
-                            textScanner.parseData(from: scan)
-
-                        case let .failure(error):
-                            print(error.localizedDescription)
-                        }
-                        
-                        isCameraPresented = false
-                    }
+                    resultAction: cameraResultAction(result:)
                 )
             }
+        }
+        .padding(.vertical, 25)
+        .frame(maxWidth: .infinity)
+        .background(.ultraThickMaterial)
+    }
+}
+
+//MARK: - Actions
+private extension ContentView {
+    func cameraResultAction(result: CameraResult) {
+        switch result {
+        case let .success(scan):
+            textScanner.parseData(from: scan)
+
+        case let .failure(error):
+            print(error.localizedDescription)
+        }
+        
+        isCameraPresented = false
+    }
+    
+    func fileImportResult(result: Result<URL, Error>) {
+        switch result {
+        case let .success(url):
+            guard url.startAccessingSecurityScopedResource(),
+                  let imageData = try? Data(contentsOf: url),
+                  let image = UIImage(data: imageData)
+            else {
+                print("Can't read file")
+                return
+            }
+            url.stopAccessingSecurityScopedResource()
+            textScanner.parseData(from: image)
+            
+        case let .failure(error):
+            print(error.localizedDescription)
         }
     }
 }
