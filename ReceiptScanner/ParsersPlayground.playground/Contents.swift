@@ -94,16 +94,52 @@ extension Parser {
 (never() as Parser<Int>).run("dog")
 
 Parser<Int>.never.run("dog")
+ 
+// map: ((A) -> B) -> (F<A>) -> F<B>
 
-// 40.6782° N, 73.9442° W
+// F<A> = Parser<A>
+// map: ((A) -> B) -> (Parser<A>) -> Parser<B>
 
-let northSouth = Parser<Double> { str in
-    guard
-        let cardinal = str.first,
-        cardinal == "N" || cardinal == "S"
-    else { return nil }
-    str.removeFirst(1)
-    return cardinal == "N" ? 1 : -1
+// map(id) = id
+
+[1, 2, 3]
+    .map { $0 }
+
+Optional("Bob")
+    .map { $0 }
+
+// map: (Parser<A>, (A) -> B) -> Parser<B>
+
+extension Parser {
+    func map<B>(_ f: @escaping (A) -> B) -> Parser<B> {
+        return Parser<B> { str -> B? in
+            self.run(&str).map(f)
+        }
+    }
+}
+
+let even = int.map { $0 % 2 == 0 }
+even.run("123 Hello World")
+even.run("42 Hello World")
+
+let char = Parser<Character> { str in
+    guard !str.isEmpty else { return nil }
+    return str.removeFirst()
+}
+
+//let northSouth = Parser<Double> { str in
+//    guard
+//        let cardinal = str.first,
+//        cardinal == "N" || cardinal == "S"
+//    else { return nil }
+//    str.removeFirst(1)
+//    return cardinal == "N" ? 1 : -1
+//}
+
+let northSouth = char.map {
+    $0 == "N" ? always(1.0)
+    : $0 == "S" ? always(-1)
+    : never()
 }
 
 let eastWest = Parser<Double> { str in
