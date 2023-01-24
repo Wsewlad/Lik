@@ -136,19 +136,42 @@ let char = Parser<Character> { str in
 //    return cardinal == "N" ? 1 : -1
 //}
 
-let northSouth = char.map {
-    $0 == "N" ? always(1.0)
-    : $0 == "S" ? always(-1)
-    : never()
+// flatMap: ((A) -> M<B>) -> (M<A>) -> M<B>
+
+extension Parser {
+    func flatMap<B>(_ f: @escaping (A) -> Parser<B>) -> Parser<B> {
+        return Parser<B> { str -> B? in
+            let original = str
+            let matchA = self.run(&str)
+            let parserB = matchA.map(f)
+            guard let matchB = parserB?.run(&str) else {
+                str = original
+                return nil
+            }
+            return matchB
+        }
+    }
 }
 
-let eastWest = Parser<Double> { str in
-    guard
-        let cardinal = str.first,
-        cardinal == "E" || cardinal == "W"
-    else { return nil }
-    str.removeFirst(1)
-    return cardinal == "E" ? 1 : -1
+let northSouth = char.flatMap {
+    $0 == "N" ? always(1.0)
+        : $0 == "S" ? always(-1)
+    : .never
+}
+
+//let eastWest = Parser<Double> { str in
+//    guard
+//        let cardinal = str.first,
+//        cardinal == "E" || cardinal == "W"
+//    else { return nil }
+//    str.removeFirst(1)
+//    return cardinal == "E" ? 1 : -1
+//}
+
+let eastWest = char.flatMap {
+    $0 == "E" ? always(1.0)
+    : $0 == "W" ? always(-1)
+    : .never
 }
 
 func parseLatLong(_ str: String) -> Coordinate? {
@@ -169,4 +192,34 @@ func parseLatLong(_ str: String) -> Coordinate? {
     )
 }
 
-print(parseLatLong("40.6782° N, 73.9442° W"))
+parseLatLong("40.6782° N, 73.9442° W")
+
+"40.6782° N, 73.9442° W"
+
+let coord = double
+    .flatMap { lat in
+        literal("° ")
+            .flatMap { _ in
+                northSouth
+                    .flatMap { latSign in
+                        literal(", ")
+                            .flatMap { _ in
+                                double
+                                    .flatMap { long in
+                                        literal("° ")
+                                            .flatMap { _ in
+                                                eastWest
+                                                    .map { longSign in
+                                                        return Coordinate(
+                                                            latitude: lat * latSign,
+                                                            longitude: long * longSign
+                                                        )
+                                                    }
+                                            }
+                                    }
+                            }
+                    }
+            }
+    }
+
+coord.run("40.6782° N, 73.9442° W")
