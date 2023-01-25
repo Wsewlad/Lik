@@ -223,3 +223,75 @@ let coord = double
     }
 
 coord.run("40.6782° N, 73.9442° W")
+
+// zip: (F<A>, F<B>) -> F<(A, B)>
+
+func zip<A, B>(_ a: Parser<A>, _ b: Parser<B>) -> Parser<(A, B)> {
+    return Parser<(A, B)> { str -> (A, B)? in
+        let original = str
+        guard
+        let matchA = a.run(&str),
+        let matchB = b.run(&str)
+        else {
+            str = original
+            return nil
+        }
+        return (matchA, matchB)
+    }
+}
+
+func zip<A, B, C>(
+    _ a: Parser<A>,
+    _ b: Parser<B>,
+    _ c: Parser<C>
+) -> Parser<(A, B, C)> {
+    return zip(a, zip(b, c))
+        .map { a, bc in (a, bc.0, bc.1) }
+}
+
+func zip<A, B, C, D>(
+    _ a: Parser<A>,
+    _ b: Parser<B>,
+    _ c: Parser<C>,
+    _ d: Parser<D>
+) -> Parser<(A, B, C, D)> {
+    return zip(a, b, zip(c, d))
+        .map { a, b, cd in (a, b, cd.0, cd.1) }
+}
+
+enum Currency: Character {
+    case usd = "$"
+    case eur = "€"
+    case gbp = "£"
+    case uah = "₴"
+}
+
+struct Money {
+    let currency: Currency
+    let value: Double
+}
+
+let currency = char.flatMap {
+    Currency(rawValue: $0) != nil ? always(Currency(rawValue: $0)!) : .never
+}
+
+let money = zip(currency, double).map(Money.init)
+
+money.run("$200.5")
+money.run("200.5")
+money.run("₴200.5")
+
+"40.6782° N, 73.9442° W"
+
+let latitude = zip(double, literal("° "), northSouth)
+    .map { lat, _, latSign in lat * latSign }
+let longtitude = zip(double, literal("° "), eastWest)
+    .map { long, _, longSign in long * longSign }
+
+let coord2 = zip(latitude, literal(", "), longtitude)
+    .map { lat, _, long in
+        Coordinate(
+            latitude: lat,
+            longitude: long
+        )
+    }
