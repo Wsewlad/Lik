@@ -9,7 +9,7 @@ import Foundation
 
 extension CGFloat {
     func rounded() -> Self {
-        Foundation.round(self * 100) / 100.0
+        Foundation.round(self * 1000) / 1000
     }
     
     func formatted2f() -> String {
