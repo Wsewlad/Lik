@@ -39,7 +39,7 @@ struct ContentView: View {
             case .scannerNotAvailable:
                 Text("This device doesn't support text scanning")
             case .notDetermined:
-                Text("Requestion amera access")
+                Text("Requestion camera access")
             case .cameraAccessNotGranted:
                 Text("Please provide access to the camera in settings")
             }

@@ -7,6 +7,7 @@
 
 import Foundation
 import Vision
+import Parsing
 
 protocol RecognizedTextDataSourceDelegate: AnyObject {
     func parse(_ observations: [VNRecognizedTextObservation])
@@ -23,7 +24,7 @@ class ReceiptParser: RecognizedTextDataSourceDelegate {
         let observations = observations.sorted { $0.boundingBox.minY.rounded() > $1.boundingBox.minY.rounded() && $0.boundingBox.minX.rounded() > $1.boundingBox.minX.rounded() }
         
         var startParsing: Bool = false
-        
+
         let fullText = observations.reduce((text: "", prevMinY: 0.0, prevMinX: 0.0)) {
             var text = $0.text
             if $0.prevMinY == $1.boundingBox.minY.rounded() || $0.prevMinX < $1.boundingBox.minX.rounded() {
