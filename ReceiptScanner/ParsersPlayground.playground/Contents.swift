@@ -309,6 +309,42 @@ extension Parser {
 
 
 
+
+//MARK: - skip
+extension Parser {
+    func skip<B>(_ p: Parser<B>) -> Self {
+        zip(self, p).map { a, _ in a }
+    }
+}
+
+//MARK: - take
+extension Parser {
+    func take<NewOutput>(_ p: Parser<NewOutput>) -> Parser<(Output, NewOutput)> {
+        zip(self, p)
+    }
+}
+
+extension Parser {
+    static func skip(_ p: Self) -> Parser<Void> {
+        p.map { _ in () }
+    }
+}
+
+extension Parser where Output == Void {
+    func take<A>(_ p: Parser<A>) -> Parser<A> {
+        zip(self, p).map { _, b in b }
+    }
+}
+
+extension Parser {
+    func take<A, B, C>(_ p: Parser<C>) -> Parser<(A, B, C)> where Output == (A, B) {
+        zip(self, p).map { ab, c in (ab.0, ab.1, c)  }
+    }
+}
+
+
+
+
 let evenInt = Parser.int
     .flatMap { n in
         n.isMultiple(of: 2) ? .always(n) : .never
@@ -319,8 +355,8 @@ evenInt.run("124 hello")
 
 
 
-let temperature = zip(.int, "°F")
-    .map { temperature, _ in temperature }
+let temperature = Parser.int
+    .skip("°F")
 temperature.run("100°F")
 
 
@@ -347,25 +383,28 @@ let eastWest = Parser.char.flatMap {
     : .never
 }
 
-let latitude = zip(.double, "° ", northSouth)
-    .map { latitude, _, latSign in latitude * latSign}
-let longtitude = zip(.double, "° ", eastWest)
-    .map { longtitude, _, longSign in longtitude * longSign }
+let zeroOrMOreSpaces = Parser.prefix(" ").zeroOrMore()
 
-let coord = zip(
-    latitude,
-    ", ",
-    longtitude
-)
-.map {lat, _, long in
-    Coordinate(
-        latitude: lat,
-        longitude: long
-    )
-}
+let latitude = Parser.double
+    .skip("°")
+    .skip(zeroOrMOreSpaces)
+    .take(northSouth)
+    .map(*)
+
+let longtitude = Parser.double
+    .skip("°")
+    .skip(zeroOrMOreSpaces)
+    .take(eastWest)
+    .map(*)
+
+let coord = latitude
+    .skip(",")
+    .skip(zeroOrMOreSpaces)
+    .take(longtitude)
+    .map(Coordinate.init)
 
 coord.run("40.6782° N, 73.9442° W")
-coord.run("   40.6782°   N,   73.9442° W")
+coord.run("40.6782°   N,   73.9442° W")
 
 
 
@@ -405,20 +444,15 @@ struct Race {
     let path: [Coordinate]
 }
 
-let race = zip(
-    .prefix(while: { $0 != "," }),
-    ", ",
-    money,
-    "\n",
-    coord.zeroOrMore(seperatedBy: "\n")
-)
-.map { locationName, _, entranceFee, _, path in
-    Race(
-        location: String(locationName),
-        entranceFee: entranceFee,
-        path: path
-    )
-}
+let locationName = Parser.prefix(while: { $0 != "," })
+
+let race = locationName
+    .map(String.init)
+    .skip(", ")
+    .take(money)
+    .skip("\n")
+    .take(coord.zeroOrMore(seperatedBy: "\n"))
+    .map(Race.init(location:entranceFee:path:))
 
 let races = race.zeroOrMore(seperatedBy: "\n---\n")
 
@@ -498,3 +532,220 @@ London, £500
 
 race.run(upcomingRaces)
 races.run(upcomingRaces)
+
+
+
+
+
+//MARK: - prefix upTo, through
+extension Parser where Output == Substring {
+    static func prefix(upTo substring: Substring) -> Self {
+        Self { input in
+            guard let endIndex = input.range(of: substring)?.lowerBound
+            else { return nil }
+            
+            let match = input[..<endIndex]
+            
+            input = input[endIndex...]
+            
+            return match
+        }
+    }
+    
+    static func prefix(through substring: Substring) -> Self {
+        Self { input in
+            guard let endIndex = input.range(of: substring)?.upperBound
+            else { return nil }
+            
+            let match = input[..<endIndex]
+            
+            input = input[endIndex...]
+            
+            return match
+        }
+    }
+}
+
+
+
+
+
+//MARK: - Test Logs parsing
+let logs = """
+Testing started
+2023-01-28 21:28:29.056803+0200 VoiceMemos[12044:277672] [SceneConfiguration] Info.plist configuration "(no name)" for UIWindowSceneSessionRoleApplication contained UISceneDelegateClassName key, but could not load class with name "VoiceMemos.SceneDelegate".
+2023-01-28 21:28:29.059268+0200 VoiceMemos[12044:277672] [SceneConfiguration] Info.plist configuration "(no name)" for UIWindowSceneSessionRoleApplication contained UISceneDelegateClassName key, but could not load class with name "VoiceMemos.SceneDelegate".
+2023-01-28 21:28:29.061754+0200 VoiceMemos[12044:277672] [SceneConfiguration] Info.plist configuration "(no name)" for UIWindowSceneSessionRoleApplication contained UISceneDelegateClassName key, but could not load class with name "VoiceMemos.SceneDelegate".
+Test Suite 'All tests' started at 2023-01-28 21:28:30.920
+Test Suite 'VoiceMemosTests.xctest' started at 2023-01-28 21:28:30.922
+Test Suite 'VoiceMemosTests' started at 2023-01-28 21:28:30.923
+Test Case '-[VoiceMemosTests.VoiceMemosTests testDeleteMemoWhilePlaying]' started.
+Test Case '-[VoiceMemosTests.VoiceMemosTests testDeleteMemoWhilePlaying]' passed (12.834 seconds).
+Test Case '-[VoiceMemosTests.VoiceMemosTests testDeleteMemo]' started.
+Test Case '-[VoiceMemosTests.VoiceMemosTests testDeleteMemo]' passed (2.750 seconds).
+Test Case '-[VoiceMemosTests.VoiceMemosTests testPermissionDenied]' started.
+Test Case '-[VoiceMemosTests.VoiceMemosTests testPermissionDenied]' passed (7.598 seconds).
+Test Case '-[VoiceMemosTests.VoiceMemosTests testPlayMemoFailure]' started.
+/Users/vladyslavfil/iOS_Developer/swift-composable-architecture/Examples/VoiceMemos/VoiceMemosTests/VoiceMemosTests.swift:238: error: -[VoiceMemosTests.VoiceMemosTests testPlayMemoFailure] : A state change does not match expectation: …
+
+      VoiceMemos.State(
+    −   alert: nil,
+    +   alert: AlertState(title: "Voice memo playback failed."),
+        audioRecorderPermission: VoiceMemos.State.RecorderPermission.undetermined,
+        recordingMemo: nil,
+        voiceMemos: […]
+      )
+
+(Expected: −, Actual: +)
+Test Case '-[VoiceMemosTests.VoiceMemosTests testPlayMemoFailure]' failed (3.499 seconds).
+Test Case '-[VoiceMemosTests.VoiceMemosTests testPlayMemoHappyPath]' started.
+Test Case '-[VoiceMemosTests.VoiceMemosTests testPlayMemoHappyPath]' passed (10.506 seconds).
+Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]' started.
+VoiceMemosTests.swift:164: Expected failure in -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]: Skipped assertions: …
+
+Must handle 1 received action before sending an action: …
+
+Unhandled actions: [
+  [0]: VoiceMemos.Action.recordPermissionResponse(true)
+]
+TestStore.swift:901: Expected failure in -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]: Skipped assertions: …
+
+1 received action was skipped:
+
+VoiceMemos.Action.recordPermissionResponse(true)
+VoiceMemosTests.swift:166: Expected failure in -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]: Skipped assertions: …
+
+1 received action was skipped:
+
+[
+  [0]: VoiceMemos.Action.recordingMemo(
+    RecordingMemo.Action.audioRecorderDidFinish(
+      TaskResult.failure(VoiceMemosTests.SomeError())
+    )
+  )
+]
+VoiceMemosTests.swift:164: Expected failure in -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]: Skipped assertions: …
+
+An effect returned for this action is still running. It must complete before the end of the test. …
+
+To fix, inspect any effects the reducer returns for this action and ensure that all of them complete by the end of the test. There are a few reasons why an effect may not have completed:
+
+• If using async/await in your effect, it may need a little bit of time to properly finish. To fix you can simply perform "await store.finish()" at the end of your test.
+
+• If an effect uses a clock/scheduler (via "receive(on:)", "delay", "debounce", etc.), make sure that you wait enough time for it to perform the effect. If you are using a test clock/scheduler, advance it so that the effects may complete, or consider using an immediate clock/scheduler to immediately perform the effect instead.
+
+• If you are returning a long-living effect (timers, notifications, subjects, etc.), then make sure those effects are torn down by marking the effect ".cancellable" and returning a corresponding cancellation effect ("Effect.cancel") from another action, or, if your effect is driven by a Combine subject, send it a completion.
+Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]' passed (14.799 seconds).
+Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure]' started.
+/Users/vladyslavfil/iOS_Developer/swift-composable-architecture/Examples/VoiceMemos/VoiceMemosTests/VoiceMemosTests.swift:133: error: -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure] : A state change does not match expectation: …
+
+      VoiceMemos.State(
+    −   alert: nil,
+    +   alert: AlertState(title: "Voice memo recording failed."),
+        audioRecorderPermission: VoiceMemos.State.RecorderPermission.allowed,
+        recordingMemo: nil,
+        voiceMemos: []
+      )
+
+(Expected: −, Actual: +)
+Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure]' failed (4.741 seconds).
+Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoHappyPath]' started.
+Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoHappyPath]' passed (12.549 seconds).
+Test Case '-[VoiceMemosTests.VoiceMemosTests testStopMemo]' started.
+Test Case '-[VoiceMemosTests.VoiceMemosTests testStopMemo]' passed (4.053 seconds).
+Test Suite 'VoiceMemosTests' failed at 2023-01-28 21:29:44.258.
+     Executed 9 tests, with 2 failures (0 unexpected) in 73.329 (73.335) seconds
+Test Suite 'VoiceMemosTests.xctest' failed at 2023-01-28 21:29:44.259.
+     Executed 9 tests, with 2 failures (0 unexpected) in 73.329 (73.338) seconds
+Test Suite 'All tests' failed at 2023-01-28 21:29:44.261.
+     Executed 9 tests, with 2 failures (0 unexpected) in 73.329 (73.341) seconds
+2023-01-28 21:32:20.125 xcodebuild[11725:272180] [MT] IDETestOperationsObserverDebug: 399.172 elapsed -- Testing started completed.
+2023-01-28 21:32:20.125 xcodebuild[11725:272180] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2023-01-28 21:32:20.125 xcodebuild[11725:272180] [MT] IDETestOperationsObserverDebug: 399.173 sec, +399.173 sec -- end
+
+Test session results, code coverage, and logs:
+    /Users/vladyslavfil/Library/Developer/Xcode/DerivedData/ComposableArchitecture-gmelkzmfzlvpcpfeupqrszzczdkg/Logs/Test/Test-VoiceMemos-2023.01.28_21-25-28-+0200.xcresult
+
+Failing tests:
+    VoiceMemosTests.testPlayMemoFailure()
+    VoiceMemosTests.testRecordMemoFailure()
+
+"""
+
+let testCaseStartedLine = Parser
+    .skip(.prefix(upTo: "Test Case '-["))
+    .take(.prefix(through: "\n"))
+    .map { $0.split(separator: " ")[3].dropLast(2) }
+
+let fileName = Parser
+    .skip("/")
+    .take(.prefix(through: ".swift"))
+    .flatMap { path in
+        path.split(separator: "/").last.map(Parser.always) ?? .never
+    }
+
+let testCaseBody = fileName
+    .skip(":")
+    .take(.int)
+    .skip(.prefix(through: "] : "))
+    .take(Parser.prefix(upTo: "Test Case '-[").map { $0.dropLast() })
+
+
+let testCaseFinishedLine = Parser
+    .skip(.prefix(through: " ("))
+    .take(.double)
+    .skip(" seconds).\n")
+
+enum TestResult {
+    case failed(failureMessage: Substring, file: Substring, line: Int, testName: Substring, time: TimeInterval)
+    case passed(testName: Substring, time: TimeInterval)
+}
+
+let testFaild = testCaseStartedLine
+    .take(testCaseBody)
+    .take(testCaseFinishedLine)
+    .map { testName, bodyData, time in
+        TestResult.failed(
+            failureMessage: bodyData.2,
+            file: bodyData.0,
+            line: bodyData.1,
+            testName: testName,
+            time: time
+        )
+    }
+
+let testPassed = testCaseStartedLine
+            .take(testCaseFinishedLine)
+            .map(TestResult.passed(testName:time:))
+
+let testResult: Parser<TestResult> = .oneOf(testFaild, testPassed)
+let testResults: Parser<[TestResult]> = testResult.zeroOrMore()
+
+func format(result: TestResult) -> String {
+    switch result {
+    case let .failed(failureMessage, file, line, testName, time):
+        var output = "\(file):\(line), \(testName) failed in \(time) seconds."
+        output.append("\n")
+        output.append("  ┃")
+        output.append("\n")
+        output.append(
+            failureMessage
+                .split(separator: "\n")
+                .map { "  ┃  \($0)" }
+                .joined(separator: "\n")
+        )
+        output.append("\n")
+        output.append("  ┃")
+        output.append("\n")
+        output.append("  ┗━━──────────────")
+        output.append("\n")
+        return output
+    case let .passed(testName, time):
+        return "\(testName) passed in \(time) seconds."
+    }
+}
+
+testResults.run(logs).match?.forEach {
+    print(format(result: $0))
+}
+
