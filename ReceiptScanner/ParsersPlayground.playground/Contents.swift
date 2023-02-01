@@ -82,7 +82,25 @@ Parser.int.run("-42 Hello World")
 Parser.int.run("--42 Hello World")
 Parser.int.run("+42 Hello World")
 
+//MARK: - UInt64
+extension Parser where Output == UInt64 {
+    static let uint64 = Self { input in
+        let original = input
 
+        var isFirstCharacter = true
+        let intPrefix = input.prefix { character in
+            defer { isFirstCharacter = false }
+            return (character == "+") && isFirstCharacter || character.isNumber
+        }
+
+        guard let match = UInt64(intPrefix) else {
+            input = original
+            return nil
+        }
+        input.removeFirst(intPrefix.count)
+        return match
+    }
+}
 
 
 //MARK: - double
@@ -99,11 +117,11 @@ extension Parser where Output == Double {
         
         var decimalCount = 0
         let prefix = input.prefix { char in
-            if char == "." { decimalCount += 1 }
-            return char.isNumber || (char == "." && decimalCount <= 1)
+            if char == "." || char == "," { decimalCount += 1 }
+            return char.isNumber || ((char == "." || char == ",") && decimalCount <= 1)
         }
         
-        guard let match = Double(prefix)
+        guard let match = Double(prefix.replacing(",", with: "."))
         else {
             input = original
             return nil
@@ -350,14 +368,14 @@ let evenInt = Parser.int
         n.isMultiple(of: 2) ? .always(n) : .never
     }
 
-evenInt.run("124 hello")
+//evenInt.run("124 hello")
 
 
 
 
 let temperature = Parser.int
     .skip("°F")
-temperature.run("100°F")
+//temperature.run("100°F")
 
 
 
@@ -403,8 +421,8 @@ let coord = latitude
     .take(longtitude)
     .map(Coordinate.init)
 
-coord.run("40.6782° N, 73.9442° W")
-coord.run("40.6782°   N,   73.9442° W")
+//coord.run("40.6782° N, 73.9442° W")
+//coord.run("40.6782°   N,   73.9442° W")
 
 
 
@@ -430,9 +448,9 @@ let currency = Parser.oneOf(
 let money = zip(currency, .double)
     .map(Money.init(currency:value:))
 
-money.run("$200.5")
-money.run("200.5")
-money.run("₴200.5")
+//money.run("$200.5")
+//money.run("200.5")
+//money.run("₴200.5")
 
 
 
@@ -530,8 +548,8 @@ London, £500
 51.50095° N, 0.12411° W
 """
 
-race.run(upcomingRaces)
-races.run(upcomingRaces)
+//race.run(upcomingRaces)
+//races.run(upcomingRaces)
 
 
 
@@ -573,9 +591,6 @@ extension Parser where Output == Substring {
 //MARK: - Test Logs parsing
 let logs = """
 Testing started
-2023-01-28 21:28:29.056803+0200 VoiceMemos[12044:277672] [SceneConfiguration] Info.plist configuration "(no name)" for UIWindowSceneSessionRoleApplication contained UISceneDelegateClassName key, but could not load class with name "VoiceMemos.SceneDelegate".
-2023-01-28 21:28:29.059268+0200 VoiceMemos[12044:277672] [SceneConfiguration] Info.plist configuration "(no name)" for UIWindowSceneSessionRoleApplication contained UISceneDelegateClassName key, but could not load class with name "VoiceMemos.SceneDelegate".
-2023-01-28 21:28:29.061754+0200 VoiceMemos[12044:277672] [SceneConfiguration] Info.plist configuration "(no name)" for UIWindowSceneSessionRoleApplication contained UISceneDelegateClassName key, but could not load class with name "VoiceMemos.SceneDelegate".
 Test Suite 'All tests' started at 2023-01-28 21:28:30.920
 Test Suite 'VoiceMemosTests.xctest' started at 2023-01-28 21:28:30.922
 Test Suite 'VoiceMemosTests' started at 2023-01-28 21:28:30.923
@@ -586,55 +601,7 @@ Test Case '-[VoiceMemosTests.VoiceMemosTests testDeleteMemo]' passed (2.750 seco
 Test Case '-[VoiceMemosTests.VoiceMemosTests testPermissionDenied]' started.
 Test Case '-[VoiceMemosTests.VoiceMemosTests testPermissionDenied]' passed (7.598 seconds).
 Test Case '-[VoiceMemosTests.VoiceMemosTests testPlayMemoFailure]' started.
-/Users/vladyslavfil/iOS_Developer/swift-composable-architecture/Examples/VoiceMemos/VoiceMemosTests/VoiceMemosTests.swift:238: error: -[VoiceMemosTests.VoiceMemosTests testPlayMemoFailure] : A state change does not match expectation: …
 
-      VoiceMemos.State(
-    −   alert: nil,
-    +   alert: AlertState(title: "Voice memo playback failed."),
-        audioRecorderPermission: VoiceMemos.State.RecorderPermission.undetermined,
-        recordingMemo: nil,
-        voiceMemos: […]
-      )
-
-(Expected: −, Actual: +)
-Test Case '-[VoiceMemosTests.VoiceMemosTests testPlayMemoFailure]' failed (3.499 seconds).
-Test Case '-[VoiceMemosTests.VoiceMemosTests testPlayMemoHappyPath]' started.
-Test Case '-[VoiceMemosTests.VoiceMemosTests testPlayMemoHappyPath]' passed (10.506 seconds).
-Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]' started.
-VoiceMemosTests.swift:164: Expected failure in -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]: Skipped assertions: …
-
-Must handle 1 received action before sending an action: …
-
-Unhandled actions: [
-  [0]: VoiceMemos.Action.recordPermissionResponse(true)
-]
-TestStore.swift:901: Expected failure in -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]: Skipped assertions: …
-
-1 received action was skipped:
-
-VoiceMemos.Action.recordPermissionResponse(true)
-VoiceMemosTests.swift:166: Expected failure in -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]: Skipped assertions: …
-
-1 received action was skipped:
-
-[
-  [0]: VoiceMemos.Action.recordingMemo(
-    RecordingMemo.Action.audioRecorderDidFinish(
-      TaskResult.failure(VoiceMemosTests.SomeError())
-    )
-  )
-]
-VoiceMemosTests.swift:164: Expected failure in -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]: Skipped assertions: …
-
-An effect returned for this action is still running. It must complete before the end of the test. …
-
-To fix, inspect any effects the reducer returns for this action and ensure that all of them complete by the end of the test. There are a few reasons why an effect may not have completed:
-
-• If using async/await in your effect, it may need a little bit of time to properly finish. To fix you can simply perform "await store.finish()" at the end of your test.
-
-• If an effect uses a clock/scheduler (via "receive(on:)", "delay", "debounce", etc.), make sure that you wait enough time for it to perform the effect. If you are using a test clock/scheduler, advance it so that the effects may complete, or consider using an immediate clock/scheduler to immediately perform the effect instead.
-
-• If you are returning a long-living effect (timers, notifications, subjects, etc.), then make sure those effects are torn down by marking the effect ".cancellable" and returning a corresponding cancellation effect ("Effect.cancel") from another action, or, if your effect is driven by a Combine subject, send it a completion.
 Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure_NonExhaustive]' passed (14.799 seconds).
 Test Case '-[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure]' started.
 /Users/vladyslavfil/iOS_Developer/swift-composable-architecture/Examples/VoiceMemos/VoiceMemosTests/VoiceMemosTests.swift:133: error: -[VoiceMemosTests.VoiceMemosTests testRecordMemoFailure] : A state change does not match expectation: …
@@ -660,15 +627,6 @@ Test Suite 'VoiceMemosTests.xctest' failed at 2023-01-28 21:29:44.259.
 Test Suite 'All tests' failed at 2023-01-28 21:29:44.261.
      Executed 9 tests, with 2 failures (0 unexpected) in 73.329 (73.341) seconds
 2023-01-28 21:32:20.125 xcodebuild[11725:272180] [MT] IDETestOperationsObserverDebug: 399.172 elapsed -- Testing started completed.
-2023-01-28 21:32:20.125 xcodebuild[11725:272180] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
-2023-01-28 21:32:20.125 xcodebuild[11725:272180] [MT] IDETestOperationsObserverDebug: 399.173 sec, +399.173 sec -- end
-
-Test session results, code coverage, and logs:
-    /Users/vladyslavfil/Library/Developer/Xcode/DerivedData/ComposableArchitecture-gmelkzmfzlvpcpfeupqrszzczdkg/Logs/Test/Test-VoiceMemos-2023.01.28_21-25-28-+0200.xcresult
-
-Failing tests:
-    VoiceMemosTests.testPlayMemoFailure()
-    VoiceMemosTests.testRecordMemoFailure()
 
 """
 
@@ -745,7 +703,168 @@ func format(result: TestResult) -> String {
     }
 }
 
-testResults.run(logs).match?.forEach {
-    print(format(result: $0))
+//testResults.run(logs).match?.forEach {
+//    print(format(result: $0))
+//}
+
+
+
+
+extension Parser where Output == Substring {
+    static func prefix<B>(upTo p: Parser<B>) -> Self {
+        Self { input -> Substring? in
+            guard !input.isEmpty
+            else { return nil }
+            
+            var original = input
+            var endIndex = original.startIndex
+            while p.run(&input) == nil {
+                if endIndex <= original.endIndex {
+                    endIndex = original.index(after: endIndex)
+                } else {
+                    input = original
+                    return nil
+                }
+                input = input[endIndex...]
+            }
+            input = original[endIndex...]
+            return original[..<endIndex]
+        }
+    }
+    
+    static func prefix<B>(through p: Parser<B>) -> Self {
+        Self { input -> Substring? in
+            guard !input.isEmpty
+            else { return nil }
+            
+            var original = input
+            var endIndex = original.startIndex
+            var output: B? = p.run(&input)
+            while output == nil {
+                if endIndex <= original.endIndex {
+                    endIndex = original.index(after: endIndex)
+                } else {
+                    input = original
+                    return nil
+                }
+                input = input[endIndex...]
+                output = p.run(&input)
+            }
+            guard let endIndex = original.range(of: input)?.lowerBound
+            else { return nil }
+            
+            return original[..<endIndex]
+        }
+    }
 }
+
+struct Product: Codable {
+    struct Id: Hashable, Codable {
+        var value: String
+    }
+    
+    var id: Id
+    var name: String
+    var quantity: Double?
+    var price: Double
+    var cost: Double
+}
+
+let address = Parser.prefix(upTo: "ПН")
+let pn = Parser
+    .skip("ПН")
+    .skip(zeroOrMOreSpaces)
+    .take(.uint64)
+let chequeNumber = Parser.int
+    .skip("/")
+    .take(.int)
+    .skip("/")
+    .take(.int)
+let price = Parser.double
+    .skip(zeroOrMOreSpaces)
+    .skip(.oneOf("Б", "A"))
+    .skip(Parser.prefix("\n").zeroOrMore())
+let anount = Parser.double
+    .skip(zeroOrMOreSpaces)
+    .skip(.oneOf("x", "X", "х", "Х"))
+    .skip(zeroOrMOreSpaces)
+    .take(.double)
+
+let product1 = Parser.prefix(upTo: anount)
+    .take(anount)
+    .skip(zeroOrMOreSpaces)
+    .take(price)
+    .map { (name, arg1, cost) in
+        let (quantity, price) = arg1
+        return Product(id: .init(value: String(name)), name: String(name), quantity: quantity, price: price, cost: cost)
+    }
+
+
+let product2 = Parser.prefix(upTo: price)
+    .take(price)
+    .map { (name, cost) in
+        Product(id: .init(value: String(name)), name: String(name), price: cost, cost: cost)
+    }
+
+let product3 = price
+    .take(.prefix(upTo: " "))
+    .map { cost, name in
+        Product(id: .init(value: String(name)), name: String(name), price: cost, cost: cost)
+    }
+
+let products = Parser.oneOf([product2, product3, product1]).zeroOrMore()
+
+let receiptParser = Parser.skip(address)
+    .skip(pn)
+    .skip(.prefix(upTo: chequeNumber))
+    .skip(chequeNumber)
+//    .take(products)
+    .take(product2)
+    .take(product3)
+    .take(product1)
+    .take(product1)
+    .take(product2)
+    .take(product2)
+    .take(product1)
+
+let receipt = """
+  ТОВ "СІЛЬПО-ФУД", магазин
+м. Київ, вулиця Дорогожицька, будинок 2  ПН 407201926538  01
+00001 Каса островська О./.
+H UFK N 31/2155/296
+Хл300КиївхлСімейнНар  14,59 Б
+29,79 Б
+Рул300КиївхлМакв/гВу  КартопляКгБіла  758 Х 7.59  13,34 Б
+ЯБлукокгПіноваГолЧер
+1,62 Х 20,99  34,00 Б
+Сос275ГлобМортадВсВу  57,99 Б
+Смет350MiMiMilk201/e  39,99 Б
+ПакФасовМайНДГЕ
+2 X 0,22  0,44 Б  #
+Незабаром здійсниться  #
+ваша дитяча мрія.  #
+#
+B.B. 28349266  #
+Бали в моб. додатку  СУМА  190,14 ГРН
+ПДВ Б  0,00%  0,00
+- .  - -
+КАРТКА  190,14 ГРН
+...  -- - -  QR2029
+ІДЕНТ. ЕКВАЙРА  ТЕРМІНАЛ  QR2029
+КОМСІЯ  0,00
+ПЛАТІЖНА СИСТЕМА  OR
+ВИД ОПЕРАЦІЇ  ОПЛАТА
+ЕПЗ  XXXXXX4642  828939
+КОД ABT.  RRN  301718978596
+КАСИР:
+ДЕРЖАТЕЛЬ ЕПЗ:  #
+#
+Восток  17-01-2023 18:40:18
+0633713 0609622  ОН 3000272824
+ЗН КС00005950  ABOAAAVUAAAAABUAC69h  AAINWgIMKooXPi/xtpA=
+ФІСКАЛЬНИЙ ЧЕК  {Екселліо
+"""
+
+//dump(receiptParser.run(receipt).match)
+//print(receiptParser.run(receipt).rest)
 

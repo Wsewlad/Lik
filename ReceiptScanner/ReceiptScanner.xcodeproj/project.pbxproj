@@ -17,7 +17,7 @@
 		8297091C297D728500D70871 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091B297D728500D70871 /* ReceiptView.swift */; };
 		8297091E297DE0FA00D70871 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091D297DE0F900D70871 /* DateFormatter.swift */; };
 		82985A5929760296002BB673 /* TextScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82985A5829760296002BB673 /* TextScanner.swift */; };
-		8299DD9F29871B9F001026D7 /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 8299DD9E29871B9F001026D7 /* Parsing */; };
+		8299CA9F298A75660093FBF6 /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 8299CA9E298A75660093FBF6 /* Parsing */; };
 		829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC2102973112B002D0CA0 /* AppViewModel.swift */; };
 		829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21229731769002D0CA0 /* DataScannerView.swift */; };
 		829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */; };
@@ -58,6 +58,7 @@
 		8297091B297D728500D70871 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		8297091D297DE0F900D70871 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		82985A5829760296002BB673 /* TextScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScanner.swift; sourceTree = "<group>"; };
+		8299CAA0298A76640093FBF6 /* ReceiptParsing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ReceiptParsing.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
 		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
@@ -79,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8299DD9F29871B9F001026D7 /* Parsing in Frameworks */,
+				8299CA9F298A75660093FBF6 /* Parsing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +161,7 @@
 		82A39D4D2972E327004F6267 = {
 			isa = PBXGroup;
 			children = (
+				8299CAA0298A76640093FBF6 /* ReceiptParsing.playground */,
 				82AD5C382986D0230079BE45 /* ParsersPlayground.playground */,
 				82A39D582972E327004F6267 /* ReceiptScanner */,
 				82A39D692972E32C004F6267 /* ReceiptScannerTests */,
@@ -235,7 +237,7 @@
 			);
 			name = ReceiptScanner;
 			packageProductDependencies = (
-				8299DD9E29871B9F001026D7 /* Parsing */,
+				8299CA9E298A75660093FBF6 /* Parsing */,
 			);
 			productName = ReceiptScanner;
 			productReference = 82A39D562972E327004F6267 /* ReceiptScanner.app */;
@@ -310,7 +312,7 @@
 			);
 			mainGroup = 82A39D4D2972E327004F6267;
 			packageReferences = (
-				8299DD9D29871B9F001026D7 /* XCRemoteSwiftPackageReference "swift-parsing" */,
+				8299CA9D298A75660093FBF6 /* XCRemoteSwiftPackageReference "swift-parsing" */,
 			);
 			productRefGroup = 82A39D572972E327004F6267 /* Products */;
 			projectDirPath = "";
@@ -697,7 +699,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8299DD9D29871B9F001026D7 /* XCRemoteSwiftPackageReference "swift-parsing" */ = {
+		8299CA9D298A75660093FBF6 /* XCRemoteSwiftPackageReference "swift-parsing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-parsing";
 			requirement = {
@@ -708,9 +710,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8299DD9E29871B9F001026D7 /* Parsing */ = {
+		8299CA9E298A75660093FBF6 /* Parsing */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8299DD9D29871B9F001026D7 /* XCRemoteSwiftPackageReference "swift-parsing" */;
+			package = 8299CA9D298A75660093FBF6 /* XCRemoteSwiftPackageReference "swift-parsing" */;
 			productName = Parsing;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -7,7 +7,6 @@
 
 import Foundation
 import Vision
-import Parsing
 
 protocol RecognizedTextDataSourceDelegate: AnyObject {
     func parse(_ observations: [VNRecognizedTextObservation])

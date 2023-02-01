@@ -13,6 +13,7 @@ struct ContentView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @State private var isCameraPresented: Bool = false
     @State private var isFileImporterPresented: Bool = false
+    @State private var isPhotosPickerPresented: Bool = false
     
     @State private var receipts: [Receipt] = []
     @StateObject private var textScanner: TextScanner = .init()
@@ -64,7 +65,7 @@ private extension ContentView {
 //MARK: - Buttons View
 private extension ContentView {
     var buttonsView: some View {
-        VStack(spacing: 25) {
+        VStack(spacing: 25) {            
             Button("Open file") { isFileImporterPresented.toggle() }
                 .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic], onCompletion: fileImportResult(result:))
             
