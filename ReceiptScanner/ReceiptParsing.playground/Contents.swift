@@ -143,7 +143,7 @@ dump(
 //                    }
 //                }
 //            }
-    }.parse(&receipt)
+    }.parse(receipt)
 )
 //dump(receiptParser.run(receipt).match)
 //print(receiptParser.run(receipt).rest)
