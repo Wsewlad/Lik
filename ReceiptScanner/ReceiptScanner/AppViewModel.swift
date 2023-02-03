@@ -10,6 +10,21 @@ import Foundation
 import SwiftUI
 import VisionKit
 
+//@EnvironmentObject var viewModel: AppViewModel
+
+//switch viewModel.dataScannerAccessStatus {
+//case .scannerAvailable:
+//    break
+//case .cameraNotAvailable:
+//    Text("Camera isn't available")
+//case .scannerNotAvailable:
+//    Text("This device doesn't support text scanning")
+//case .notDetermined:
+//    Text("Requestion camera access")
+//case .cameraAccessNotGranted:
+//    Text("Please provide access to the camera in settings")
+//}
+
 enum ScanType: String {
     case barcode, text
 }

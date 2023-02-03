@@ -224,16 +224,16 @@ where Input: Collection,
     static func prefix(upTo subsequence: Input) -> Self {
         Self { input in
             guard !subsequence.isEmpty else { return subsequence }
-            let original = subsequence
+            let original = input
             while !input.isEmpty {
                 if input.starts(with: subsequence) {
-                    return original[..<input.startIndex]
-//                    let output = original[..<input.startIndex]
-////                    if output.isEmpty {
-////                        input = original
-////                        return nil
-////                    }
-//                    return output
+//                    return original[..<input.startIndex]
+                    let output = original[..<input.startIndex]
+                    if output.isEmpty {
+                        input = original
+                        return nil
+                    }
+                    return output
                 }
                 input.removeFirst()
             }
@@ -245,18 +245,18 @@ where Input: Collection,
     static func prefix(through subsequence: Input) -> Self {
         Self { input in
             guard !subsequence.isEmpty else { return subsequence }
-            let original = subsequence
+            let original = input
             while !input.isEmpty {
                 if input.starts(with: subsequence) {
                     let index = input.index(input.startIndex, offsetBy: subsequence.count)
                     input = input[index...]
-                    return original[..<index]
-//                    let output = original[..<index]
-////                    if original[..<input.startIndex].isEmpty {
-////                        input = original
-////                        return nil
-////                    }
-//                    return output
+//                    return original[..<index]
+                    let output = original[..<index]
+                    if original[..<input.startIndex].isEmpty {
+                        input = original
+                        return nil
+                    }
+                    return output
                 }
                 input.removeFirst()
             }
@@ -277,7 +277,7 @@ extension Parser: ExpressibleByStringLiteral where Input == Substring, Output ==
 }
 
 extension Parser where Input == Substring, Output == Substring {
-    static func prefix<B>(upTo p: Parser<Input, B>) -> Self {
+    static func prefix<B>(upToParser p: Parser<Input, B>) -> Self {
         Self { input -> Substring? in
             guard !input.isEmpty
             else { return nil }
@@ -294,11 +294,18 @@ extension Parser where Input == Substring, Output == Substring {
                 input = input[endIndex...]
             }
             input = original[endIndex...]
-            return original[..<endIndex]
+//            return original[..<endIndex]
+            
+            let output = original[..<endIndex]
+            if output.isEmpty {
+                input = original
+                return nil
+            }
+            return output
         }
     }
 
-    static func prefix<B>(through p: Parser<Input, B>) -> Self {
+    static func prefix<B>(throughParser p: Parser<Input, B>) -> Self {
         Self { input -> Substring? in
             guard !input.isEmpty
             else { return nil }
@@ -319,7 +326,14 @@ extension Parser where Input == Substring, Output == Substring {
             guard let endIndex = original.range(of: input)?.lowerBound
             else { return nil }
 
-            return original[..<endIndex]
+//            return original[..<endIndex]
+            
+            let result = original[..<endIndex]
+            if original[..<input.startIndex].isEmpty {
+                input = original
+                return nil
+            }
+            return result
         }
     }
 }
@@ -561,7 +575,7 @@ Test Suite 'All tests' failed at 2023-01-28 21:29:44.261.
 
 """
 
-let testCaseStartedLine = Parser
+let testCaseStartedLine = Parser<Substring, Substring>
     .skip(.prefix(upTo: "Test Case '-["))
     .take(.prefix(through: "\n"))
     .map { $0.split(separator: " ")[3].dropLast(2) }
@@ -624,7 +638,7 @@ struct Product: Codable {
     var cost: Double
 }
 
-let address = Parser.prefix(upTo: "ПН")
+let address = Parser<Substring, Substring>.prefix(upTo: "ПН")
 let pn = Parser
     .skip("ПН")
     .skip(zeroOrMOreSpaces)
@@ -644,7 +658,7 @@ let anount = Parser.double
     .skip(zeroOrMOreSpaces)
     .take(.double)
 
-let product1 = Parser.prefix(upTo: anount)
+let product1 = Parser.prefix(upToParser: anount)
     .take(anount)
     .skip(zeroOrMOreSpaces)
     .take(price)
@@ -654,7 +668,7 @@ let product1 = Parser.prefix(upTo: anount)
     }
 
 
-let product2 = Parser.prefix(upTo: price)
+let product2 = Parser.prefix(upToParser: price)
     .take(price)
     .map { (name, cost) in
         Product(id: .init(value: String(name)), name: String(name), price: cost, cost: cost)
@@ -670,18 +684,13 @@ let products = Parser.oneOf([product2, product3, product1]).zeroOrMore()
 
 let receiptParser = Parser.skip(address)
     .skip(pn)
-    .skip(.prefix(upTo: chequeNumber))
+    .skip(.prefix(upToParser: chequeNumber))
     .skip(chequeNumber)
-//    .take(products)
-//    .take(product2)
-//    .take(product3)
-//    .take(product1)
-//    .take(product1)
-//    .take(product2)
-//    .take(product2)
-//    .take(product1)
-    .take(.oneOf([product2, product3, product1]))
-    .take(.oneOf([product2, product3, product1]))
+    .take(products)
+//    .take(.oneOf([product1, product2, product3]))
+//    .take(.oneOf([product1, product2, product3]))
+//    .take(.oneOf([product1, product2, product3]))
+//    .take(.oneOf([product1, product2, product3]))
 
 let receipt = """
   ТОВ "СІЛЬПО-ФУД", магазин
@@ -724,3 +733,173 @@ B.B. 28349266  #
 dump(receiptParser.run(receipt[...]).match)
 //print(receiptParser.run(receipt).rest)
 
+let cityEnum = """
+{
+  "Kyiv": "м. Київ",
+  "Odesa": "м. Одеса",
+  ...
+}
+"""
+
+let cityParser: Parser<Substring, String> = .oneOf(
+    try! JSONDecoder().decode([String: String].self, from: cityEnum.data(using: .utf8)!).map { key, value in
+            Parser.prefix(value[...]).map { key }
+    }
+)
+
+cityParser.run("м. Київ, вулиця Дорогожицька, будинок 2")
+
+
+extension Parser where Input == [String: String] {
+    static func key(_ key: String, _ parser: Parser<Substring, Output>) -> Self {
+        Self { dict in
+            guard var value = dict[key]?[...]
+            else { return nil }
+            
+            guard let output = parser.run(&value)
+            else { return nil }
+            
+            dict[key] = value.isEmpty ? nil : String(value)
+            return output
+        }
+    }
+}
+
+extension Parser where Input == Substring, Output == Substring {
+    static var rest: Self {
+        Self { input in
+            let rest = input
+            input = ""
+            return rest
+        }
+    }
+}
+
+// /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot
+
+let xcodePath = Parser.key("IPHONE_SIMULATOR_ROOT", .prefix(through: ".app"))
+let username = Parser.key("SIMULATOR_HOST_HOME", Parser<Substring, Void>.prefix("/Users/").take(.rest))
+
+xcodePath.take(username).run(ProcessInfo.processInfo.environment)
+
+
+struct RequestData {
+    var body: Data?
+    var headers: [String: Substring]
+    var method: String?
+    var pathComponents: ArraySlice<Substring>
+    var queryItems: [(name: String, value: Substring)]
+}
+
+extension Parser where Input == RequestData, Output == Void {
+    static func method(_ method: String) -> Self {
+        .init { input in
+            guard input.method?.uppercased() == method.uppercased()
+            else { return nil }
+            input.method = nil
+            return ()
+        }
+    }
+}
+
+extension Parser where Input == RequestData {
+    static func path(_ parser: Parser<Substring, Output>) -> Self {
+        .init { input in
+            guard var firstComponent = input.pathComponents.first
+            else { return nil }
+            
+            let output = parser.run(&firstComponent)
+            guard firstComponent.isEmpty
+            else { return nil }
+            
+            input.pathComponents.removeFirst()
+            return output
+        }
+    }
+}
+
+extension Parser where Input == RequestData {
+    static func query(name: String, _ parser: Parser<Substring, Output>) -> Self {
+        .init { input in
+            guard var index = input.queryItems.firstIndex(where: { n, value in n == name })
+            else { return nil }
+            
+            let original = input.queryItems[index].value
+            guard let output = parser.run(&input.queryItems[index].value)
+            else { return nil }
+            
+            guard input.queryItems[index].value.isEmpty
+            else {
+                input.queryItems[index].value = original
+                return nil
+            }
+            input.queryItems.remove(at: index)
+            return output
+        }
+    }
+}
+
+extension Parser {
+    static func optional<A>(_ parser: Parser<Input, A>) -> Self where Output == Optional<A> {
+        .init { input in
+            .some(parser.run(&input))
+        }
+    }
+}
+
+extension Parser where Input == RequestData, Output == Void {
+    static let end = Self { input in
+        guard input.pathComponents.isEmpty,
+              input.method == nil
+        else { return nil }
+        
+        input.body = nil
+        input.queryItems = []
+        input.headers = [:]
+        return ()
+    }
+}
+
+// GET /episodes/42?time=120
+let episode = Parser.method("GET")
+    .skip(.path("episodes"))
+    .take(.path(.int))
+    .take(.optional(.query(name: "time", .int)))
+    .skip(.end)
+
+let request = RequestData(
+    body: nil,
+    headers: ["User-Agent": "Safari"],
+    method: "GET",
+    pathComponents: ["episodes", "1", "comments"],
+    queryItems: [(name: "time", value: "120")]
+)
+
+//episode.run(request)
+enum Route {
+    // GET .episodes/:int?time-:int
+    case episodes(id: Int, time: Int?)
+    
+    // GET /episodes/:int/comments
+    case episodesComments(id: Int)
+}
+
+let router = Parser.oneOf(
+    Parser.method("GET")
+        .skip(.path("episodes"))
+        .take(.path(.int))
+        .take(.optional(.query(name: "time", .int)))
+        .skip(.end)
+        .map(Route.episodes(id:time:)),
+
+    Parser.method("GET")
+        .skip(.path("episodes"))
+        .take(.path(.int))
+        .skip(.path("comments"))
+        .skip(.end)
+        .map(Route.episodesComments(id:))
+)
+
+//dump(
+//router.run(request)
+//)

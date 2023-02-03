@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct ReceiptScannerApp: App {
@@ -13,11 +14,17 @@ struct ReceiptScannerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(viewModel)
-                .task {
-                    await viewModel.requestDataScannerAccessStatus()
-                }
+            RootScreen(
+                store: Store(
+                    initialState: Root.State(),
+                    reducer: Root()
+                )
+            )
+//            ContentView()
+//                .environmentObject(viewModel)
+//                .task {
+//                    await viewModel.requestDataScannerAccessStatus()
+//                }
         }
     }
 }

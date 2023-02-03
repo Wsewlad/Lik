@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Product: Codable {
+struct Product: Equatable, Codable {
     struct Id: Hashable, Codable {
         var value: String
     }

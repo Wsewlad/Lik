@@ -1,27 +1,27 @@
 //
-//  ContentView.swift
+//  RootScreen.swift
 //  ReceiptScanner
 //
-//  Created by  Vladyslav Fil on 14.01.2023.
+//  Created by  Vladyslav Fil on 03.02.2023.
 //
 
 import SwiftUI
+import ComposableArchitecture
 import Vision
 import VisionKit
 
-struct ContentView: View {
-    @EnvironmentObject var viewModel: AppViewModel
+struct RootScreen: View {
+    let store: StoreOf<Root>
+    
+    @StateObject private var textScanner: TextScanner = .init()
+    
     @State private var isCameraPresented: Bool = false
     @State private var isFileImporterPresented: Bool = false
     @State private var isPhotosPickerPresented: Bool = false
-    
-    @State private var receipts: [Receipt] = []
-    @StateObject private var textScanner: TextScanner = .init()
-    
+
     var body: some View {
-        NavigationStack {
-            switch viewModel.dataScannerAccessStatus {
-            case .scannerAvailable:
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            NavigationStack {
                 VStack {
                     receiptsListView
                     
@@ -31,41 +31,35 @@ struct ContentView: View {
                 .navigationTitle("Receipts")
                 .onAppear {
                     guard textScanner.delegate == nil else { return }
-                    textScanner.delegate = ReceiptParser {
-                        receipts.append($0)
+                    textScanner.delegate = ReceiptParser { receipt in
+                        viewStore.send(.newReceiptParsed(receipt))
                     }
                 }
-            case .cameraNotAvailable:
-                Text("Camera isn't available")
-            case .scannerNotAvailable:
-                Text("This device doesn't support text scanning")
-            case .notDetermined:
-                Text("Requestion camera access")
-            case .cameraAccessNotGranted:
-                Text("Please provide access to the camera in settings")
             }
         }
     }
 }
 
 //MARK: - Receipts View
-private extension ContentView {
+private extension RootScreen {
     var receiptsListView: some View {
-        ScrollView {
-            VStack(spacing: 15) {
-                ForEach(receipts, id: \.id) { receipt in
-                    ReceiptView(receipt: receipt)
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            ScrollView {
+                VStack(spacing: 15) {
+                    ForEach(viewStore.state.receipts, id: \.id) { receipt in
+                        ReceiptView(receipt: receipt)
+                    }
                 }
+                .padding([.horizontal, .bottom], 16)
             }
-            .padding([.horizontal, .bottom], 16)
         }
     }
 }
 
 //MARK: - Buttons View
-private extension ContentView {
+private extension RootScreen {
     var buttonsView: some View {
-        VStack(spacing: 25) {            
+        VStack(spacing: 25) {
             Button("Open file") { isFileImporterPresented.toggle() }
                 .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic], onCompletion: fileImportResult(result:))
             
@@ -88,7 +82,7 @@ private extension ContentView {
 }
 
 //MARK: - Actions
-private extension ContentView {
+private extension RootScreen {
     func cameraResultAction(result: CameraResult) {
         switch result {
         case let .success(scan):
@@ -117,11 +111,5 @@ private extension ContentView {
         case let .failure(error):
             print(error.localizedDescription)
         }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
