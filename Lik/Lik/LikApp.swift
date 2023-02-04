@@ -1,6 +1,6 @@
 //
-//  ReceiptScannerApp.swift
-//  ReceiptScanner
+//  LikApp.swift
+//  Lik
 //
 //  Created by  Vladyslav Fil on 14.01.2023.
 //
@@ -9,9 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 @main
-struct ReceiptScannerApp: App {
-    @StateObject private var viewModel = AppViewModel()
-    
+struct LikApp: App {
     var body: some Scene {
         WindowGroup {
             RootScreen(
@@ -20,11 +18,6 @@ struct ReceiptScannerApp: App {
                     reducer: Root()
                 )
             )
-//            ContentView()
-//                .environmentObject(viewModel)
-//                .task {
-//                    await viewModel.requestDataScannerAccessStatus()
-//                }
         }
     }
 }

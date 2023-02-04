@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82A39D552972E327004F6267"
-               BuildableName = "ReceiptScanner.app"
-               BlueprintName = "ReceiptScanner"
-               ReferencedContainer = "container:ReceiptScanner.xcodeproj">
+               BuildableName = "Lik.app"
+               BlueprintName = "Lik"
+               ReferencedContainer = "container:Lik.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,28 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82A39D652972E32C004F6267"
-               BuildableName = "ReceiptScannerTests.xctest"
-               BlueprintName = "ReceiptScannerTests"
-               ReferencedContainer = "container:ReceiptScanner.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82A39D6F2972E32C004F6267"
-               BuildableName = "ReceiptScannerUITests.xctest"
-               BlueprintName = "ReceiptScannerUITests"
-               ReferencedContainer = "container:ReceiptScanner.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -67,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82A39D552972E327004F6267"
-            BuildableName = "ReceiptScanner.app"
-            BlueprintName = "ReceiptScanner"
-            ReferencedContainer = "container:ReceiptScanner.xcodeproj">
+            BuildableName = "Lik.app"
+            BlueprintName = "Lik"
+            ReferencedContainer = "container:Lik.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -84,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82A39D552972E327004F6267"
-            BuildableName = "ReceiptScanner.app"
-            BlueprintName = "ReceiptScanner"
-            ReferencedContainer = "container:ReceiptScanner.xcodeproj">
+            BuildableName = "Lik.app"
+            BlueprintName = "Lik"
+            ReferencedContainer = "container:Lik.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
