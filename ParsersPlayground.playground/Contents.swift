@@ -686,7 +686,7 @@ let receiptParser = Parser.skip(address)
     .skip(pn)
     .skip(.prefix(upToParser: chequeNumber))
     .skip(chequeNumber)
-    .take(products)
+//    .take(products)
 //    .take(.oneOf([product1, product2, product3]))
 //    .take(.oneOf([product1, product2, product3]))
 //    .take(.oneOf([product1, product2, product3]))
@@ -736,8 +736,7 @@ dump(receiptParser.run(receipt[...]).match)
 let cityEnum = """
 {
   "Kyiv": "м. Київ",
-  "Odesa": "м. Одеса",
-  ...
+  "Odesa": "м. Одеса"
 }
 """
 

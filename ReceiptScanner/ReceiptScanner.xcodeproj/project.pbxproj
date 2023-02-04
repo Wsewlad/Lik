@@ -21,7 +21,7 @@
 		829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21229731769002D0CA0 /* DataScannerView.swift */; };
 		829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */; };
 		82A01EA9298D8A570013B40F /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EA8298D8A570013B40F /* Root.swift */; };
-		82A01EAC298D8B750013B40F /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 82A01EAB298D8B750013B40F /* ComposableArchitecture */; };
+		82A01EAC298D8B750013B40F /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 82A01EAB298D8B750013B40F /* ComposableArchitecture */; settings = {ATTRIBUTES = (Required, ); }; };
 		82A01EAE298D98710013B40F /* RootScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EAD298D98710013B40F /* RootScreen.swift */; };
 		82A39D5A2972E327004F6267 /* ReceiptScannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D592972E327004F6267 /* ReceiptScannerApp.swift */; };
 		82A39D5E2972E32C004F6267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D5D2972E32C004F6267 /* Assets.xcassets */; };
@@ -29,6 +29,7 @@
 		82A39D6B2972E32C004F6267 /* ReceiptScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D6A2972E32C004F6267 /* ReceiptScannerTests.swift */; };
 		82A39D752972E32C004F6267 /* ReceiptScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D742972E32C004F6267 /* ReceiptScannerUITests.swift */; };
 		82A39D772972E32C004F6267 /* ReceiptScannerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D762972E32C004F6267 /* ReceiptScannerUITestsLaunchTests.swift */; };
+		82A9D280298DDA6A00A111AF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A9D27F298DDA6A00A111AF /* XCTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +60,6 @@
 		8297091B297D728500D70871 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		8297091D297DE0F900D70871 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		82985A5829760296002BB673 /* TextScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScanner.swift; sourceTree = "<group>"; };
-		8299CAA0298A76640093FBF6 /* ReceiptParsing.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ReceiptParsing.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
 		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
@@ -74,7 +74,7 @@
 		82A39D702972E32C004F6267 /* ReceiptScannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReceiptScannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A39D742972E32C004F6267 /* ReceiptScannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptScannerUITests.swift; sourceTree = "<group>"; };
 		82A39D762972E32C004F6267 /* ReceiptScannerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptScannerUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		82AD5C382986D0230079BE45 /* ParsersPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ParsersPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		82A9D27F298DDA6A00A111AF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82A9D280298DDA6A00A111AF /* XCTest.framework in Frameworks */,
 				82A01EAC298D8B750013B40F /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,12 +181,11 @@
 		82A39D4D2972E327004F6267 = {
 			isa = PBXGroup;
 			children = (
-				8299CAA0298A76640093FBF6 /* ReceiptParsing.playground */,
-				82AD5C382986D0230079BE45 /* ParsersPlayground.playground */,
 				82A39D582972E327004F6267 /* ReceiptScanner */,
 				82A39D692972E32C004F6267 /* ReceiptScannerTests */,
 				82A39D732972E32C004F6267 /* ReceiptScannerUITests */,
 				82A39D572972E327004F6267 /* Products */,
+				82A9D27E298DDA6A00A111AF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -237,6 +237,14 @@
 				82A39D762972E32C004F6267 /* ReceiptScannerUITestsLaunchTests.swift */,
 			);
 			path = ReceiptScannerUITests;
+			sourceTree = "<group>";
+		};
+		82A9D27E298DDA6A00A111AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				82A9D27F298DDA6A00A111AF /* XCTest.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -544,6 +552,7 @@
 		82A39D7B2972E32C004F6267 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ADDITIONAL_SDKS[arch=*]" = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -562,9 +571,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = "";
 				MARKETING_VERSION = 1.0;
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = ua.vfil.ReceiptScanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SDKROOT[arch=*]" = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
