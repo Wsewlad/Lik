@@ -1,8 +1,11 @@
 > Under development
+<img src="/resources/AppIcon-Light.png" width="200" alt="Лік's AppIcon" title="Лік's AppIcon">
+
 # Лік (Lik)
+
 ###### "Лік" is a Ukrainian word that means "Bill", "Receipt", "Counting" or "Сalculating". It is often used in the context of financial transactions and refers to a document that shows the details of a purchase or payment made by a customer.
 
-### The main idea of the project is to track all products (primarily food products) and obtain certain statistics
+### The main idea of the project is to track all purchased products (primarily food products) and obtain certain statistics
 
 ## Planned features
 * Parsing receipts from different supermarkets in Ukraine (Firstly from Silpo and ATB)
