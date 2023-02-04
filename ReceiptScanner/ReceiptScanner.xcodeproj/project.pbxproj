@@ -29,7 +29,6 @@
 		82A39D6B2972E32C004F6267 /* ReceiptScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D6A2972E32C004F6267 /* ReceiptScannerTests.swift */; };
 		82A39D752972E32C004F6267 /* ReceiptScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D742972E32C004F6267 /* ReceiptScannerUITests.swift */; };
 		82A39D772972E32C004F6267 /* ReceiptScannerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D762972E32C004F6267 /* ReceiptScannerUITestsLaunchTests.swift */; };
-		82A9D280298DDA6A00A111AF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A9D27F298DDA6A00A111AF /* XCTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +81,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82A9D280298DDA6A00A111AF /* XCTest.framework in Frameworks */,
 				82A01EAC298D8B750013B40F /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,8 +551,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ADDITIONAL_SDKS[arch=*]" = "";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-light";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ReceiptScanner/Preview Content\"";
@@ -586,8 +585,9 @@
 		82A39D7C2972E32C004F6267 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-light";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ReceiptScanner/Preview Content\"";
