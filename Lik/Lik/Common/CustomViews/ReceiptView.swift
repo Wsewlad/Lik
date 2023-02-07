@@ -12,7 +12,7 @@ struct ReceiptView: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            Text(DateFormatter.monthDayYearTimeStyle.string(from: receipt.date))
+            Text(receipt.id.value)
                 .font(.title2())
                 .foregroundColor(.primaryText)
             
@@ -37,11 +37,17 @@ struct ReceiptView: View {
             
             Divider()
             
-            DisclosureGroup("Raw text") {
-                Text(receipt.text)
-                    .font(.body())
-                    .padding()
+            HStack {
+                Text("Сума")
+                Spacer()
+                Text(receipt.sum.formatted(points: 2))
             }
+            .font(.body())
+            
+            Divider()
+            
+            Text(receipt.text)
+                .font(.body())
         }
         .padding(16)
         .foregroundColor(.secondaryText)

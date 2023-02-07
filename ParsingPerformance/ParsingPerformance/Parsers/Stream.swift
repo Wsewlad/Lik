@@ -7,23 +7,23 @@
 
 import Foundation
 
-extension Parser where Input: RangeReplaceableCollection {
-    var stream: Parser<AnyIterator<Input>, [Output]> {
-        .init { stream in
-            var buffer = Input()
-            var outputs: [Output] = []
-            while let chunk = stream.next() {
-                buffer.append(contentsOf: chunk)
-                
-                while let output = self.run(&buffer) {
-                    outputs.append(output)
-                }
-            }
-            
-            return outputs
-        }
-    }
-}
+//extension Parser where Input: RangeReplaceableCollection {
+//    var stream: Parser<AnyIterator<Input>, [Output]> {
+//        .init { stream in
+//            var buffer = Input()
+//            var outputs: [Output] = []
+//            while let chunk = stream.next() {
+//                buffer.append(contentsOf: chunk)
+//
+//                while let output = self.run(&buffer) {
+//                    outputs.append(output)
+//                }
+//            }
+//
+//            return outputs
+//        }
+//    }
+//}
 
 var stdin = AnyIterator { readLine(strippingNewline: false)?[...] }
 

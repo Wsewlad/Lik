@@ -18,6 +18,7 @@
 		8297091C297D728500D70871 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091B297D728500D70871 /* ReceiptView.swift */; };
 		8297091E297DE0FA00D70871 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091D297DE0F900D70871 /* DateFormatter.swift */; };
 		82985A5929760296002BB673 /* TextScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82985A5829760296002BB673 /* TextScanner.swift */; };
+		829CA1E129926F860090779E /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829CA1E029926F860090779E /* AddButton.swift */; };
 		829DF7102991B1AD00BA0E67 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF70F2991B1AD00BA0E67 /* Color.swift */; };
 		829DF7162991B32600BA0E67 /* Baskerville.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 829DF7152991B32600BA0E67 /* Baskerville.ttc */; };
 		829DF71929924E1200BA0E67 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF71829924E1200BA0E67 /* Font.swift */; };
@@ -27,6 +28,8 @@
 		82A01EA9298D8A570013B40F /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EA8298D8A570013B40F /* Root.swift */; };
 		82A01EAC298D8B750013B40F /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 82A01EAB298D8B750013B40F /* ComposableArchitecture */; settings = {ATTRIBUTES = (Required, ); }; };
 		82A01EAE298D98710013B40F /* RootScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EAD298D98710013B40F /* RootScreen.swift */; };
+		82A20A7B299304B1009A1F9E /* Parses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A20A7A299304B0009A1F9E /* Parses.swift */; };
+		82A20A7D299304E9009A1F9E /* RParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A20A7C299304E9009A1F9E /* RParser.swift */; };
 		82A39D5A2972E327004F6267 /* LikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D592972E327004F6267 /* LikApp.swift */; };
 		82A39D5E2972E32C004F6267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D5D2972E32C004F6267 /* Assets.xcassets */; };
 		82A39D612972E32C004F6267 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D602972E32C004F6267 /* Preview Assets.xcassets */; };
@@ -43,6 +46,7 @@
 		8297091B297D728500D70871 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		8297091D297DE0F900D70871 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		82985A5829760296002BB673 /* TextScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScanner.swift; sourceTree = "<group>"; };
+		829CA1E029926F860090779E /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		829DF70F2991B1AD00BA0E67 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		829DF7152991B32600BA0E67 /* Baskerville.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baskerville.ttc; sourceTree = "<group>"; };
 		829DF7172991B34600BA0E67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +56,8 @@
 		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
 		82A01EA8298D8A570013B40F /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		82A01EAD298D98710013B40F /* RootScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScreen.swift; sourceTree = "<group>"; };
+		82A20A7A299304B0009A1F9E /* Parses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parses.swift; sourceTree = "<group>"; };
+		82A20A7C299304E9009A1F9E /* RParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RParser.swift; sourceTree = "<group>"; };
 		82A39D562972E327004F6267 /* Lik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A39D592972E327004F6267 /* LikApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikApp.swift; sourceTree = "<group>"; };
 		82A39D5D2972E32C004F6267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 				829EC21229731769002D0CA0 /* DataScannerView.swift */,
 				829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */,
 				8297091B297D728500D70871 /* ReceiptView.swift */,
+				829CA1E029926F860090779E /* AddButton.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -103,6 +110,7 @@
 		8297090C297D545700D70871 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				82A20A7E299304F4009A1F9E /* Parsing */,
 				829EC2102973112B002D0CA0 /* AppViewModel.swift */,
 				82985A5829760296002BB673 /* TextScanner.swift */,
 				8297090D297D54AE00D70871 /* CustomWords.swift */,
@@ -180,6 +188,15 @@
 				82A01EAD298D98710013B40F /* RootScreen.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		82A20A7E299304F4009A1F9E /* Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				82A20A7A299304B0009A1F9E /* Parses.swift */,
+				82A20A7C299304E9009A1F9E /* RParser.swift */,
+			);
+			path = Parsing;
 			sourceTree = "<group>";
 		};
 		82A39D4D2972E327004F6267 = {
@@ -325,8 +342,11 @@
 				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,
 				829DF71929924E1200BA0E67 /* Font.swift in Sources */,
 				8297091C297D728500D70871 /* ReceiptView.swift in Sources */,
+				82A20A7D299304E9009A1F9E /* RParser.swift in Sources */,
 				8297090E297D54AE00D70871 /* CustomWords.swift in Sources */,
+				82A20A7B299304B1009A1F9E /* Parses.swift in Sources */,
 				829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */,
+				829CA1E129926F860090779E /* AddButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

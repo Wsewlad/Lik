@@ -17,26 +17,16 @@ struct RootScreen: View {
     
     @State private var isCameraPresented: Bool = false
     @State private var isFileImporterPresented: Bool = false
-    @State private var isPhotosPickerPresented: Bool = false
 
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             NavigationStack {
-                VStack {
+                ZStack(alignment: .bottomTrailing) {
                     receiptsListView
                     
                     buttonsView
                 }
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        VStack {
-                            Text("Лік")
-                              .font(.title3())
-                              .foregroundColor(.primaryText)
-                        }
-                    }
-                }
+                .navigationBarTitle(" ", displayMode: .inline)
                 .onAppear {
                     guard textScanner.delegate == nil else { return }
                     textScanner.delegate = ReceiptParser { receipt in
@@ -52,14 +42,16 @@ struct RootScreen: View {
 private extension RootScreen {
     var receiptsListView: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
-            ScrollView {
-                VStack(spacing: 15) {
-                    ForEach(viewStore.state.receipts, id: \.id) { receipt in
-                        ReceiptView(receipt: receipt)
-                    }
+            List {
+                ForEach(viewStore.state.receipts, id: \.id) { receipt in
+                    ReceiptView(receipt: receipt)
+                        .padding(.bottom, viewStore.state.receipts.last == receipt ? 100 : 0)
                 }
-                .padding([.horizontal, .bottom], 16)
+                .listRowInsets(.init(top: 15, leading: 16, bottom: 0, trailing: 16))
+                .listRowSeparator(.hidden)
             }
+            .scrollContentBackground(.hidden)
+            .listStyle(.plain)
         }
     }
 }
@@ -67,25 +59,34 @@ private extension RootScreen {
 //MARK: - Buttons View
 private extension RootScreen {
     var buttonsView: some View {
-        VStack(spacing: 25) {
-            Button("Open file") { isFileImporterPresented.toggle() }
-                .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic], onCompletion: fileImportResult(result:))
-            
-            Button("Open camera") {
+        Menu {
+            Button {
+                isFileImporterPresented.toggle()
+            } label: {
+                Label("Open files", systemImage: "folder.fill")
+                    .foregroundStyle(Color.blue)
+//                    .foregroundColor(.blue)
+            }
+            Button {
                 guard VNDocumentCameraViewController.isSupported
                 else { print("Document scanning not supported"); return }
                 isCameraPresented.toggle()
+            } label: {
+                Label("Open camera", systemImage: "camera.viewfinder")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(Color.white, Color.blue)
             }
-            .sheet(isPresented: $isCameraPresented) {
-                DocumentCamera(
-                    cancelAction: { isCameraPresented = false },
-                    resultAction: cameraResultAction(result:)
-                )
-            }
+        } label: {
+            PlusView()
         }
-        .padding(.vertical, 25)
-        .frame(maxWidth: .infinity)
-        .background(.ultraThickMaterial)
+        .padding(25)
+        .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic], onCompletion: fileImportResult(result:))
+        .sheet(isPresented: $isCameraPresented) {
+            DocumentCamera(
+                cancelAction: { isCameraPresented = false },
+                resultAction: cameraResultAction(result:)
+            )
+        }
     }
 }
 
