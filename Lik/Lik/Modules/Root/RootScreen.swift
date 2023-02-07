@@ -28,7 +28,15 @@ struct RootScreen: View {
                     buttonsView
                 }
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle(Text("Лік").font(.title3()))
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        VStack {
+                            Text("Лік")
+                              .font(.title3())
+                              .foregroundColor(.primaryText)
+                        }
+                    }
+                }
                 .onAppear {
                     guard textScanner.delegate == nil else { return }
                     textScanner.delegate = ReceiptParser { receipt in
