@@ -1,3 +1,10 @@
+//
+//  ParsingSreams.swift
+//  stdin
+//
+//  Created by  Vladyslav Fil on 05.02.2023.
+//
+
 import Foundation
 
 struct Parser<Input, Output> {
@@ -43,7 +50,47 @@ extension Parser where Input == Substring, Output == Int {
     }
 }
 
-Parser.int.run("42 Hello World")
+//MARK: - int (UnicodeScalarView)
+extension Parser where Input == Substring.UnicodeScalarView, Output == Int {
+    static let int = Self { input in
+        let original = input
+
+        var isFirstCharacter = true
+        let intPrefix = input.prefix { c in
+            defer { isFirstCharacter = false }
+            return (c == "-" || c == "+") && isFirstCharacter || c.properties.numericType != nil
+        }
+
+        guard let match = Int(String(intPrefix)) else {
+            input = original
+            return nil
+        }
+        input.removeFirst(intPrefix.count)
+        return match
+    }
+}
+
+//MARK: - int (UTF8)
+extension Parser where Input == Substring.UTF8View, Output == Int {
+    static let int = Self { input in
+        let original = input
+
+        var isFirstCharacter = true
+        let intPrefix = input.prefix { c in
+            defer { isFirstCharacter = false }
+            return (c == UTF8.CodeUnit(ascii: "-") || c == UTF8.CodeUnit(ascii: "+")) && isFirstCharacter || (UTF8.CodeUnit(ascii: "0")...UTF8.CodeUnit(ascii: "9")).contains(c)
+        }
+
+        guard let match = Int(String(Substring(intPrefix))) else {
+            input = original
+            return nil
+        }
+        input.removeFirst(intPrefix.count)
+        return match
+    }
+}
+
+//Parser.int.run("42 Hello World")
 
 //MARK: - UInt64
 extension Parser where Input == Substring, Output == UInt64 {
@@ -94,8 +141,8 @@ extension Parser where Input == Substring, Output == Double {
     }
 }
 
-Parser.double.run("42.3423 Hello world!")
-Parser.double.run("42,3423 Hello world!")
+//Parser.double.run("42.3423 Hello world!")
+//Parser.double.run("42,3423 Hello world!")
 
 //MARK: - char
 extension Parser where Input == Substring, Output == Character {
@@ -385,7 +432,7 @@ let temperature = Parser.int
 //temperature.run("100°F")
 
 //MARK: - Coordinate
-"40.6782° N, 73.9442° W"
+//"40.6782° N, 73.9442° W"
 
 struct Coordinate {
     let latitude: Double
@@ -424,8 +471,8 @@ let coord = latitude
     .take(longtitude)
     .map(Coordinate.init)
 
-coord.run("40.6782° N, 73.9442° W")
-coord.run("40.6782°   N,   73.9442° W")
+//coord.run("40.6782° N, 73.9442° W")
+//coord.run("40.6782°   N,   73.9442° W")
 
 //MARK: - Currency
 enum Currency: String, CaseIterable {
@@ -504,121 +551,6 @@ extension Parser {
     }
 }
 
-let address = Parser<Substring, Substring>.prefix(upTo: "ПН")
-let pn = Parser
-    .skip("ПН")
-    .skip(zeroOrMOreSpaces)
-    .take(.uint64)
-let chequeNumber = Parser.int
-    .skip("/")
-    .take(.int)
-    .skip("/")
-    .take(.int)
-let price = Parser.double
-    .skip(zeroOrMOreSpaces)
-    .skip(.oneOf("Б", "A"))
-    .skip(Parser.prefix("\n").zeroOrMore())
-let anount = Parser.double
-    .skip(zeroOrMOreSpaces)
-    .skip(.oneOf("x", "X", "х", "Х"))
-    .skip(zeroOrMOreSpaces)
-    .take(.double)
-let sum = Parser
-    .skip("СУМА")
-    .skip(zeroOrMOreSpaces)
-    .take(.double)
-    .skip(zeroOrMOreSpaces)
-    .skip("ГРН")
-
-let product1 = Parser.prefix(upToParser: anount)
-    .flatMap { $0.split(separator: " ").count > 1 ? .never : .always($0) }
-    .take(anount)
-    .skip(zeroOrMOreSpaces)
-    .take(price)
-    .map { (name, arg1, cost) in
-        let (quantity, price) = arg1
-        return Product(id: .init(value: String(name)), name: String(name), quantity: quantity, price: price, cost: cost)
-    }
-
-
-let product2 = Parser.prefix(upToParser: price)
-    .flatMap { $0.split(separator: " ").count > 1 ? .never : .always($0) }
-    .take(price)
-    .map { (name, cost) in
-        Product(id: .init(value: String(name)), name: String(name), price: cost, cost: cost)
-    }
-
-let product3 = price
-    .take(.prefix(upTo: " "))
-    .map { cost, name in
-        Product(id: .init(value: String(name)), name: String(name), price: cost, cost: cost)
-    }
-
-let products = Parser.oneOf([product2, product3, product1]).zeroOrMore()
-
-let receiptParser = Parser.skip(address)
-    .skip(pn)
-    .skip(.prefix(upToParser: chequeNumber))
-    .skip(chequeNumber)
-    .take(products)
-    .skip(.prefix(upTo: "СУМА"))
-    .take(sum)
-
-let receipt = """
-ТОВ "СІЛЬПО-ФУД", магазин
-м. Київ, вулиця Дорогожицька, будинок 2  ПН 407201926538  01
-00001 Каса островська О./.
-H UFK N 31/2155/296
-Хл300КиївхлСімейнНар  14,59 Б
-29,79 Б
-Рул300КиївхлМакв/гВу  КартопляКгБіла  758 Х 7.59  13,34 Б
-ЯБлукокгПіноваГолЧер
-1,62 Х 20,99  34,00 Б
-Сос275ГлобМортадВсВу  57,99 Б
-Смет350MiMiMilk201/e  39,99 Б
-ПакФасовМайНДГЕ
-2 X 0,22  0,44 Б  #
-Незабаром здійсниться  #
-ваша дитяча мрія.  #
-#
-B.B. 28349266  #
-Бали в моб. додатку  СУМА  190,14 ГРН
-ПДВ Б  0,00%  0,00
-- .  - -
-КАРТКА  190,14 ГРН
-...  -- - -  QR2029
-ІДЕНТ. ЕКВАЙРА  ТЕРМІНАЛ  QR2029
-КОМСІЯ  0,00
-ПЛАТІЖНА СИСТЕМА  OR
-ВИД ОПЕРАЦІЇ  ОПЛАТА
-ЕПЗ  XXXXXX4642  828939
-КОД ABT.  RRN  301718978596
-КАСИР:
-ДЕРЖАТЕЛЬ ЕПЗ:  #
-#
-Восток  17-01-2023 18:40:18
-0633713 0609622  ОН 3000272824
-ЗН КС00005950  ABOAAAVUAAAAABUAC69h  AAINWgIMKooXPi/xtpA=
-ФІСКАЛЬНИЙ ЧЕК  {Екселліо
-"""
-
-//dump(receiptParser.run(receipt[...]))
-
-let cityEnum = """
-{
-  "Kyiv": "м. Київ",
-  "Odesa": "м. Одеса"
-}
-"""
-
-let cityParser: Parser<Substring, String> = .oneOf(
-    try! JSONDecoder().decode([String: String].self, from: cityEnum.data(using: .utf8)!).map { key, value in
-            Parser.prefix(value[...]).map { key }
-    }
-)
-
-//cityParser.run("м. Київ, вулиця Дорогожицька, будинок 2")
-
 
 extension Parser where Input == [String: String] {
     static func key(_ key: String, _ parser: Parser<Substring, Output>) -> Self {
@@ -635,125 +567,9 @@ extension Parser where Input == [String: String] {
     }
 }
 
-
-
 // /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot
 
 let xcodePath = Parser.key("IPHONE_SIMULATOR_ROOT", .prefix(through: ".app"))
 let username = Parser.key("SIMULATOR_HOST_HOME", Parser<Substring, Void>.prefix("/Users/").take(.rest))
 
-xcodePath.take(username).run(ProcessInfo.processInfo.environment)
-
-
-struct RequestData {
-    var body: Data?
-    var headers: [String: Substring]
-    var method: String?
-    var pathComponents: ArraySlice<Substring>
-    var queryItems: [(name: String, value: Substring)]
-}
-
-extension Parser where Input == RequestData, Output == Void {
-    static func method(_ method: String) -> Self {
-        .init { input in
-            guard input.method?.uppercased() == method.uppercased()
-            else { return nil }
-            input.method = nil
-            return ()
-        }
-    }
-}
-
-extension Parser where Input == RequestData {
-    static func path(_ parser: Parser<Substring, Output>) -> Self {
-        .init { input in
-            guard var firstComponent = input.pathComponents.first
-            else { return nil }
-            
-            let output = parser.run(&firstComponent)
-            guard firstComponent.isEmpty
-            else { return nil }
-            
-            input.pathComponents.removeFirst()
-            return output
-        }
-    }
-}
-
-extension Parser where Input == RequestData {
-    static func query(name: String, _ parser: Parser<Substring, Output>) -> Self {
-        .init { input in
-            guard var index = input.queryItems.firstIndex(where: { n, value in n == name })
-            else { return nil }
-            
-            let original = input.queryItems[index].value
-            guard let output = parser.run(&input.queryItems[index].value)
-            else { return nil }
-            
-            guard input.queryItems[index].value.isEmpty
-            else {
-                input.queryItems[index].value = original
-                return nil
-            }
-            input.queryItems.remove(at: index)
-            return output
-        }
-    }
-}
-
-extension Parser where Input == RequestData, Output == Void {
-    static let end = Self { input in
-        guard input.pathComponents.isEmpty,
-              input.method == nil
-        else { return nil }
-        
-        input.body = nil
-        input.queryItems = []
-        input.headers = [:]
-        return ()
-    }
-}
-
-// GET /episodes/42?time=120
-let episode = Parser.method("GET")
-    .skip(.path("episodes"))
-    .take(.path(.int))
-    .take(.optional(.query(name: "time", .int)))
-    .skip(.end)
-
-let request = RequestData(
-    body: nil,
-    headers: ["User-Agent": "Safari"],
-    method: "GET",
-    pathComponents: ["episodes", "1", "comments"],
-    queryItems: [(name: "time", value: "120")]
-)
-
-//episode.run(request)
-enum Route {
-    // GET .episodes/:int?time-:int
-    case episodes(id: Int, time: Int?)
-    
-    // GET /episodes/:int/comments
-    case episodesComments(id: Int)
-}
-
-let router = Parser.oneOf(
-    Parser.method("GET")
-        .skip(.path("episodes"))
-        .take(.path(.int))
-        .take(.optional(.query(name: "time", .int)))
-        .skip(.end)
-        .map(Route.episodes(id:time:)),
-
-    Parser.method("GET")
-        .skip(.path("episodes"))
-        .take(.path(.int))
-        .skip(.path("comments"))
-        .skip(.end)
-        .map(Route.episodesComments(id:))
-)
-
-//dump(
-//router.run(request)
-//)
+//xcodePath.take(username).run(ProcessInfo.processInfo.environment)

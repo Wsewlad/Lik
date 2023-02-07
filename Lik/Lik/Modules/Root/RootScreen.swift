@@ -28,7 +28,7 @@ struct RootScreen: View {
                     buttonsView
                 }
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle("Receipts")
+                .navigationTitle(Text("Лік").font(.title3()))
                 .onAppear {
                     guard textScanner.delegate == nil else { return }
                     textScanner.delegate = ReceiptParser { receipt in

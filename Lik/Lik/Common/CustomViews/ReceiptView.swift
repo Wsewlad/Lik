@@ -11,9 +11,10 @@ struct ReceiptView: View {
     let receipt: Receipt
     
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
             Text(DateFormatter.monthDayYearTimeStyle.string(from: receipt.date))
-                .font(.title2)
+                .font(.title2())
+                .foregroundColor(.primaryText)
             
             Divider()
             
@@ -21,16 +22,16 @@ struct ReceiptView: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
                         Text(product.name)
-                            .font(.body)
+                            .font(.body())
                         
                         if let quantity = product.quantity {
                             Text("\(quantity.formatted(points: 3)) X \(product.price.formatted(points: 2))")
-                                .font(.caption)
+                                .font(.subheadline())
                         }
                     }
                     Spacer()
                     Text(product.cost.formatted(points: 2))
-                        .font(.caption)
+                        .font(.callout())
                 }
             }
             
@@ -38,16 +39,15 @@ struct ReceiptView: View {
             
             DisclosureGroup("Raw text") {
                 Text(receipt.text)
-                    .font(.body)
+                    .font(.body())
                     .padding()
             }
         }
-        .padding()
-        .foregroundColor(.primary)
+        .padding(16)
+        .foregroundColor(.secondaryText)
         .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThickMaterial)
-                .shadow(color: .secondary.opacity(0.5), radius: 5, x: 0, y: 3)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.secondaryBackground)
         )
     }
 }

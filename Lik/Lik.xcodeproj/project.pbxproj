@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		82155AC229903E95004BCF8E /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 82155AC129903E95004BCF8E /* Parsing */; };
 		8297090A297D52FF00D70871 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970909297D52FF00D70871 /* CGFloat.swift */; };
 		8297090E297D54AE00D70871 /* CustomWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297090D297D54AE00D70871 /* CustomWords.swift */; };
 		82970910297D61D100D70871 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297090F297D61D100D70871 /* Array.swift */; };
@@ -17,6 +18,9 @@
 		8297091C297D728500D70871 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091B297D728500D70871 /* ReceiptView.swift */; };
 		8297091E297DE0FA00D70871 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091D297DE0F900D70871 /* DateFormatter.swift */; };
 		82985A5929760296002BB673 /* TextScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82985A5829760296002BB673 /* TextScanner.swift */; };
+		829DF7102991B1AD00BA0E67 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF70F2991B1AD00BA0E67 /* Color.swift */; };
+		829DF7162991B32600BA0E67 /* Baskerville.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 829DF7152991B32600BA0E67 /* Baskerville.ttc */; };
+		829DF71929924E1200BA0E67 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF71829924E1200BA0E67 /* Font.swift */; };
 		829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC2102973112B002D0CA0 /* AppViewModel.swift */; };
 		829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21229731769002D0CA0 /* DataScannerView.swift */; };
 		829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */; };
@@ -39,6 +43,10 @@
 		8297091B297D728500D70871 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		8297091D297DE0F900D70871 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		82985A5829760296002BB673 /* TextScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScanner.swift; sourceTree = "<group>"; };
+		829DF70F2991B1AD00BA0E67 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		829DF7152991B32600BA0E67 /* Baskerville.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baskerville.ttc; sourceTree = "<group>"; };
+		829DF7172991B34600BA0E67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		829DF71829924E1200BA0E67 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
 		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
@@ -57,6 +65,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82A01EAC298D8B750013B40F /* ComposableArchitecture in Frameworks */,
+				82155AC229903E95004BCF8E /* Parsing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,9 +84,8 @@
 		82970908297D52DB00D70871 /* Extenssions */ = {
 			isa = PBXGroup;
 			children = (
-				82970909297D52FF00D70871 /* CGFloat.swift */,
-				8297090F297D61D100D70871 /* Array.swift */,
-				8297091D297DE0F900D70871 /* DateFormatter.swift */,
+				829DF70E2991B19200BA0E67 /* UI */,
+				829DF70D2991B18700BA0E67 /* Foundation */,
 			);
 			path = Extenssions;
 			sourceTree = "<group>";
@@ -121,6 +129,42 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		829DF70D2991B18700BA0E67 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				8297090F297D61D100D70871 /* Array.swift */,
+				8297091D297DE0F900D70871 /* DateFormatter.swift */,
+				82970909297D52FF00D70871 /* CGFloat.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		829DF70E2991B19200BA0E67 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				829DF70F2991B1AD00BA0E67 /* Color.swift */,
+				829DF71829924E1200BA0E67 /* Font.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		829DF7132991B2FC00BA0E67 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				829DF7142991B31400BA0E67 /* Fonts */,
+				82A39D5D2972E32C004F6267 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		829DF7142991B31400BA0E67 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				829DF7152991B32600BA0E67 /* Baskerville.ttc */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		82A01EA6298D8A290013B40F /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,12 +202,13 @@
 		82A39D582972E327004F6267 /* Lik */ = {
 			isa = PBXGroup;
 			children = (
+				829DF7172991B34600BA0E67 /* Info.plist */,
 				82A39D592972E327004F6267 /* LikApp.swift */,
 				82970907297D52D500D70871 /* Common */,
 				8297090C297D545700D70871 /* Services */,
 				82970911297D624900D70871 /* Domain */,
 				82A01EA6298D8A290013B40F /* Modules */,
-				82A39D5D2972E32C004F6267 /* Assets.xcassets */,
+				829DF7132991B2FC00BA0E67 /* Resources */,
 				82A39D5F2972E32C004F6267 /* Preview Content */,
 			);
 			path = Lik;
@@ -203,6 +248,7 @@
 			name = Lik;
 			packageProductDependencies = (
 				82A01EAB298D8B750013B40F /* ComposableArchitecture */,
+				82155AC129903E95004BCF8E /* Parsing */,
 			);
 			productName = ReceiptScanner;
 			productReference = 82A39D562972E327004F6267 /* Lik.app */;
@@ -234,6 +280,7 @@
 			mainGroup = 82A39D4D2972E327004F6267;
 			packageReferences = (
 				82A01EAA298D8B750013B40F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */,
 			);
 			productRefGroup = 82A39D572972E327004F6267 /* Products */;
 			projectDirPath = "";
@@ -251,6 +298,7 @@
 			files = (
 				82A39D612972E32C004F6267 /* Preview Assets.xcassets in Resources */,
 				82A39D5E2972E32C004F6267 /* Assets.xcassets in Resources */,
+				829DF7162991B32600BA0E67 /* Baskerville.ttc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +313,7 @@
 				82970914297D626400D70871 /* Receipt.swift in Sources */,
 				82970910297D61D100D70871 /* Array.swift in Sources */,
 				82970918297D63B100D70871 /* Shop.swift in Sources */,
+				829DF7102991B1AD00BA0E67 /* Color.swift in Sources */,
 				82985A5929760296002BB673 /* TextScanner.swift in Sources */,
 				8297090A297D52FF00D70871 /* CGFloat.swift in Sources */,
 				82970916297D62BA00D70871 /* Product.swift in Sources */,
@@ -274,6 +323,7 @@
 				829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */,
 				82A01EAE298D98710013B40F /* RootScreen.swift in Sources */,
 				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,
+				829DF71929924E1200BA0E67 /* Font.swift in Sources */,
 				8297091C297D728500D70871 /* ReceiptView.swift in Sources */,
 				8297090E297D54AE00D70871 /* CustomWords.swift in Sources */,
 				829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */,
@@ -410,6 +460,7 @@
 				DEVELOPMENT_TEAM = N37DY79DRF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lik/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Лік";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSCameraUsageDescription = "App uses camera to scan text";
@@ -446,6 +497,7 @@
 				DEVELOPMENT_TEAM = N37DY79DRF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lik/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Лік";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSCameraUsageDescription = "App uses camera to scan text";
@@ -491,6 +543,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-parsing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.11.0;
+			};
+		};
 		82A01EAA298D8B750013B40F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
@@ -502,6 +562,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		82155AC129903E95004BCF8E /* Parsing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */;
+			productName = Parsing;
+		};
 		82A01EAB298D8B750013B40F /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 82A01EAA298D8B750013B40F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
