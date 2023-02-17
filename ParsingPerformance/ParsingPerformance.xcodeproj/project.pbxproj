@@ -17,6 +17,9 @@
 		829DF70829918BA400BA0E67 /* Benchmark-Copying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF70729918BA400BA0E67 /* Benchmark-Copying.swift */; };
 		829DF70A29918E1200BA0E67 /* Benchmark-IntParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF70929918E1200BA0E67 /* Benchmark-IntParsing.swift */; };
 		829DF70C2991900100BA0E67 /* Benchmarking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF70B2991900100BA0E67 /* Benchmarking.swift */; };
+		82C10E3F2995945F00A54B04 /* MarathonRaceParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C10E3E2995945F00A54B04 /* MarathonRaceParser.swift */; };
+		82C10E412995954500A54B04 /* Benchmark-Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C10E402995954500A54B04 /* Benchmark-Race.swift */; };
+		82C10E432995974B00A54B04 /* MarathonRaceParserUtf8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C10E422995974B00A54B04 /* MarathonRaceParserUtf8.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +45,9 @@
 		829DF70729918BA400BA0E67 /* Benchmark-Copying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Benchmark-Copying.swift"; sourceTree = "<group>"; };
 		829DF70929918E1200BA0E67 /* Benchmark-IntParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Benchmark-IntParsing.swift"; sourceTree = "<group>"; };
 		829DF70B2991900100BA0E67 /* Benchmarking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmarking.swift; sourceTree = "<group>"; };
+		82C10E3E2995945F00A54B04 /* MarathonRaceParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarathonRaceParser.swift; sourceTree = "<group>"; };
+		82C10E402995954500A54B04 /* Benchmark-Race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Benchmark-Race.swift"; sourceTree = "<group>"; };
+		82C10E422995974B00A54B04 /* MarathonRaceParserUtf8.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarathonRaceParserUtf8.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +96,8 @@
 				829DF6FD299185DE00BA0E67 /* ReceiptParser.swift */,
 				829DF6FF2991860D00BA0E67 /* CityParser.swift */,
 				829DF7012991870300BA0E67 /* Stream.swift */,
+				82C10E3E2995945F00A54B04 /* MarathonRaceParser.swift */,
+				82C10E422995974B00A54B04 /* MarathonRaceParserUtf8.swift */,
 			);
 			path = Parsers;
 			sourceTree = "<group>";
@@ -100,6 +108,7 @@
 				829DF70729918BA400BA0E67 /* Benchmark-Copying.swift */,
 				829DF70929918E1200BA0E67 /* Benchmark-IntParsing.swift */,
 				829DF70B2991900100BA0E67 /* Benchmarking.swift */,
+				82C10E402995954500A54B04 /* Benchmark-Race.swift */,
 			);
 			path = Benchmarks;
 			sourceTree = "<group>";
@@ -175,6 +184,9 @@
 				829DF70A29918E1200BA0E67 /* Benchmark-IntParsing.swift in Sources */,
 				829DF6FE299185DE00BA0E67 /* ReceiptParser.swift in Sources */,
 				829DF70C2991900100BA0E67 /* Benchmarking.swift in Sources */,
+				82C10E412995954500A54B04 /* Benchmark-Race.swift in Sources */,
+				82C10E432995974B00A54B04 /* MarathonRaceParserUtf8.swift in Sources */,
+				82C10E3F2995945F00A54B04 /* MarathonRaceParser.swift in Sources */,
 				829DF70829918BA400BA0E67 /* Benchmark-Copying.swift in Sources */,
 				829DF7002991860D00BA0E67 /* CityParser.swift in Sources */,
 			);

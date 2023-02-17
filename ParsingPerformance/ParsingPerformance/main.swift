@@ -12,5 +12,6 @@ import Benchmark
 
 Benchmark.main([
 //    copyingBenchmarkSuite
-    intParsingBenchmarkSuite
+//    intParsingBenchmarkSuite
+    raceSuite
 ])

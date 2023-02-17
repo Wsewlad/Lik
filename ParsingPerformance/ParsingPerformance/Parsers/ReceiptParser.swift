@@ -10,7 +10,7 @@ import Foundation
 let address = Parser<Substring, Substring>.prefix(upTo: "ПН")
 let pn = Parser
     .skip("ПН")
-    .skip(zeroOrMOreSpaces)
+    .skip(zeroOrMoreSpaces)
     .take(.uint64)
 let chequeNumber = Parser.int
     .skip("/")
@@ -18,25 +18,25 @@ let chequeNumber = Parser.int
     .skip("/")
     .take(.int)
 let price = Parser.double
-    .skip(zeroOrMOreSpaces)
+    .skip(zeroOrMoreSpaces)
     .skip(.oneOf("Б", "A"))
     .skip(Parser.prefix("\n").zeroOrMore())
 let anount = Parser.double
-    .skip(zeroOrMOreSpaces)
+    .skip(zeroOrMoreSpaces)
     .skip(.oneOf("x", "X", "х", "Х"))
-    .skip(zeroOrMOreSpaces)
+    .skip(zeroOrMoreSpaces)
     .take(.double)
 let sum = Parser
     .skip("СУМА")
-    .skip(zeroOrMOreSpaces)
+    .skip(zeroOrMoreSpaces)
     .take(.double)
-    .skip(zeroOrMOreSpaces)
+    .skip(zeroOrMoreSpaces)
     .skip("ГРН")
 
 let product1 = Parser.prefix(upToParser: anount)
     .flatMap { $0.split(separator: " ").count > 1 ? .never : .always($0) }
     .take(anount)
-    .skip(zeroOrMOreSpaces)
+    .skip(zeroOrMoreSpaces)
     .take(price)
     .map { (name, arg1, cost) in
         let (quantity, price) = arg1

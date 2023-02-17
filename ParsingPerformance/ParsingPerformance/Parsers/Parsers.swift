@@ -141,15 +141,64 @@ extension Parser where Input == Substring, Output == Double {
     }
 }
 
+//MARK: - double (UTF8)
+extension Parser where Input == Substring.UTF8View, Output == Double {
+    static let double = Self { input in
+        let original = input
+        let sign: Double
+        if input.first == .init(ascii: "-") {
+            sign = -1
+            input.removeFirst()
+        } else if input.first == .init(ascii: "+") {
+            sign = 1
+            input.removeFirst()
+        } else {
+            sign = 1
+        }
+        
+        var decimalCount = 0
+        let prefix = input.prefix { c in
+            if c == .init(ascii: ".") { decimalCount += 1 }
+            return (.init(ascii: "0") ... .init(ascii: "9")).contains(c) || (c == .init(ascii: ".") && decimalCount <= 1)
+        }
+        
+        guard let match = Double(String(Substring(prefix)))
+        else {
+            input = original
+            return nil
+        }
+        
+        input.removeFirst(prefix.count)
+        return match * sign
+    }
+}
+
 //Parser.double.run("42.3423 Hello world!")
 //Parser.double.run("42,3423 Hello world!")
 
 //MARK: - char
-extension Parser where Input == Substring, Output == Character {
-    static let char = Self { input in
-        guard !input.isEmpty else { return nil }
-        return input.removeFirst()
+extension Parser
+where
+    Input: Collection,
+    Input.SubSequence == Input,
+    Output == Input.Element
+{
+    static var first: Self {
+        .init { input in
+            guard !input.isEmpty else { return nil }
+            return input.removeFirst()
+        }
     }
+}
+
+
+
+extension Parser where Input == Substring, Output == Character {
+    static let char = first
+//    static let char = Self { input in
+//        guard !input.isEmpty else { return nil }
+//        return input.removeFirst()
+//    }
 }
 
 //MARK: - map
@@ -430,105 +479,6 @@ extension Parser {
 let temperature = Parser.int
     .skip("°F")
 //temperature.run("100°F")
-
-//MARK: - Coordinate
-//"40.6782° N, 73.9442° W"
-
-struct Coordinate {
-    let latitude: Double
-    let longitude: Double
-}
-
-let northSouth = Parser.char.flatMap {
-    $0 == "N" ? .always(1.0)
-    : $0 == "S" ? .always(-1)
-    : .never
-}
-
-let eastWest = Parser.char.flatMap {
-    $0 == "E" ? .always(1.0)
-    : $0 == "W" ? .always(-1)
-    : .never
-}
-
-let zeroOrMOreSpaces = Parser<Substring, Void>.prefix(" ").zeroOrMore()
-
-let latitude = Parser.double
-    .skip("°")
-    .skip(zeroOrMOreSpaces)
-    .take(northSouth)
-    .map(*)
-
-let longtitude = Parser.double
-    .skip("°")
-    .skip(zeroOrMOreSpaces)
-    .take(eastWest)
-    .map(*)
-
-let coord = latitude
-    .skip(",")
-    .skip(zeroOrMOreSpaces)
-    .take(longtitude)
-    .map(Coordinate.init)
-
-//coord.run("40.6782° N, 73.9442° W")
-//coord.run("40.6782°   N,   73.9442° W")
-
-//MARK: - Currency
-enum Currency: String, CaseIterable {
-    case usd = "$"
-    case eur = "€"
-    case gbp = "£"
-    case uah = "₴"
-}
-
-struct Money {
-    let currency: Currency
-    let value: Double
-}
-
-let currency = Parser<Substring, Currency>.oneOf(
-    Currency.allCases.map { currency in Parser.prefix(currency.rawValue[...]).map { currency } }
-)
-
-let money = zip(currency, .double)
-    .map(Money.init(currency:value:))
-
-//money.run("$200.5")
-//money.run("200.5")
-//money.run("₴200.5")
-
-//MARK: - Races
-struct Race {
-    let location: String
-    let entranceFee: Money
-    let path: [Coordinate]
-}
-
-let locationName = Parser<Substring, Substring>.prefix(while: { $0 != "," })
-
-let race = locationName
-    .map(String.init)
-    .skip(", ")
-    .take(money)
-    .skip("\n")
-    .take(coord.zeroOrMore(seperatedBy: "\n"))
-    .map(Race.init(location:entranceFee:path:))
-
-let races = race.zeroOrMore(seperatedBy: "\n---\n")
-
-let upcomingRaces = """
-New York City, $300
-40.60248° N, 74.06433° W
-40.61807° N, 74.02966° W
----
-Berlin, €100
-13.36015° N, 52.51516° E
-13.33999° N, 52.51381° E
-"""
-
-//race.run(upcomingRaces[...])
-//races.run(upcomingRaces[...])
 
 struct Product: Codable {
     struct Id: Hashable, Codable {
