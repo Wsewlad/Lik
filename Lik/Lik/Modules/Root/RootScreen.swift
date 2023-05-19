@@ -75,7 +75,11 @@ private extension RootScreen {
             PlusView()
         }
         .padding(25)
-        .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic], onCompletion: fileImportResultAction(result:))
+        .fileImporter(
+            isPresented: $isFileImporterPresented,
+            allowedContentTypes: [.png, .jpeg, .heic],
+            onCompletion: fileImportResultAction(result:)
+        )
         .sheet(isPresented: $isCameraPresented) {
             DocumentCamera(
                 cancelAction: { isCameraPresented = false },
