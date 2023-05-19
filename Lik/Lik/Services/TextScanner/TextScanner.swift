@@ -47,21 +47,21 @@ extension TextScanner {
         DispatchQueue.global(qos: .userInitiated).async {
             for pageNumber in 0..<scan.pageCount {
                 let image = scan.imageOfPage(at: pageNumber)
-                self.processImage(image: image)
+                self.performRecognitionRequest(image: image)
             }
         }
     }
     
     func parseData(from image: UIImage) {
         DispatchQueue.global(qos: .userInitiated).async {
-            self.processImage(image: image)
+            self.performRecognitionRequest(image: image)
         }
     }
 }
 
 //MARK: - Perform Image Recognition Request
 extension TextScanner {
-    private func processImage(image: UIImage) {
+    private func performRecognitionRequest(image: UIImage) {
         guard let cgImage = image.cgImage else {
             print("Failed to get cgimage from input image")
             return
