@@ -25,9 +25,8 @@
 		829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC2102973112B002D0CA0 /* AppViewModel.swift */; };
 		829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21229731769002D0CA0 /* DataScannerView.swift */; };
 		829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */; };
-		82A01EA9298D8A570013B40F /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EA8298D8A570013B40F /* Root.swift */; };
-		82A01EAC298D8B750013B40F /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 82A01EAB298D8B750013B40F /* ComposableArchitecture */; settings = {ATTRIBUTES = (Required, ); }; };
 		82A01EAE298D98710013B40F /* RootScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EAD298D98710013B40F /* RootScreen.swift */; };
+		82A19AFE2A17795700EBC4CA /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A19AFD2A17795700EBC4CA /* RootViewModel.swift */; };
 		82A20A7B299304B1009A1F9E /* Parses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A20A7A299304B0009A1F9E /* Parses.swift */; };
 		82A20A7D299304E9009A1F9E /* RParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A20A7C299304E9009A1F9E /* RParser.swift */; };
 		82A39D5A2972E327004F6267 /* LikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D592972E327004F6267 /* LikApp.swift */; };
@@ -54,8 +53,8 @@
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
 		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
-		82A01EA8298D8A570013B40F /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		82A01EAD298D98710013B40F /* RootScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScreen.swift; sourceTree = "<group>"; };
+		82A19AFD2A17795700EBC4CA /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		82A20A7A299304B0009A1F9E /* Parses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parses.swift; sourceTree = "<group>"; };
 		82A20A7C299304E9009A1F9E /* RParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RParser.swift; sourceTree = "<group>"; };
 		82A39D562972E327004F6267 /* Lik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lik.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +69,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82A01EAC298D8B750013B40F /* ComposableArchitecture in Frameworks */,
 				82155AC229903E95004BCF8E /* Parsing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,7 +182,7 @@
 		82A01EA7298D8A400013B40F /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				82A01EA8298D8A570013B40F /* Root.swift */,
+				82A19AFD2A17795700EBC4CA /* RootViewModel.swift */,
 				82A01EAD298D98710013B40F /* RootScreen.swift */,
 			);
 			path = Root;
@@ -264,7 +262,6 @@
 			);
 			name = Lik;
 			packageProductDependencies = (
-				82A01EAB298D8B750013B40F /* ComposableArchitecture */,
 				82155AC129903E95004BCF8E /* Parsing */,
 			);
 			productName = ReceiptScanner;
@@ -296,7 +293,6 @@
 			);
 			mainGroup = 82A39D4D2972E327004F6267;
 			packageReferences = (
-				82A01EAA298D8B750013B40F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */,
 			);
 			productRefGroup = 82A39D572972E327004F6267 /* Products */;
@@ -334,8 +330,8 @@
 				82985A5929760296002BB673 /* TextScanner.swift in Sources */,
 				8297090A297D52FF00D70871 /* CGFloat.swift in Sources */,
 				82970916297D62BA00D70871 /* Product.swift in Sources */,
+				82A19AFE2A17795700EBC4CA /* RootViewModel.swift in Sources */,
 				82A39D5A2972E327004F6267 /* LikApp.swift in Sources */,
-				82A01EA9298D8A570013B40F /* Root.swift in Sources */,
 				8297091E297DE0FA00D70871 /* DateFormatter.swift in Sources */,
 				829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */,
 				82A01EAE298D98710013B40F /* RootScreen.swift in Sources */,
@@ -571,14 +567,6 @@
 				minimumVersion = 0.11.0;
 			};
 		};
-		82A01EAA298D8B750013B40F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.50.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -586,11 +574,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */;
 			productName = Parsing;
-		};
-		82A01EAB298D8B750013B40F /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 82A01EAA298D8B750013B40F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

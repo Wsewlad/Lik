@@ -6,18 +6,12 @@
 //
 
 import SwiftUI
-import ComposableArchitecture
 
 @main
 struct LikApp: App {
     var body: some Scene {
         WindowGroup {
-            RootScreen(
-                store: Store(
-                    initialState: Root.State(),
-                    reducer: Root()
-                )
-            )
+            RootScreen()
         }
     }
 }

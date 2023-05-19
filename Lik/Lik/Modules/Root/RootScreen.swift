@@ -6,12 +6,11 @@
 //
 
 import SwiftUI
-import ComposableArchitecture
 import Vision
 import VisionKit
 
 struct RootScreen: View {
-    let store: StoreOf<Root>
+    @StateObject private var viewModel = RootViewModel()
     
     @StateObject private var textScanner: TextScanner = .init()
     
@@ -19,19 +18,17 @@ struct RootScreen: View {
     @State private var isFileImporterPresented: Bool = false
 
     var body: some View {
-        WithViewStore(self.store, observe: { $0 }) { viewStore in
-            NavigationStack {
-                ZStack(alignment: .bottomTrailing) {
-                    receiptsListView
-                    
-                    buttonsView
-                }
-                .navigationBarTitle(" ", displayMode: .inline)
-                .onAppear {
-                    guard textScanner.delegate == nil else { return }
-                    textScanner.delegate = ReceiptParser { receipt in
-                        viewStore.send(.newReceiptParsed(receipt))
-                    }
+        NavigationStack {
+            ZStack(alignment: .bottomTrailing) {
+                receiptsListView
+                
+                buttonsView
+            }
+            .navigationBarTitle(" ", displayMode: .inline)
+            .onAppear {
+                guard textScanner.delegate == nil else { return }
+                textScanner.delegate = ReceiptParser { receipt in
+                    viewModel.addNewReceipt(receipt)
                 }
             }
         }
@@ -41,18 +38,16 @@ struct RootScreen: View {
 //MARK: - Receipts View
 private extension RootScreen {
     var receiptsListView: some View {
-        WithViewStore(self.store, observe: { $0 }) { viewStore in
-            List {
-                ForEach(viewStore.state.receipts, id: \.id) { receipt in
-                    ReceiptView(receipt: receipt)
-                        .padding(.bottom, viewStore.state.receipts.last == receipt ? 100 : 0)
-                }
-                .listRowInsets(.init(top: 15, leading: 16, bottom: 0, trailing: 16))
-                .listRowSeparator(.hidden)
+        List {
+            ForEach(viewModel.receipts, id: \.id) { receipt in
+                ReceiptView(receipt: receipt)
+                    .padding(.bottom, viewModel.receipts.last == receipt ? 100 : 0)
             }
-            .scrollContentBackground(.hidden)
-            .listStyle(.plain)
+            .listRowInsets(.init(top: 15, leading: 16, bottom: 0, trailing: 16))
+            .listRowSeparator(.hidden)
         }
+        .scrollContentBackground(.hidden)
+        .listStyle(.plain)
     }
 }
 
