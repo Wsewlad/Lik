@@ -16,5 +16,6 @@
 ## Goals
 * Create project from scratch (From design to publishing and support)
 * Get practical experience using:
-  - PointFree's [The Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture), [swift-parsing](https://github.com/pointfreeco/swift-parsing) and [Dependencies](https://github.com/pointfreeco/swift-dependencies)
+  - MVVM
+  - PointFree's [swift-parsing](https://github.com/pointfreeco/swift-parsing) and [Dependencies](https://github.com/pointfreeco/swift-dependencies)
   - Apple's [Vision](https://developer.apple.com/documentation/vision) framework
