@@ -11,7 +11,6 @@ import VisionKit
 
 struct RootScreen: View {
     @StateObject private var viewModel = RootViewModel()
-    
     @StateObject private var textScanner: TextScanner = .init()
     
     @State private var isCameraPresented: Bool = false
@@ -27,6 +26,7 @@ struct RootScreen: View {
             .navigationBarTitle(" ", displayMode: .inline)
             .onAppear {
                 guard textScanner.delegate == nil else { return }
+                
                 textScanner.delegate = ReceiptParser { receipt in
                     viewModel.addNewReceipt(receipt)
                 }
@@ -75,7 +75,7 @@ private extension RootScreen {
             PlusView()
         }
         .padding(25)
-        .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic], onCompletion: fileImportResult(result:))
+        .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.png, .jpeg, .heic], onCompletion: fileImportResultAction(result:))
         .sheet(isPresented: $isCameraPresented) {
             DocumentCamera(
                 cancelAction: { isCameraPresented = false },
@@ -85,21 +85,24 @@ private extension RootScreen {
     }
 }
 
-//MARK: - Actions
+//MARK: - Camera Result Action
 private extension RootScreen {
     func cameraResultAction(result: CameraResult) {
         switch result {
         case let .success(scan):
             textScanner.parseData(from: scan)
-
+            
         case let .failure(error):
             print(error.localizedDescription)
         }
         
         isCameraPresented = false
     }
-    
-    func fileImportResult(result: Result<URL, Error>) {
+}
+
+//MARK: - fileImport Result Action
+private extension RootScreen {
+    func fileImportResultAction(result: Result<URL, Error>) {
         switch result {
         case let .success(url):
             guard url.startAccessingSecurityScopedResource(),

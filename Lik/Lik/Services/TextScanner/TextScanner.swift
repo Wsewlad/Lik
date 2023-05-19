@@ -9,7 +9,6 @@ import Foundation
 import VisionKit
 import Vision
 
-//MARK: - TextScanner
 class TextScanner: ObservableObject {
     private var textRecognitionRequest = VNRecognizeTextRequest()
     var delegate: RecognizedTextDataSourceDelegate?
@@ -17,7 +16,33 @@ class TextScanner: ObservableObject {
     init() {
         self.setupRecognizeTextRequest()
     }
-    
+}
+
+//MARK: - Setup RecognizeTextRequest
+extension TextScanner {
+    private func setupRecognizeTextRequest() {
+        textRecognitionRequest = VNRecognizeTextRequest { request, error in
+            guard error == nil else { return }
+            
+            if let results = request.results, !results.isEmpty {
+                if let observations = request.results as? [VNRecognizedTextObservation] {
+                    DispatchQueue.main.async {
+                        self.delegate?.parse(observations)
+                    }
+                }
+            }
+        }
+        
+        //        textRecognitionRequest.supportedRecognitionLanguages()
+        textRecognitionRequest.usesLanguageCorrection = true
+        textRecognitionRequest.recognitionLanguages = ["uk-UA"]
+        textRecognitionRequest.customWords = Array(kCustomWords)
+        textRecognitionRequest.recognitionLevel = .accurate
+    }
+}
+
+//MARK: - Parse
+extension TextScanner {
     func parseData(from scan: VNDocumentCameraScan) {
         DispatchQueue.global(qos: .userInitiated).async {
             for pageNumber in 0..<scan.pageCount {
@@ -32,7 +57,10 @@ class TextScanner: ObservableObject {
             self.processImage(image: image)
         }
     }
-    
+}
+
+//MARK: - Perform Image Recognition Request
+extension TextScanner {
     private func processImage(image: UIImage) {
         guard let cgImage = image.cgImage else {
             print("Failed to get cgimage from input image")
@@ -45,26 +73,5 @@ class TextScanner: ObservableObject {
         } catch {
             print(error)
         }
-    }
-    
-    //MARK: - Setup RecognizeTextRequest
-    private func setupRecognizeTextRequest() {
-        textRecognitionRequest = VNRecognizeTextRequest { (request, error) in
-            guard error == nil else { return }
-            
-            if let results = request.results, !results.isEmpty {
-                if let requestResults = request.results as? [VNRecognizedTextObservation] {
-                    DispatchQueue.main.async {
-                        self.delegate?.parse(requestResults)
-                    }
-                }
-            }
-        }
-        
-        //        textRecognitionRequest.supportedRecognitionLanguages()
-        textRecognitionRequest.usesLanguageCorrection = true
-        textRecognitionRequest.recognitionLanguages = ["uk-UA"]
-        textRecognitionRequest.customWords = Array(kCustomWords)
-        textRecognitionRequest.recognitionLevel = .accurate
     }
 }

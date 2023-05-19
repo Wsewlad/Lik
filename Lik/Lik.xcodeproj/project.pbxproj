@@ -108,9 +108,9 @@
 		8297090C297D545700D70871 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				82A19AFF2A1786B400EBC4CA /* TextScanner */,
 				82A20A7E299304F4009A1F9E /* Parsing */,
 				829EC2102973112B002D0CA0 /* AppViewModel.swift */,
-				82985A5829760296002BB673 /* TextScanner.swift */,
 				8297090D297D54AE00D70871 /* CustomWords.swift */,
 				82970919297D672600D70871 /* ReceiptParser.swift */,
 			);
@@ -186,6 +186,14 @@
 				82A01EAD298D98710013B40F /* RootScreen.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		82A19AFF2A1786B400EBC4CA /* TextScanner */ = {
+			isa = PBXGroup;
+			children = (
+				82985A5829760296002BB673 /* TextScanner.swift */,
+			);
+			path = TextScanner;
 			sourceTree = "<group>";
 		};
 		82A20A7E299304F4009A1F9E /* Parsing */ = {
