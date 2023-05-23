@@ -8,6 +8,7 @@
 import SwiftUI
 import Vision
 import VisionKit
+import LikVision
 
 struct RootScreen: View {
     @StateObject private var viewModel = RootViewModel()
@@ -28,7 +29,7 @@ struct RootScreen: View {
                 guard textScanner.delegate == nil else { return }
                 
                 textScanner.delegate = ReceiptParser { receipt in
-                    viewModel.addNewReceipt(receipt)
+                    viewModel.addNewReceipt(receipt.asReceipt)
                 }
             }
         }

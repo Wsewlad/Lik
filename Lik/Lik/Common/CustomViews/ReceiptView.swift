@@ -25,29 +25,12 @@ struct ReceiptView: View {
                             .font(.body())
                         
                         if let quantity = product.quantity {
-                            Text("\(quantity.formatted(points: 3)) X \(product.price.formatted(points: 2))")
+                            Text("\(quantity.formatted(points: 3)))")
                                 .font(.subheadline())
                         }
                     }
-                    Spacer()
-                    Text(product.cost.formatted(points: 2))
-                        .font(.callout())
                 }
             }
-            
-            Divider()
-            
-            HStack {
-                Text("Сума")
-                Spacer()
-                Text(receipt.sum.formatted(points: 2))
-            }
-            .font(.body())
-            
-            Divider()
-            
-            Text(receipt.text)
-                .font(.body())
         }
         .padding(16)
         .foregroundColor(.secondaryText)
@@ -65,12 +48,12 @@ struct ReceiptView_Previews: PreviewProvider {
                 id: .init(value: "test"),
                 date: Date(),
                 products: [
-                    .init(id: .init(value: "1"), name: "Хл300КиївхлСімейнНар", price: 18.99, cost: 18.99),
-                    .init(id: .init(value: "2"), name: "Рул300КиївхлМакВ/гВу", quantity: 0.300, price: 100, cost: 30),
-                    .init(id: .init(value: "3"), name: "КартопляКгБіла", quantity: 1.000, price: 8.99, cost: 8.99)
-                ],
-                sum: 150,
-                text: "Хл300КиївхлСімейнНар  18.99\nРул300КиївхлМакВ/гВу  0.300 x 100  30"
+                    .init(id: .init(value: "1"), name: "Хл300КиївхлСімейнНар", quantity: 1),
+                    .init(id: .init(value: "2"), name: "Рул300КиївхлМакВ/гВу", quantity: 0.300),
+                    .init(id: .init(value: "3"), name: "КартопляКгБіла", quantity: 1.000)
+                ]//,
+//                sum: 150,
+//                text: "Хл300КиївхлСімейнНар  18.99\nРул300КиївхлМакВ/гВу  0.300 x 100  30"
             )
         )
         .padding()

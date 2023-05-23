@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import LikVision
 
 struct Receipt: Equatable, Codable {
     struct Id: Hashable, Codable {
@@ -13,10 +14,16 @@ struct Receipt: Equatable, Codable {
     }
     
     var id: Id
-    var shop: Shop?
     var date: Date
     var products: [Product]
-    var sum: Double
-    var snapshotUrl: URL?
-    var text: String
+}
+
+extension LVReceipt {
+    var asReceipt: Receipt {
+        .init(
+            id: .init(value: id.value),
+            date: date,
+            products: products.map { $0.asProduct }
+        )
+    }
 }

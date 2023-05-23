@@ -9,17 +9,20 @@ import Foundation
 import VisionKit
 import Vision
 
-public class TextScanner: ObservableObject {
+public class TextScanner: ObservableObject, TextScannerProtocol {
     private var textRecognitionRequest = VNRecognizeTextRequest()
-    var delegate: RecognizedTextDataSourceDelegate?
+    private let customWords: [String]
     
-    init() {
+    public var delegate: RecognizedTextDataSourceDelegate?
+    
+    public init(customWords: [String] = []) {
+        self.customWords = customWords
         self.setupRecognizeTextRequest()
     }
 }
 
 //MARK: - Setup RecognizeTextRequest
-public extension TextScanner {
+extension TextScanner {
     private func setupRecognizeTextRequest() {
         textRecognitionRequest = VNRecognizeTextRequest { request, error in
             guard error == nil else { return }
@@ -36,14 +39,14 @@ public extension TextScanner {
         //        textRecognitionRequest.supportedRecognitionLanguages()
         textRecognitionRequest.usesLanguageCorrection = true
         textRecognitionRequest.recognitionLanguages = ["uk-UA"]
-        textRecognitionRequest.customWords = Array(kCustomWords)
+        textRecognitionRequest.customWords = customWords
         textRecognitionRequest.recognitionLevel = .accurate
     }
 }
 
 //MARK: - Parse
-public extension TextScanner {
-    func parseData(from scan: VNDocumentCameraScan) {
+extension TextScanner {
+    public func parseData(from scan: VNDocumentCameraScan) {
         DispatchQueue.global(qos: .userInitiated).async {
             for pageNumber in 0..<scan.pageCount {
                 let image = scan.imageOfPage(at: pageNumber)
@@ -52,7 +55,7 @@ public extension TextScanner {
         }
     }
     
-    func parseData(from image: UIImage) {
+    public func parseData(from image: UIImage) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.performRecognitionRequest(image: image)
         }
