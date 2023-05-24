@@ -46,7 +46,6 @@ struct DocumentCamera: UIViewControllerRepresentable {
 //MARK: - Coordinator
 extension DocumentCamera {
     class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
-        
         private let cancelAction: CancelAction
         private let resultAction: ResultAction
         
@@ -59,11 +58,15 @@ extension DocumentCamera {
         }
         
         func documentCameraViewControllerDidCancel(
-            _ controller: VNDocumentCameraViewController) {
-                cancelAction()
-            }
+            _ controller: VNDocumentCameraViewController
+        ) {
+            cancelAction()
+        }
         
-        func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
+        func documentCameraViewController(
+            _ controller: VNDocumentCameraViewController,
+            didFailWithError error: Error
+        ) {
             resultAction(.failure(error))
         }
         

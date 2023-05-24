@@ -8,16 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		82155AC229903E95004BCF8E /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 82155AC129903E95004BCF8E /* Parsing */; };
+		826CD7422A1BD98100413306 /* LikVision in Frameworks */ = {isa = PBXBuildFile; productRef = 826CD7412A1BD98100413306 /* LikVision */; };
 		8297090A297D52FF00D70871 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970909297D52FF00D70871 /* CGFloat.swift */; };
-		8297090E297D54AE00D70871 /* CustomWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297090D297D54AE00D70871 /* CustomWords.swift */; };
 		82970910297D61D100D70871 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297090F297D61D100D70871 /* Array.swift */; };
 		82970914297D626400D70871 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970913297D626400D70871 /* Receipt.swift */; };
 		82970916297D62BA00D70871 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970915297D62BA00D70871 /* Product.swift */; };
-		82970918297D63B100D70871 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970917297D63B100D70871 /* Shop.swift */; };
-		8297091A297D672600D70871 /* ReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970919297D672600D70871 /* ReceiptParser.swift */; };
 		8297091C297D728500D70871 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091B297D728500D70871 /* ReceiptView.swift */; };
 		8297091E297DE0FA00D70871 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091D297DE0F900D70871 /* DateFormatter.swift */; };
-		82985A5929760296002BB673 /* TextScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82985A5829760296002BB673 /* TextScanner.swift */; };
 		829CA1E129926F860090779E /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829CA1E029926F860090779E /* AddButton.swift */; };
 		829DF7102991B1AD00BA0E67 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF70F2991B1AD00BA0E67 /* Color.swift */; };
 		829DF7162991B32600BA0E67 /* Baskerville.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 829DF7152991B32600BA0E67 /* Baskerville.ttc */; };
@@ -27,24 +24,19 @@
 		829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */; };
 		82A01EAE298D98710013B40F /* RootScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EAD298D98710013B40F /* RootScreen.swift */; };
 		82A19AFE2A17795700EBC4CA /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A19AFD2A17795700EBC4CA /* RootViewModel.swift */; };
-		82A20A7B299304B1009A1F9E /* Parses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A20A7A299304B0009A1F9E /* Parses.swift */; };
-		82A20A7D299304E9009A1F9E /* RParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A20A7C299304E9009A1F9E /* RParser.swift */; };
 		82A39D5A2972E327004F6267 /* LikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D592972E327004F6267 /* LikApp.swift */; };
 		82A39D5E2972E32C004F6267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D5D2972E32C004F6267 /* Assets.xcassets */; };
 		82A39D612972E32C004F6267 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D602972E32C004F6267 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		826CD7402A1BD49400413306 /* LikVision */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = LikVision; path = ../LikVision; sourceTree = "<group>"; };
 		82970909297D52FF00D70871 /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
-		8297090D297D54AE00D70871 /* CustomWords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWords.swift; sourceTree = "<group>"; };
 		8297090F297D61D100D70871 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		82970913297D626400D70871 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		82970915297D62BA00D70871 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		82970917297D63B100D70871 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
-		82970919297D672600D70871 /* ReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptParser.swift; sourceTree = "<group>"; };
 		8297091B297D728500D70871 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		8297091D297DE0F900D70871 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
-		82985A5829760296002BB673 /* TextScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScanner.swift; sourceTree = "<group>"; };
 		829CA1E029926F860090779E /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		829DF70F2991B1AD00BA0E67 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		829DF7152991B32600BA0E67 /* Baskerville.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baskerville.ttc; sourceTree = "<group>"; };
@@ -55,8 +47,6 @@
 		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
 		82A01EAD298D98710013B40F /* RootScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScreen.swift; sourceTree = "<group>"; };
 		82A19AFD2A17795700EBC4CA /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
-		82A20A7A299304B0009A1F9E /* Parses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parses.swift; sourceTree = "<group>"; };
-		82A20A7C299304E9009A1F9E /* RParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RParser.swift; sourceTree = "<group>"; };
 		82A39D562972E327004F6267 /* Lik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A39D592972E327004F6267 /* LikApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikApp.swift; sourceTree = "<group>"; };
 		82A39D5D2972E32C004F6267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -70,12 +60,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				82155AC229903E95004BCF8E /* Parsing in Frameworks */,
+				826CD7422A1BD98100413306 /* LikVision in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		826CD73F2A1BD49400413306 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				826CD7402A1BD49400413306 /* LikVision */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		82970907297D52D500D70871 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,11 +107,7 @@
 		8297090C297D545700D70871 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				82A20A7E299304F4009A1F9E /* Parsing */,
 				829EC2102973112B002D0CA0 /* AppViewModel.swift */,
-				82985A5829760296002BB673 /* TextScanner.swift */,
-				8297090D297D54AE00D70871 /* CustomWords.swift */,
-				82970919297D672600D70871 /* ReceiptParser.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -130,7 +125,6 @@
 			children = (
 				82970913297D626400D70871 /* Receipt.swift */,
 				82970915297D62BA00D70871 /* Product.swift */,
-				82970917297D63B100D70871 /* Shop.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -188,18 +182,10 @@
 			path = Root;
 			sourceTree = "<group>";
 		};
-		82A20A7E299304F4009A1F9E /* Parsing */ = {
-			isa = PBXGroup;
-			children = (
-				82A20A7A299304B0009A1F9E /* Parses.swift */,
-				82A20A7C299304E9009A1F9E /* RParser.swift */,
-			);
-			path = Parsing;
-			sourceTree = "<group>";
-		};
 		82A39D4D2972E327004F6267 = {
 			isa = PBXGroup;
 			children = (
+				826CD73F2A1BD49400413306 /* Packages */,
 				82A39D582972E327004F6267 /* Lik */,
 				82A39D572972E327004F6267 /* Products */,
 				82A9D27E298DDA6A00A111AF /* Frameworks */,
@@ -263,6 +249,7 @@
 			name = Lik;
 			packageProductDependencies = (
 				82155AC129903E95004BCF8E /* Parsing */,
+				826CD7412A1BD98100413306 /* LikVision */,
 			);
 			productName = ReceiptScanner;
 			productReference = 82A39D562972E327004F6267 /* Lik.app */;
@@ -322,12 +309,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8297091A297D672600D70871 /* ReceiptParser.swift in Sources */,
 				82970914297D626400D70871 /* Receipt.swift in Sources */,
 				82970910297D61D100D70871 /* Array.swift in Sources */,
-				82970918297D63B100D70871 /* Shop.swift in Sources */,
 				829DF7102991B1AD00BA0E67 /* Color.swift in Sources */,
-				82985A5929760296002BB673 /* TextScanner.swift in Sources */,
 				8297090A297D52FF00D70871 /* CGFloat.swift in Sources */,
 				82970916297D62BA00D70871 /* Product.swift in Sources */,
 				82A19AFE2A17795700EBC4CA /* RootViewModel.swift in Sources */,
@@ -338,9 +322,6 @@
 				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,
 				829DF71929924E1200BA0E67 /* Font.swift in Sources */,
 				8297091C297D728500D70871 /* ReceiptView.swift in Sources */,
-				82A20A7D299304E9009A1F9E /* RParser.swift in Sources */,
-				8297090E297D54AE00D70871 /* CustomWords.swift in Sources */,
-				82A20A7B299304B1009A1F9E /* Parses.swift in Sources */,
 				829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */,
 				829CA1E129926F860090779E /* AddButton.swift in Sources */,
 			);
@@ -574,6 +555,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */;
 			productName = Parsing;
+		};
+		826CD7412A1BD98100413306 /* LikVision */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LikVision;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

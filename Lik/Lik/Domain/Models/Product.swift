@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import LikVision
 
 struct Product: Equatable, Codable {
     struct Id: Hashable, Codable {
@@ -14,7 +15,15 @@ struct Product: Equatable, Codable {
     
     var id: Id
     var name: String
-    var quantity: Double?
-    var price: Double
-    var cost: Double
+    var quantity: Double
+}
+
+extension LVProduct {
+    var asProduct: Product {
+        .init(
+            id: .init(value: id.value),
+            name: name,
+            quantity: quantity
+        )
+    }
 }
