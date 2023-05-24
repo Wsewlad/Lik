@@ -12,10 +12,6 @@ import LikVision
 
 struct RootScreen: View {
     @StateObject private var viewModel = RootViewModel()
-    @StateObject private var textScanner = TextScanner()
-    
-    @State private var isCameraPresented: Bool = false
-    @State private var isFileImporterPresented: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -25,13 +21,6 @@ struct RootScreen: View {
                 buttonsView
             }
             .navigationBarTitle(" ", displayMode: .inline)
-        }
-        .onAppear {
-            guard textScanner.delegate == nil else { return }
-            
-            self.textScanner.delegate = ReceiptParser { receipt in
-                viewModel.addNewReceipt(receipt.asReceipt)
-            }
         }
     }
 }
@@ -57,16 +46,15 @@ private extension RootScreen {
     var buttonsView: some View {
         Menu {
             Button {
-                isFileImporterPresented.toggle()
+                viewModel.isFileImporterPresented.toggle()
             } label: {
                 Label("Open files", systemImage: "folder.fill")
                     .foregroundStyle(Color.blue)
-//                    .foregroundColor(.blue)
             }
             Button {
                 guard VNDocumentCameraViewController.isSupported
                 else { print("Document scanning not supported"); return }
-                isCameraPresented.toggle()
+                viewModel.isCameraPresented.toggle()
             } label: {
                 Label("Open camera", systemImage: "camera.viewfinder")
                     .symbolRenderingMode(.palette)
@@ -77,51 +65,15 @@ private extension RootScreen {
         }
         .padding(25)
         .fileImporter(
-            isPresented: $isFileImporterPresented,
+            isPresented: $viewModel.isFileImporterPresented,
             allowedContentTypes: [.png, .jpeg, .heic],
-            onCompletion: fileImportResultAction(result:)
+            onCompletion: viewModel.fileImportResultAction(result:)
         )
-        .sheet(isPresented: $isCameraPresented) {
+        .sheet(isPresented: $viewModel.isCameraPresented) {
             DocumentCamera(
-                cancelAction: { isCameraPresented = false },
-                resultAction: cameraResultAction(result:)
+                cancelAction: { viewModel.isCameraPresented = false },
+                resultAction: viewModel.cameraResultAction(result:)
             )
-        }
-    }
-}
-
-//MARK: - Camera Result Action
-private extension RootScreen {
-    func cameraResultAction(result: CameraResult) {
-        switch result {
-        case let .success(scan):
-            textScanner.parseData(from: scan)
-            
-        case let .failure(error):
-            print(error.localizedDescription)
-        }
-        
-        isCameraPresented = false
-    }
-}
-
-//MARK: - fileImport Result Action
-private extension RootScreen {
-    func fileImportResultAction(result: Result<URL, Error>) {
-        switch result {
-        case let .success(url):
-            guard url.startAccessingSecurityScopedResource(),
-                  let imageData = try? Data(contentsOf: url),
-                  let image = UIImage(data: imageData)
-            else {
-                print("Can't read file")
-                return
-            }
-            url.stopAccessingSecurityScopedResource()
-            textScanner.parseData(from: image)
-            
-        case let .failure(error):
-            print(error.localizedDescription)
         }
     }
 }

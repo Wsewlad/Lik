@@ -34,6 +34,7 @@ public class TextScanner: ObservableObject, TextScannerProtocol {
 extension TextScanner {
     private func setupRecognizeTextRequest() {
         textRecognitionRequest = VNRecognizeTextRequest { [weak self] request, error in
+            // TODO: - handle error
             guard error == nil else { return }
             
             if let results = request.results, !results.isEmpty {
@@ -83,6 +84,7 @@ extension TextScanner {
         do {
             try handler.perform([textRecognitionRequest])
         } catch {
+            // TODO: - handle error
             print(error)
         }
     }

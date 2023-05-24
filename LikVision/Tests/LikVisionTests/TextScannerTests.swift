@@ -87,7 +87,5 @@ extension TextScannerTests {
         // Assert
         wait(for: [mockReceiptParser.expectation], timeout: 10)
         XCTAssertEqual(mockReceiptParser.concatenatedResult, expectedResult, "The TextScanner observations result should equal to expected one.")
-        
-        sut = nil
     }
 }
