@@ -9,9 +9,9 @@ import Foundation
 import Vision
 
 public class ReceiptParser: RecognizedTextDataSourceDelegate {
-    var onDidParse: (LVReceipt) -> Void
+    private var onDidParse: (LVReceipt) -> Void
     
-    public init(onDidParse: @escaping (LVReceipt) -> Void) {
+    required public init(onDidParse: @escaping (LVReceipt) -> Void) {
         self.onDidParse = onDidParse
     }
     

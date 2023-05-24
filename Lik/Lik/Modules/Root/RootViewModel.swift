@@ -14,7 +14,7 @@ class RootViewModel: ObservableObject {
     @Published var isCameraPresented: Bool = false
     @Published var isFileImporterPresented: Bool = false
     
-    private(set) var textScanner = TextScanner()
+    private(set) var textScanner: TextScanner
     
     init(textScanner: TextScanner = TextScanner()) {
         self.textScanner = textScanner
@@ -37,6 +37,7 @@ extension RootViewModel {
             textScanner.parseData(from: scan)
             
         case let .failure(error):
+            // TODO: - handle error
             print(error.localizedDescription)
         }
         
@@ -54,12 +55,14 @@ extension RootViewModel {
                   let image = UIImage(data: imageData)
             else {
                 print("Can't read file")
+                // TODO: - handle error
                 return
             }
             url.stopAccessingSecurityScopedResource()
             textScanner.parseData(from: image)
             
         case let .failure(error):
+            // TODO: - handle error
             print(error.localizedDescription)
         }
     }

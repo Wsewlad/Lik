@@ -18,6 +18,11 @@ class MockReceiptParser: RecognizedTextDataSourceDelegate {
     // Configurations
     var isConcatenatedResultNeeded: Bool
     
+    required init(onDidParse: @escaping (LVReceipt) -> Void) {
+        self.expectation = XCTestExpectation(description: "Default MockReceiptParser expectation.")
+        isConcatenatedResultNeeded = false
+    }
+    
     init(
         expectation: XCTestExpectation,
         isConcatenatedResultNeeded: Bool = false
