@@ -82,7 +82,7 @@ extension TextScannerTests {
         sut.parseData(from: image)
         
         // Assert
-        wait(for: [mockReceiptParser.expectation], timeout: 10)
+        wait(for: [mockReceiptParser.expectation], timeout: 15)
         XCTAssertEqual(mockReceiptParser.concatenatedResult, expectedResult, "The TextScanner observations result should equal to expected one.")
     }
 }

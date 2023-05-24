@@ -15,14 +15,17 @@ public struct LVReceipt: Equatable, Codable {
     public init(
         id: Id,
         date: Date,
-        products: [LVProduct]
-    ) throws {
+        products: [LVProduct],
+        text: String
+    ) {
         self.id = id
         self.date = date
         self.products = products
+        self.text = text
     }
     
     public var id: Id
     public var date: Date
     public var products: [LVProduct]
+    public var text: String
 }

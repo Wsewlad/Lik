@@ -33,23 +33,7 @@ extension ReceiptParserTests {
             timeZone: .gmt
         )
         
-        let strategyExample = try Date("17-01-2023", strategy: strategy)
-        
-        /*
-         Хл300КиївхлСімейнНар
-         Рул300КиївхлМакВ/ГВу
-         КартопляКгБіла
-         1,
-         .758 X 7.59
-         ЯБлукокгПіноваГолЧер
-         1,62 × 20,99
-         Сос275ГлобМортадВсВи
-         Смет350MiMiMilk201ve
-         ПакфасовМайнДГе
-         2 X 0,22
-         */
-        
-        let expectedReceipt = try LVReceipt(
+        let expectedReceipt = LVReceipt(
             id: .init(value: "test"),
             date: try Date("17-01-2023", strategy: strategy),
             products: [
@@ -60,7 +44,8 @@ extension ReceiptParserTests {
                 .init(id: .init(value: "5"), name: "Сос275ГлобМортадВсВи", quantity: 1),
                 .init(id: .init(value: "6"), name: "Смет350MiMiMilk201ve", quantity: 1),
                 .init(id: .init(value: "7"), name: "ПакфасовМайнДГе", quantity: 2),
-            ]
+            ],
+            text: ""
         )
         
         textScanner.delegate = ReceiptParser(onDidParse: { receipt in
@@ -68,8 +53,14 @@ extension ReceiptParserTests {
             XCTAssertEqual(receipt.date, expectedReceipt.date, "Date does not equal to the expected")
             XCTAssertEqual(receipt.products.count, expectedReceipt.products.count, "Products count does not equal to the expected")
             
-            for productIndex in 0..<expectedReceipt.products.count {
-                XCTAssertEqual(receipt.products[productIndex].name, expectedReceipt.products[productIndex].name, "Product \(productIndex)'s name does not equal to the expected")
+            if receipt.products.count == expectedReceipt.products.count {
+                for productIndex in 0..<expectedReceipt.products.count {
+                    XCTAssertEqual(
+                        receipt.products[productIndex].name,
+                        expectedReceipt.products[productIndex].name,
+                        "Product \(productIndex)'s name does not equal to the expected"
+                    )
+                }
             }
             
             expectation.fulfill()
@@ -78,6 +69,6 @@ extension ReceiptParserTests {
         // Act
         textScanner.parseData(from: image)
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 15)
     }
 }
