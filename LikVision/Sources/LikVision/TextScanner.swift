@@ -18,27 +18,36 @@ public class TextScanner: ObservableObject, TextScannerProtocol {
     public init(customWords: [String] = []) {
         self.customWords = customWords
         self.setupRecognizeTextRequest()
+        #if DEBUG
+        print("TextScanner init")
+        #endif
     }
+    
+    #if DEBUG
+    deinit {
+        print("TextScanner deinit")
+    }
+    #endif
 }
 
 //MARK: - Setup RecognizeTextRequest
 extension TextScanner {
     private func setupRecognizeTextRequest() {
-        textRecognitionRequest = VNRecognizeTextRequest { request, error in
+        textRecognitionRequest = VNRecognizeTextRequest { [weak self] request, error in
             guard error == nil else { return }
             
             if let results = request.results, !results.isEmpty {
                 if let observations = request.results as? [VNRecognizedTextObservation] {
                     DispatchQueue.main.async {
-                        self.delegate?.parse(observations)
+                        self?.delegate?.parse(observations)
                     }
                 }
             }
         }
         
-        //        textRecognitionRequest.supportedRecognitionLanguages()
+        // TODO: - commented for now because of worse result
+//        textRecognitionRequest.recognitionLanguages = ["uk-UA"]
         textRecognitionRequest.usesLanguageCorrection = true
-        textRecognitionRequest.recognitionLanguages = ["uk-UA"]
         textRecognitionRequest.customWords = customWords
         textRecognitionRequest.recognitionLevel = .accurate
     }

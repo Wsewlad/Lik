@@ -36,7 +36,9 @@ public class ReceiptParser: RecognizedTextDataSourceDelegate {
             return (text, $1.boundingBox.minY.rounded(), $1.boundingBox.minX.rounded())
         }
         
-        
+        #if DEBUG
+        print(fullText)
+        #endif
 //        if let receipt = receiptParser.run(fullText.text[...]).match {
 //            self.onDidParse(receipt)
 //        } else {

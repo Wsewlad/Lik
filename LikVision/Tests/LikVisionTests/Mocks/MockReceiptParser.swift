@@ -13,14 +13,23 @@ class MockReceiptParser: RecognizedTextDataSourceDelegate {
     // Paramethers to test
     var isParseMethodCalled: Bool = false
     var concatenatedResult: String = ""
-    let expectation = XCTestExpectation(description: "Call parse method.")
+    let expectation: XCTestExpectation
     
     // Configurations
     var isConcatenatedResultNeeded: Bool
     
-    init(isConcatenatedResultNeeded: Bool = false) {
+    init(
+        expectation: XCTestExpectation,
+        isConcatenatedResultNeeded: Bool = false
+    ) {
+        self.expectation = expectation
         self.isConcatenatedResultNeeded = isConcatenatedResultNeeded
         
+        print("MockReceiptParser init")
+    }
+    
+    deinit {
+        print("MockReceiptParser deinit")
     }
     
     func parse(_ observations: [VNRecognizedTextObservation]) {

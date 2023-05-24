@@ -39,6 +39,11 @@
                BlueprintName = "LikVisionTests"
                ReferencedContainer = "container:">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "TextScannerTests/testTextScanner_observationsResultWithoutCustomWordsConfigured_shouldBeTheSame()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

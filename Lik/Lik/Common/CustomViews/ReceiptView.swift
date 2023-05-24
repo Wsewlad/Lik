@@ -24,10 +24,8 @@ struct ReceiptView: View {
                         Text(product.name)
                             .font(.body())
                         
-                        if let quantity = product.quantity {
-                            Text("\(quantity.formatted(points: 3)))")
-                                .font(.subheadline())
-                        }
+                        Text("\(product.quantity.formatted(points: 3)))")
+                            .font(.subheadline())
                     }
                 }
             }

@@ -12,7 +12,7 @@ import LikVision
 
 struct RootScreen: View {
     @StateObject private var viewModel = RootViewModel()
-    @StateObject private var textScanner: TextScanner = .init()
+    @StateObject private var textScanner = TextScanner()
     
     @State private var isCameraPresented: Bool = false
     @State private var isFileImporterPresented: Bool = false
@@ -25,12 +25,12 @@ struct RootScreen: View {
                 buttonsView
             }
             .navigationBarTitle(" ", displayMode: .inline)
-            .onAppear {
-                guard textScanner.delegate == nil else { return }
-                
-                textScanner.delegate = ReceiptParser { receipt in
-                    viewModel.addNewReceipt(receipt.asReceipt)
-                }
+        }
+        .onAppear {
+            guard textScanner.delegate == nil else { return }
+            
+            self.textScanner.delegate = ReceiptParser { receipt in
+                viewModel.addNewReceipt(receipt.asReceipt)
             }
         }
     }
