@@ -155,6 +155,7 @@ let priceRegex = Regex {
     number
     OneOrMore(.whitespace)
     /A|Б/
+    /\s|\n/
 }
 .ignoresCase()
 
@@ -176,7 +177,17 @@ let productRegex = Regex {
 .ignoresCase()
 
 let productMatches = silpo1ReceiptText.matches(of: productRegex)
-print("Product matches count: \(productMatches.count)")
+
 for match in productMatches {
-    print(match.output)
+    var productString = "\(match.output.1) \t"
+    
+    if let amount = match.output.2 {
+        productString += " \(amount)"
+    }
+    if let cost = match.output.3 {
+        productString += " \(cost)"
+    }
+    productString += " \(match.output.4)"
+    
+    print(productString)
 }
