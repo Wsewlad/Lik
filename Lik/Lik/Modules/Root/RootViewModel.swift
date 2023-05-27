@@ -9,14 +9,26 @@ import Foundation
 import LikVision
 import UIKit
 
+enum Destination {
+    case details(Receipt)
+}
+
 class RootViewModel: ObservableObject {
-    @Published private(set) var receipts: [Receipt] = []
+    @Published private(set) var receipts: [Receipt]
     @Published var isCameraPresented: Bool = false
     @Published var isFileImporterPresented: Bool = false
     
+    @Published var destination: Destination?
+    
     private(set) var textScanner: TextScanner
     
-    init(textScanner: TextScanner = TextScanner()) {
+    init(
+        receipts: [Receipt] = [],
+        destination: Destination? = nil,
+        textScanner: TextScanner = TextScanner(customWords: Array(kCustomWords))
+    ) {
+        self.receipts = receipts
+        self.destination = destination
         self.textScanner = textScanner
         
         self.textScanner.delegate = ReceiptParser { [weak self] receipt in
@@ -26,6 +38,27 @@ class RootViewModel: ObservableObject {
     
     func addNewReceipt(_ newReceipt: Receipt) {
         receipts.append(newReceipt)
+    }
+}
+
+//MARK: - View Methods
+extension RootViewModel {
+    func receiptDetailsButtonTapped(_ receipt: Receipt) {
+        destination = .details(receipt)
+    }
+    
+    func dismissReceiptDetailsButtonTapped() {
+        destination = nil
+    }
+    
+    func confirmEditButtonTapped() {
+        guard case var .details(receipt) = self.destination
+        else { return }
+        
+        guard let currentReceiptIndex = receipts.firstIndex(of: receipt)
+        else { return }
+        
+        self.receipts[currentReceiptIndex] = receipt
     }
 }
 

@@ -9,18 +9,34 @@ import SwiftUI
 import Vision
 import VisionKit
 import LikVision
+import SwiftUINavigation
 
 struct RootScreen: View {
-    @StateObject private var viewModel = RootViewModel()
+//    @StateObject private var model = RootViewModel()
+    @ObservedObject var model: RootViewModel
 
     var body: some View {
-        NavigationStack {
-            ZStack(alignment: .bottomTrailing) {
-                receiptsListView
-                
-                buttonsView
+        TabView {
+            NavigationStack {
+                ZStack(alignment: .bottom) {
+                    receiptsListView
+                    
+                    buttonsView
+                }
+                .navigationBarTitle("Receipts", displayMode: .inline)
             }
-            .navigationBarTitle(" ", displayMode: .inline)
+            .tabItem {
+                Label("Receipts", systemImage: "cart")
+            }
+            .toolbar(.automatic, for: .tabBar)
+            .toolbarBackground(Color.clear, for: .tabBar)
+            
+            Text("Stats")
+                .tabItem {
+                    Label("Stats", systemImage: "chart.pie")
+                }
+                .toolbar(.automatic, for: .tabBar)
+                .toolbarBackground(Color.clear, for: .tabBar)
         }
     }
 }
@@ -29,51 +45,72 @@ struct RootScreen: View {
 private extension RootScreen {
     var receiptsListView: some View {
         List {
-            ForEach(viewModel.receipts, id: \.id) { receipt in
-                ReceiptView(receipt: receipt)
-                    .padding(.bottom, viewModel.receipts.last == receipt ? 100 : 0)
+            ForEach(model.receipts, id: \.id) { receipt in
+                ReceiptRowView(
+                    receipt: receipt,
+                    isLast: model.receipts.last == receipt
+                ) {
+                    model.destination = .details(receipt)
+                }
             }
-            .listRowInsets(.init(top: 15, leading: 16, bottom: 0, trailing: 16))
-            .listRowSeparator(.hidden)
         }
         .scrollContentBackground(.hidden)
-        .listStyle(.plain)
+        .listStyle(.insetGrouped)
+        .sheet(
+            unwrapping: $model.destination,
+            case: /Destination.details
+        ) { $receipt in
+            NavigationStack {
+                ReceiptDetailsView(receipt: $receipt)
+            }
+            .presentationDragIndicator(.visible)
+            .presentationDetents([.medium, .large])
+        }
     }
 }
 
 //MARK: - Buttons View
 private extension RootScreen {
     var buttonsView: some View {
-        Menu {
+        HStack {
             Button {
-                viewModel.isFileImporterPresented.toggle()
+                model.isFileImporterPresented.toggle()
             } label: {
-                Label("Open files", systemImage: "folder.fill")
-                    .foregroundStyle(Color.blue)
+                Label("Open file", systemImage: "folder.fill")
             }
+            
             Button {
                 guard VNDocumentCameraViewController.isSupported
                 else { print("Document scanning not supported"); return }
-                viewModel.isCameraPresented.toggle()
+                model.isCameraPresented.toggle()
             } label: {
-                Label("Open camera", systemImage: "camera.viewfinder")
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(Color.white, Color.blue)
+                Label("Open camera", systemImage: "camera.fill")
             }
-        } label: {
-            PlusView()
         }
-        .padding(25)
+        .buttonStyle(.borderedProminent)
+        .padding(.bottom, 25)
         .fileImporter(
-            isPresented: $viewModel.isFileImporterPresented,
+            isPresented: $model.isFileImporterPresented,
             allowedContentTypes: [.png, .jpeg, .heic],
-            onCompletion: viewModel.fileImportResultAction(result:)
+            onCompletion: model.fileImportResultAction(result:)
         )
-        .sheet(isPresented: $viewModel.isCameraPresented) {
+        .sheet(isPresented: $model.isCameraPresented) {
             DocumentCamera(
-                cancelAction: { viewModel.isCameraPresented = false },
-                resultAction: viewModel.cameraResultAction(result:)
+                cancelAction: { model.isCameraPresented = false },
+                resultAction: model.cameraResultAction(result:)
             )
         }
+    }
+}
+
+struct RootScreen_Previews: PreviewProvider {
+    static var previews: some View {
+        RootScreen(
+            model: RootViewModel(
+                receipts: [
+                    .fake
+                ]
+            )
+        )
     }
 }
