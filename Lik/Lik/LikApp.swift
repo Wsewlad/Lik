@@ -11,7 +11,9 @@ import SwiftUI
 struct LikApp: App {
     var body: some Scene {
         WindowGroup {
-            RootScreen()
+            RootScreen(
+                model: RootViewModel()
+            )
         }
     }
 }

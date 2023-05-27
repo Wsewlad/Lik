@@ -7,7 +7,7 @@
 
 import Foundation
 
-let kCustomWords: Set<String> = [
+public let kCustomWords: Set<String> = [
     // Символи
     "х", "Х", "#", "Б", "01",
     // Магазини

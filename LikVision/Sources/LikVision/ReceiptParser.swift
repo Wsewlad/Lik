@@ -42,7 +42,7 @@ public class ReceiptParser: RecognizedTextDataSourceDelegate {
         
         self.onDidParse(
             LVReceipt(
-                id: .init(value: "test"),
+                id: .init(value: Date().formatted()),
                 date: Date(),
                 products: [
                 

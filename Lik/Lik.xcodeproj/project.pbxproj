@@ -13,9 +13,10 @@
 		82970910297D61D100D70871 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297090F297D61D100D70871 /* Array.swift */; };
 		82970914297D626400D70871 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970913297D626400D70871 /* Receipt.swift */; };
 		82970916297D62BA00D70871 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970915297D62BA00D70871 /* Product.swift */; };
-		8297091C297D728500D70871 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091B297D728500D70871 /* ReceiptView.swift */; };
+		8297091C297D728500D70871 /* ReceiptRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091B297D728500D70871 /* ReceiptRowView.swift */; };
 		8297091E297DE0FA00D70871 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297091D297DE0F900D70871 /* DateFormatter.swift */; };
-		829CA1E129926F860090779E /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829CA1E029926F860090779E /* AddButton.swift */; };
+		82979A102A1F61EF009B9FBA /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 82979A0F2A1F61EF009B9FBA /* SwiftUINavigation */; };
+		8299D6892A212FE80078C980 /* ReceiptDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8299D6882A212FE80078C980 /* ReceiptDetailsView.swift */; };
 		829DF7102991B1AD00BA0E67 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF70F2991B1AD00BA0E67 /* Color.swift */; };
 		829DF7162991B32600BA0E67 /* Baskerville.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 829DF7152991B32600BA0E67 /* Baskerville.ttc */; };
 		829DF71929924E1200BA0E67 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF71829924E1200BA0E67 /* Font.swift */; };
@@ -35,9 +36,9 @@
 		8297090F297D61D100D70871 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		82970913297D626400D70871 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		82970915297D62BA00D70871 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		8297091B297D728500D70871 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
+		8297091B297D728500D70871 /* ReceiptRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptRowView.swift; sourceTree = "<group>"; };
 		8297091D297DE0F900D70871 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
-		829CA1E029926F860090779E /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
+		8299D6882A212FE80078C980 /* ReceiptDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptDetailsView.swift; sourceTree = "<group>"; };
 		829DF70F2991B1AD00BA0E67 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		829DF7152991B32600BA0E67 /* Baskerville.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baskerville.ttc; sourceTree = "<group>"; };
 		829DF7172991B34600BA0E67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -61,6 +62,7 @@
 			files = (
 				82155AC229903E95004BCF8E /* Parsing in Frameworks */,
 				826CD7422A1BD98100413306 /* LikVision in Frameworks */,
+				82979A102A1F61EF009B9FBA /* SwiftUINavigation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,8 +100,8 @@
 			children = (
 				829EC21229731769002D0CA0 /* DataScannerView.swift */,
 				829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */,
-				8297091B297D728500D70871 /* ReceiptView.swift */,
-				829CA1E029926F860090779E /* AddButton.swift */,
+				8297091B297D728500D70871 /* ReceiptRowView.swift */,
+				8299D6882A212FE80078C980 /* ReceiptDetailsView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -250,6 +252,7 @@
 			packageProductDependencies = (
 				82155AC129903E95004BCF8E /* Parsing */,
 				826CD7412A1BD98100413306 /* LikVision */,
+				82979A0F2A1F61EF009B9FBA /* SwiftUINavigation */,
 			);
 			productName = ReceiptScanner;
 			productReference = 82A39D562972E327004F6267 /* Lik.app */;
@@ -281,6 +284,7 @@
 			mainGroup = 82A39D4D2972E327004F6267;
 			packageReferences = (
 				82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */,
+				82979A0E2A1F61EF009B9FBA /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 			);
 			productRefGroup = 82A39D572972E327004F6267 /* Products */;
 			projectDirPath = "";
@@ -321,9 +325,9 @@
 				82A01EAE298D98710013B40F /* RootScreen.swift in Sources */,
 				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,
 				829DF71929924E1200BA0E67 /* Font.swift in Sources */,
-				8297091C297D728500D70871 /* ReceiptView.swift in Sources */,
+				8297091C297D728500D70871 /* ReceiptRowView.swift in Sources */,
 				829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */,
-				829CA1E129926F860090779E /* AddButton.swift in Sources */,
+				8299D6892A212FE80078C980 /* ReceiptDetailsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +470,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -503,6 +508,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -548,6 +554,14 @@
 				minimumVersion = 0.11.0;
 			};
 		};
+		82979A0E2A1F61EF009B9FBA /* XCRemoteSwiftPackageReference "swiftui-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swiftui-navigation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -559,6 +573,11 @@
 		826CD7412A1BD98100413306 /* LikVision */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LikVision;
+		};
+		82979A0F2A1F61EF009B9FBA /* SwiftUINavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82979A0E2A1F61EF009B9FBA /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
+			productName = SwiftUINavigation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
