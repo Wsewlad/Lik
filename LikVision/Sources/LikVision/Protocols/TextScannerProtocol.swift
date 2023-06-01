@@ -8,6 +8,6 @@
 import VisionKit
 
 public protocol TextScannerProtocol {
-    func parseData(from scan: VNDocumentCameraScan)
-    func parseData(from image: UIImage)
+    func recognize(from scan: VNDocumentCameraScan)
+    func recognize(from image: UIImage)
 }

@@ -1,5 +1,5 @@
 //
-//  MockReceiptParser.swift
+//  MockTextExtractor.swift
 //  
 //
 //  Created by  Vladyslav Fil on 22.05.2023.
@@ -8,20 +8,22 @@
 import LikVision
 import Vision
 import XCTest
+import Combine
 
-class MockReceiptParser: RecognizedTextDataSourceDelegate {
+class MockTextExtractor: RecognizedTextDataSourceDelegate {
+    
+    private var textSubject = PassthroughSubject<String, Never>()
+    public var extractedTextPublisher: AnyPublisher<String, Never> {
+        textSubject.eraseToAnyPublisher()
+    }
+    
     // Paramethers to test
-    var isParseMethodCalled: Bool = false
+    var isExtractMethodCalled: Bool = false
     var concatenatedResult: String = ""
     let expectation: XCTestExpectation
     
     // Configurations
     var isConcatenatedResultNeeded: Bool
-    
-    required init(onDidParse: @escaping (LVReceipt) -> Void) {
-        self.expectation = XCTestExpectation(description: "Default MockReceiptParser expectation.")
-        isConcatenatedResultNeeded = false
-    }
     
     init(
         expectation: XCTestExpectation,
@@ -30,15 +32,15 @@ class MockReceiptParser: RecognizedTextDataSourceDelegate {
         self.expectation = expectation
         self.isConcatenatedResultNeeded = isConcatenatedResultNeeded
         
-        print("MockReceiptParser init")
+        print("MockTextExtractor init")
     }
     
     deinit {
-        print("MockReceiptParser deinit")
+        print("MockTextExtractor deinit")
     }
     
-    func parse(_ observations: [VNRecognizedTextObservation]) {
-        isParseMethodCalled = true
+    func extractText(from observations: [VNRecognizedTextObservation]) {
+        isExtractMethodCalled = true
         
         if isConcatenatedResultNeeded {
             concatenatedResult = observations.reduce("") {
