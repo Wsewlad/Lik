@@ -26,7 +26,7 @@ extension TextExtractorTests {
     func testTextExtractor_silpo1ReceiptExample_shouldEqualToExpected() throws {
         // Arrange
         let image = try XCTUnwrap(UIImage(named: "silpo-1", in: Bundle.module, compatibleWith: nil))
-        let expectation = XCTestExpectation(description: "Did parse expectation")
+        let expectation = XCTestExpectation(description: "Did extract expectation")
         
         let strategy = Date.ParseStrategy(
             format: "\(day: .twoDigits)-\(month: .twoDigits)-\(year: .defaultDigits)",
@@ -40,7 +40,7 @@ extension TextExtractorTests {
         })
         
         // Act
-        textScanner.parseData(from: image)
+        textScanner.recognize(from: image)
         
         wait(for: [expectation], timeout: 15)
     }

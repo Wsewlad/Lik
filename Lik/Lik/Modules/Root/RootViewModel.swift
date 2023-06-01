@@ -67,7 +67,7 @@ extension RootViewModel {
     func cameraResultAction(result: CameraResult) {
         switch result {
         case let .success(scan):
-            textScanner.parseData(from: scan)
+            textScanner.recognize(from: scan)
             
         case let .failure(error):
             // TODO: - handle error
@@ -92,7 +92,7 @@ extension RootViewModel {
                 return
             }
             url.stopAccessingSecurityScopedResource()
-            textScanner.parseData(from: image)
+            textScanner.recognize(from: image)
             
         case let .failure(error):
             // TODO: - handle error

@@ -56,7 +56,7 @@ extension TextScanner {
 
 //MARK: - Parse
 extension TextScanner {
-    public func parseData(from scan: VNDocumentCameraScan) {
+    public func recognize(from scan: VNDocumentCameraScan) {
         DispatchQueue.global(qos: .userInitiated).async {
             for pageNumber in 0..<scan.pageCount {
                 let image = scan.imageOfPage(at: pageNumber)
@@ -65,7 +65,7 @@ extension TextScanner {
         }
     }
     
-    public func parseData(from image: UIImage) {
+    public func recognize(from image: UIImage) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.performRecognitionRequest(image: image)
         }
