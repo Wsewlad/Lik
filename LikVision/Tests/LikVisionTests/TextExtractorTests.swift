@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import LikVision
+import Combine
 
 final class TextExtractorTests: XCTestCase {
     
@@ -33,11 +34,19 @@ extension TextExtractorTests {
             timeZone: .gmt
         )
         
-        textScanner.delegate = TextExtractor(onDidExtract: { text in
-            // Assert
-            
-            expectation.fulfill()
-        })
+        var cancellables = Set<AnyCancellable>()
+        let textExtractor = TextExtractor()
+        textExtractor.extractedTextPublisher
+            .receive(on: RunLoop.main)
+            .sink {
+                print($0)
+            } receiveValue: { text in
+                print(text)
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
+        
+        self.textScanner.delegate = textExtractor
         
         // Act
         textScanner.recognize(from: image)

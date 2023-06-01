@@ -8,8 +8,14 @@
 import LikVision
 import Vision
 import XCTest
+import Combine
 
 class MockTextExtractor: RecognizedTextDataSourceDelegate {
+    
+    private var textSubject = PassthroughSubject<String, Never>()
+    public var extractedTextPublisher: AnyPublisher<String, Never> {
+        textSubject.eraseToAnyPublisher()
+    }
     
     // Paramethers to test
     var isExtractMethodCalled: Bool = false
@@ -18,11 +24,6 @@ class MockTextExtractor: RecognizedTextDataSourceDelegate {
     
     // Configurations
     var isConcatenatedResultNeeded: Bool
-    
-    required init(onDidExtract: @escaping (String) -> Void) {
-        self.expectation = XCTestExpectation(description: "Default MockTextExtractor expectation.")
-        isConcatenatedResultNeeded = false
-    }
     
     init(
         expectation: XCTestExpectation,

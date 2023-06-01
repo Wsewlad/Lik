@@ -7,13 +7,17 @@
 
 import Foundation
 import Vision
+import Combine
 
 public class TextExtractor: RecognizedTextDataSourceDelegate {
-    private var onDidExtract: (String) -> Void
     
-    required public init(onDidExtract: @escaping (String) -> Void) {
-        self.onDidExtract = onDidExtract
+    private var textSubject = PassthroughSubject<String, Never>()
+    
+    public var extractedTextPublisher: AnyPublisher<String, Never> {
+        textSubject.eraseToAnyPublisher()
     }
+    
+    public init() {}
     
     /// Extracts text from a collection of recognized text observations and processes it.
     /// - Parameter observations: An array of VNRecognizedTextObservation objects representing the recognized text in the image.
@@ -39,10 +43,6 @@ public class TextExtractor: RecognizedTextDataSourceDelegate {
             return (text, $1.boundingBox.minY.lvRounded(), $1.boundingBox.minX.lvRounded())
         }
 
-        #if DEBUG
-        print(result.text)
-        #endif
-
-        self.onDidExtract(result.text)
+        self.textSubject.send(result.text)
     }
 }

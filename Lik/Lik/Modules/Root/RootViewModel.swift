@@ -8,6 +8,7 @@
 import Foundation
 import LikVision
 import UIKit
+import Combine
 
 enum Destination {
     case details(Receipt)
@@ -21,19 +22,31 @@ class RootViewModel: ObservableObject {
     @Published var destination: Destination?
     
     private(set) var textScanner: TextScanner
+    private(set) var textExtractor: RecognizedTextDataSourceDelegate
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init(
         receipts: [Receipt] = [],
         destination: Destination? = nil,
-        textScanner: TextScanner = TextScanner(customWords: Array(kCustomWords))
+        textScanner: TextScanner = TextScanner(customWords: Array(kCustomWords)),
+        textExtractor: RecognizedTextDataSourceDelegate = TextExtractor()
     ) {
         self.receipts = receipts
         self.destination = destination
         self.textScanner = textScanner
         
-        self.textScanner.delegate = TextExtractor { [weak self] text in
-//            self?.addNewReceipt(text)
-        }
+        self.textExtractor = textExtractor
+        self.textExtractor.extractedTextPublisher
+            .receive(on: RunLoop.main)
+            .sink {
+                print($0)
+            } receiveValue: { text in
+                print(text)
+            }
+            .store(in: &self.cancellables)
+
+        self.textScanner.delegate = textExtractor
     }
     
     func addNewReceipt(_ newReceipt: Receipt) {

@@ -6,8 +6,9 @@
 //
 
 import Vision
+import Combine
 
 public protocol RecognizedTextDataSourceDelegate: AnyObject {
     func extractText(from observations: [VNRecognizedTextObservation])
-    init(onDidExtract: @escaping (String) -> Void)
+    var extractedTextPublisher: AnyPublisher<String, Never> { get }
 }
