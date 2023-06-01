@@ -12,4 +12,4 @@ extension CGFloat {
         let multiplier = pow(10.0, points)
         return Double(Int(self * multiplier)) / multiplier
     }
-}
+} 

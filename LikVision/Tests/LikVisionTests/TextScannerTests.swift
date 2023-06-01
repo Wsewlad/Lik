@@ -63,7 +63,7 @@ extension TextScannerTests {
 }
 
 
-//MARK: - TextScanner observations result with CustomWords configured
+//MARK: - (silpo-1) TextScanner observations result with CustomWords configured
 extension TextScannerTests {
     func testTextScanner_observationsResultWithCustomWordsConfigured_shouldBeTheSame() throws {
         // Arrange
@@ -76,6 +76,29 @@ extension TextScannerTests {
         sut.delegate = mockReceiptParser
         
         let image = try XCTUnwrap(UIImage(named: "silpo-1", in: Bundle.module, compatibleWith: nil))
+        let expectedResult = ExpectedResultExampleSilpo1.withCustomWordsConfigured.rawValue
+        
+        // Act
+        sut.parseData(from: image)
+        
+        // Assert
+        wait(for: [mockReceiptParser.expectation], timeout: 15)
+        XCTAssertEqual(mockReceiptParser.concatenatedResult, expectedResult, "The TextScanner observations result should equal to expected one.")
+    }
+}
+
+extension TextScannerTests {
+    func testTextScannerSilpo2_observationsResultWithCustomWordsConfigured_shouldBeTheSame() throws {
+        // Arrange
+        sut = TextScanner(customWords: Array(kCustomWords))
+        
+        let mockReceiptParser = MockReceiptParser(
+            expectation: XCTestExpectation(description: "Observations result with CustomWords"),
+            isConcatenatedResultNeeded: true
+        )
+        sut.delegate = mockReceiptParser
+        
+        let image = try XCTUnwrap(UIImage(named: "silpo-2", in: Bundle.module, compatibleWith: nil))
         let expectedResult = ExpectedResultExampleSilpo1.withCustomWordsConfigured.rawValue
         
         // Act

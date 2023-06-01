@@ -9,7 +9,8 @@ import LikVision
 import Vision
 import XCTest
 
-class MockReceiptParser: RecognizedTextDataSourceDelegate {
+class MockReceiptParser: RecognizedTextDataSourceDelegate {    
+    
     // Paramethers to test
     var isParseMethodCalled: Bool = false
     var concatenatedResult: String = ""
@@ -18,7 +19,7 @@ class MockReceiptParser: RecognizedTextDataSourceDelegate {
     // Configurations
     var isConcatenatedResultNeeded: Bool
     
-    required init(onDidParse: @escaping (LVReceipt) -> Void) {
+    required init(onDidExtract: @escaping (String) -> Void) {
         self.expectation = XCTestExpectation(description: "Default MockReceiptParser expectation.")
         isConcatenatedResultNeeded = false
     }
@@ -37,7 +38,7 @@ class MockReceiptParser: RecognizedTextDataSourceDelegate {
         print("MockReceiptParser deinit")
     }
     
-    func parse(_ observations: [VNRecognizedTextObservation]) {
+    func extractText(from observations: [VNRecognizedTextObservation]) {
         isParseMethodCalled = true
         
         if isConcatenatedResultNeeded {

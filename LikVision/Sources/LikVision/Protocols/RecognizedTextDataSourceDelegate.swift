@@ -8,6 +8,6 @@
 import Vision
 
 public protocol RecognizedTextDataSourceDelegate: AnyObject {
-    func parse(_ observations: [VNRecognizedTextObservation])
-    init(onDidParse: @escaping (LVReceipt) -> Void)
+    func extractText(from observations: [VNRecognizedTextObservation])
+    init(onDidExtract: @escaping (String) -> Void)
 }

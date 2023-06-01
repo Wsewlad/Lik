@@ -1,6 +1,6 @@
 //
-//  ReceiptParser.swift
-//  ReceiptScanner
+//  TextExtractor.swift
+//  TextExtractor
 //
 //  Created by  Vladyslav Fil on 22.01.2023.
 //
@@ -8,47 +8,41 @@
 import Foundation
 import Vision
 
-public class ReceiptParser: RecognizedTextDataSourceDelegate {
-    private var onDidParse: (LVReceipt) -> Void
+public class TextExtractor: RecognizedTextDataSourceDelegate {
+    private var onDidExtract: (String) -> Void
     
-    required public init(onDidParse: @escaping (LVReceipt) -> Void) {
-        self.onDidParse = onDidParse
+    required public init(onDidExtract: @escaping (String) -> Void) {
+        self.onDidExtract = onDidExtract
     }
     
-    public func parse(_ observations: [VNRecognizedTextObservation]) {
+    /// Extracts text from a collection of recognized text observations and processes it.
+    /// - Parameter observations: An array of VNRecognizedTextObservation objects representing the recognized text in the image.
+    ///
+    public func extractText(from observations: [VNRecognizedTextObservation]) {
         let sortedObservations = observations.sorted {
             let lhsMinY = $0.boundingBox.minY.lvRounded()
             let rhsMinY = $1.boundingBox.minY.lvRounded()
             let lhsMinX = $0.boundingBox.minX.lvRounded()
             let rhsMinX = $1.boundingBox.minX.lvRounded()
-            
+
             return lhsMinY == rhsMinY ? lhsMinX < rhsMinX : lhsMinY > rhsMinY
         }
 
-        let fullText = sortedObservations.reduce((text: "", prevMinY: 0.0, prevMinX: 0.0)) {
+        let result = sortedObservations.reduce((text: "", prevMinY: 0.0, prevMinX: 0.0)) {
             var text = $0.text
             if $0.prevMinY == $1.boundingBox.minY.lvRounded() || $0.prevMinX < $1.boundingBox.minX.lvRounded() {
                 text += "  " + $1.topCandidates(1).first!.string
             } else {
                 text += "\n" + $1.topCandidates(1).first!.string
             }
-            
+
             return (text, $1.boundingBox.minY.lvRounded(), $1.boundingBox.minX.lvRounded())
         }
-        
+
         #if DEBUG
-        print(fullText)
+        print(result.text)
         #endif
-        
-        self.onDidParse(
-            LVReceipt(
-                id: .init(value: Date().formatted()),
-                date: Date(),
-                products: [
-                
-                ],
-                text: fullText.text
-            )
-        )
+
+        self.onDidExtract(result.text)
     }
 }

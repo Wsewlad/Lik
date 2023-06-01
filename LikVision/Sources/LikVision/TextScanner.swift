@@ -40,7 +40,7 @@ extension TextScanner {
             if let results = request.results, !results.isEmpty {
                 if let observations = request.results as? [VNRecognizedTextObservation] {
                     DispatchQueue.main.async {
-                        self?.delegate?.parse(observations)
+                        self?.delegate?.extractText(from: observations)
                     }
                 }
             }

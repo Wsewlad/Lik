@@ -43,7 +43,72 @@ ABOAAAVUAAAAABUAC69h
 AAINWGIMKOoXPi/xtpA=
 ФІСКАЛЬНИЙ ЧЕК  В Екселліо
 """
-
+var silpo2ReceiptText =
+"""
+  ТОВ "СІЛЬПО-ФУД" kade
+україна, м. Київ, Шевченківський р-н,  вул. дорогожицька,  ПН 407201926538
+00056 Каса Попова 0. П.  91
+# ЧЕК N 41/332/113  #
+ПососьКгХребтГ/кКФ
+0.536 X 179,00  95,94 Б
+ПОБАЖАННЯ ВІД ГОСТЕЙ:
+Цінуйте життя! Даруите  оБими рідним щодня!
+B.B.  .28349266  #
+Бали в моБ. додатку  #
+ГУМА  95,94 ГРН
+ПАВ Б  0,00%  - - . -  0,00
+КАРТКА  95,94 ГРН
+ІДЕНТ. ЕКВАЙРА  QR2029
+ТЁРМІНАЛ  QR2029
+КОМІСІЯ  0,00
+ПЛАТІЖНА СИСТЕМА  QR
+ВИД ОПЕРАЦІЇ  ОПЛАтА
+ЕП3  XXXXXX4642  188942
+КОД АВТ.  301921103195
+RRN
+КАСИР:
+ДЕРЖАТЕЛЬ ЕПЗ:
+Восток  9046119 0038396  10 др 283 241012)
+ЗН КС00024319  ФН 3000921077
+ABOAAANEAAAAABUADOYS
+AACV/ABIKope/6mYmyo=
+ФІСКАЛЬНИЙ ЧЕК  § Екселліо
+"""
+var atb1ReceiptText =
+"""
+  ТОВ "АТБ-маркет"
+ми азин "Продукти-695"
+м. Київ, Деснянський р-н,  пр. Лісовий, 28  indatomarket.com
+email:
+TAPSYA MINIS 0 800 500 415  ПЫ 304872104175
+пол05 Чередник д. д.  01
+Maca  5
+лек 19343918, 2 946
+батон 250 г' кулиничі нар  12,90 A
+ізний половинка в/г гует
+Сирок 90 г злагода  Дит яч
+ми ватамінізований 13,5%  32,40 A
+2 4 16,20
+Пресерви 350 г Morven. 00  55,30 A
+амедець філе в олії тут
+Йогурт 310 г галичина Ви  29,90 A
+ШМЯ - Злакя 2,2% пистака  130,50 ГРН
+п08  20.00%  21,75
+130,50 ГРН
+- -  40384913
+KOMICI9  0,00
+ПЛАГТЖНА СИСТЕМА  Mastercard  Оплата
+ВИД ОПЕРАЦТ!
+ETT3  XXXXXXXXXXXXX055  886932
+КОД АВТ.
+RRN  301434942703
+КАСир:  ПЕРЖАТЕЛЬ ЕПЗ:  ДЯКУЄМО ЗА ПОКУПКУ!
+3521131 0510603  14-01-3023 12:58:38
+3Н К500002842  ОН 3000766024
+ABOAAAQRAAAAABUADag1
+AAFKJWD7LIOLGIEIEh4=
+мЕСКаЛЬНиЙ ЧЕК  eBi
+"""
 // ТОВ "СІЛЬПО-ФУД"
 let tovRegex = /ТОВ\s*\"([\w\-]+)\"/
 
@@ -167,7 +232,7 @@ let priceRegex = Regex {
 
 let productRegex = Regex {
     Capture {
-        OneOrMore(/[\w\/]/, .reluctant)
+        OneOrMore(/[\w\d%',\s\n\/]/, .reluctant)
     }
     ZeroOrMore(/[\s\n]/)
     ZeroOrMore(amountRegex)
@@ -176,8 +241,8 @@ let productRegex = Regex {
 }
 .ignoresCase()
 
-let productMatches = silpo1ReceiptText.matches(of: productRegex)
-
+let productMatches = atb1ReceiptText.matches(of: productRegex)
+print("count: \(productMatches.count)")
 for match in productMatches {
     var productString = "\(match.output.1) \t"
     

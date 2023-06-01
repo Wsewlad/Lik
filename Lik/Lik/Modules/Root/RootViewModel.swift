@@ -31,8 +31,8 @@ class RootViewModel: ObservableObject {
         self.destination = destination
         self.textScanner = textScanner
         
-        self.textScanner.delegate = ReceiptParser { [weak self] receipt in
-            self?.addNewReceipt(receipt.asReceipt)
+        self.textScanner.delegate = TextExtractor { [weak self] text in
+//            self?.addNewReceipt(text)
         }
     }
     
