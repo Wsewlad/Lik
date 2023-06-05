@@ -38,7 +38,6 @@ extension TextExtractorTests {
             } receiveValue: { text in
                 let textTrimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
                 XCTAssertEqual(ExpectedResultExampleSilpo1.extracted.rawValue, textTrimmed, "Extracted result for Example silpo-1 should match")
-                //print(textTrimmed)
                 expectation.fulfill()
             }
             .store(in: &cancellables)

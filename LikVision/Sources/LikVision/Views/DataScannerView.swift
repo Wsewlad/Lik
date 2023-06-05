@@ -8,7 +8,7 @@
 import VisionKit
 import SwiftUI
 
-struct DataScannerView: UIViewControllerRepresentable {
+public struct DataScannerView: UIViewControllerRepresentable {
     @Binding var recognizedItems: [RecognizedItem]
     
     var recognizedDataTypes: Set<DataScannerViewController.RecognizedDataType>
@@ -17,7 +17,7 @@ struct DataScannerView: UIViewControllerRepresentable {
     var isGuidanceEnabled: Bool = true
     var isHighlightingEnabled: Bool = true
     
-    func makeUIViewController(context: Context) -> DataScannerViewController {
+    public func makeUIViewController(context: Context) -> DataScannerViewController {
         let dataScannerVC = DataScannerViewController(
             recognizedDataTypes: recognizedDataTypes,
             qualityLevel: qualityLevel,
@@ -29,29 +29,29 @@ struct DataScannerView: UIViewControllerRepresentable {
         return dataScannerVC
     }
     
-    func updateUIViewController(_ uiViewController: DataScannerViewController, context: Context) {
+    public func updateUIViewController(_ uiViewController: DataScannerViewController, context: Context) {
         uiViewController.delegate = context.coordinator
         try? uiViewController.startScanning()
     }
     
-    static func dismantleUIViewController(_ uiViewController: DataScannerViewController, coordinator: Coordinator) {
+    public static func dismantleUIViewController(_ uiViewController: DataScannerViewController, coordinator: Coordinator) {
         uiViewController.stopScanning()
     }
     
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         Coordinator(recognizedItems: $recognizedItems)
     }
 }
 
 extension DataScannerView {
-    class Coordinator: NSObject, DataScannerViewControllerDelegate {
+    public class Coordinator: NSObject, DataScannerViewControllerDelegate {
         @Binding var recognizedItems: [RecognizedItem]
         
         init(recognizedItems: Binding<[RecognizedItem]>) {
             self._recognizedItems = recognizedItems
         }
         
-        func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
+        public func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
             self.recognizedItems.append(item)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         }

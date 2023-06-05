@@ -12,7 +12,6 @@ import LikVision
 import SwiftUINavigation
 
 struct RootScreen: View {
-//    @StateObject private var model = RootViewModel()
     @ObservedObject var model: RootViewModel
 
     var body: some View {

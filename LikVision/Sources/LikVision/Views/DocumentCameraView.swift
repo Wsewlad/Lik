@@ -13,11 +13,11 @@ public typealias CameraResult = Result<VNDocumentCameraScan, Error>
 public typealias CancelAction = () -> Void
 public typealias ResultAction = (CameraResult) -> Void
 
-struct DocumentCamera: UIViewControllerRepresentable {
+public struct DocumentCamera: UIViewControllerRepresentable {
     private let cancelAction: CancelAction
     private let resultAction: ResultAction
     
-    init(
+    public init(
         cancelAction: @escaping CancelAction = {},
         resultAction: @escaping ResultAction
     ) {
@@ -26,16 +26,16 @@ struct DocumentCamera: UIViewControllerRepresentable {
     }
     
     
-    func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
+    public func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
         let controller = VNDocumentCameraViewController()
         controller.delegate = context.coordinator
         return controller
     }
     
-    func updateUIViewController(_ uiViewController: VNDocumentCameraViewController, context: Context) {
+    public func updateUIViewController(_ uiViewController: VNDocumentCameraViewController, context: Context) {
     }
     
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         Coordinator(
             cancelAction: cancelAction,
             resultAction: resultAction
@@ -45,11 +45,11 @@ struct DocumentCamera: UIViewControllerRepresentable {
 
 //MARK: - Coordinator
 extension DocumentCamera {
-    class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
+    public class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
         private let cancelAction: CancelAction
         private let resultAction: ResultAction
         
-        init(
+        public init(
             cancelAction: @escaping CancelAction,
             resultAction: @escaping ResultAction
         ) {
@@ -57,20 +57,20 @@ extension DocumentCamera {
             self.resultAction = resultAction
         }
         
-        func documentCameraViewControllerDidCancel(
+        public func documentCameraViewControllerDidCancel(
             _ controller: VNDocumentCameraViewController
         ) {
             cancelAction()
         }
         
-        func documentCameraViewController(
+        public func documentCameraViewController(
             _ controller: VNDocumentCameraViewController,
             didFailWithError error: Error
         ) {
             resultAction(.failure(error))
         }
         
-        func documentCameraViewController(
+        public func documentCameraViewController(
             _ controller: VNDocumentCameraViewController,
             didFinishWith scan: VNDocumentCameraScan
         ) {

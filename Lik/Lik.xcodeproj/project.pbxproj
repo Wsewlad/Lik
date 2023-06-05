@@ -21,8 +21,6 @@
 		829DF7162991B32600BA0E67 /* Baskerville.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 829DF7152991B32600BA0E67 /* Baskerville.ttc */; };
 		829DF71929924E1200BA0E67 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF71829924E1200BA0E67 /* Font.swift */; };
 		829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC2102973112B002D0CA0 /* AppViewModel.swift */; };
-		829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21229731769002D0CA0 /* DataScannerView.swift */; };
-		829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */; };
 		82A01EAE298D98710013B40F /* RootScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EAD298D98710013B40F /* RootScreen.swift */; };
 		82A19AFE2A17795700EBC4CA /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A19AFD2A17795700EBC4CA /* RootViewModel.swift */; };
 		82A39D5A2972E327004F6267 /* LikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D592972E327004F6267 /* LikApp.swift */; };
@@ -44,8 +42,6 @@
 		829DF7172991B34600BA0E67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		829DF71829924E1200BA0E67 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
-		829EC21229731769002D0CA0 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
-		829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCameraView.swift; sourceTree = "<group>"; };
 		82A01EAD298D98710013B40F /* RootScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScreen.swift; sourceTree = "<group>"; };
 		82A19AFD2A17795700EBC4CA /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		82A39D562972E327004F6267 /* Lik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lik.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,8 +94,6 @@
 		8297090B297D543400D70871 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				829EC21229731769002D0CA0 /* DataScannerView.swift */,
-				829EC21429731EC8002D0CA0 /* DocumentCameraView.swift */,
 				8297091B297D728500D70871 /* ReceiptRowView.swift */,
 				8299D6882A212FE80078C980 /* ReceiptDetailsView.swift */,
 			);
@@ -321,12 +315,10 @@
 				82A19AFE2A17795700EBC4CA /* RootViewModel.swift in Sources */,
 				82A39D5A2972E327004F6267 /* LikApp.swift in Sources */,
 				8297091E297DE0FA00D70871 /* DateFormatter.swift in Sources */,
-				829EC21529731EC8002D0CA0 /* DocumentCameraView.swift in Sources */,
 				82A01EAE298D98710013B40F /* RootScreen.swift in Sources */,
 				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,
 				829DF71929924E1200BA0E67 /* Font.swift in Sources */,
 				8297091C297D728500D70871 /* ReceiptRowView.swift in Sources */,
-				829EC21329731769002D0CA0 /* DataScannerView.swift in Sources */,
 				8299D6892A212FE80078C980 /* ReceiptDetailsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
