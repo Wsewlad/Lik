@@ -29,11 +29,6 @@ extension TextExtractorTests {
         let image = try XCTUnwrap(UIImage(named: "silpo-1", in: Bundle.module, compatibleWith: nil))
         let expectation = XCTestExpectation(description: "Did extract expectation")
         
-        let strategy = Date.ParseStrategy(
-            format: "\(day: .twoDigits)-\(month: .twoDigits)-\(year: .defaultDigits)",
-            timeZone: .gmt
-        )
-        
         var cancellables = Set<AnyCancellable>()
         let textExtractor = TextExtractor()
         textExtractor.extractedTextPublisher
@@ -41,7 +36,9 @@ extension TextExtractorTests {
             .sink {
                 print($0)
             } receiveValue: { text in
-                print(text)
+                let textTrimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+                XCTAssertEqual(ExpectedResultExampleSilpo1.extracted.rawValue, textTrimmed, "Extracted result for Example silpo-1 should match")
+                //print(textTrimmed)
                 expectation.fulfill()
             }
             .store(in: &cancellables)
