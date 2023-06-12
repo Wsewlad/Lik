@@ -7,6 +7,7 @@
 
 import Foundation
 import LikVision
+import LikParsing
 
 struct Receipt: Equatable, Codable {
     struct Id: Hashable, Codable {
@@ -19,13 +20,13 @@ struct Receipt: Equatable, Codable {
     var text: String
 }
 
-//MARK: - LVReceipt - asReceipt
-extension LVReceipt {
+//MARK: - asReceipt
+extension LikParsing.Receipt {
     var asReceipt: Receipt {
         .init(
-            id: .init(value: id.value),
+            id: .init(value: shop + date.description),
             date: date,
-            products: products.map { $0.asProduct },
+            products: products.map(\.asProduct),
             text: text
         )
     }
@@ -38,9 +39,9 @@ extension Receipt {
             id: .init(value: "test"),
             date: Date(),
             products: [
-                .init(id: .init(value: "1"), name: "Хл300КиївхлСімейнНар", quantity: 1),
-                .init(id: .init(value: "2"), name: "Рул300КиївхлМакВ/гВу", quantity: 0.300),
-                .init(id: .init(value: "3"), name: "КартопляКгБіла", quantity: 1.000)
+                .init(id: .init(value: "1"), name: "Хл300КиївхлСімейнНар", amount: 1),
+                .init(id: .init(value: "2"), name: "Рул300КиївхлМакВ/гВу", amount: 0.300),
+                .init(id: .init(value: "3"), name: "КартопляКгБіла", amount: 1.000)
             ],
             text:
             """

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		82155AC229903E95004BCF8E /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 82155AC129903E95004BCF8E /* Parsing */; };
 		826CD7422A1BD98100413306 /* LikVision in Frameworks */ = {isa = PBXBuildFile; productRef = 826CD7412A1BD98100413306 /* LikVision */; };
 		8297090A297D52FF00D70871 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82970909297D52FF00D70871 /* CGFloat.swift */; };
 		82970910297D61D100D70871 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8297090F297D61D100D70871 /* Array.swift */; };
@@ -22,6 +21,7 @@
 		829DF71929924E1200BA0E67 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829DF71829924E1200BA0E67 /* Font.swift */; };
 		829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EC2102973112B002D0CA0 /* AppViewModel.swift */; };
 		82A01EAE298D98710013B40F /* RootScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A01EAD298D98710013B40F /* RootScreen.swift */; };
+		82A11D092A37AFF000A70533 /* LikParsing in Frameworks */ = {isa = PBXBuildFile; productRef = 82A11D082A37AFF000A70533 /* LikParsing */; };
 		82A19AFE2A17795700EBC4CA /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A19AFD2A17795700EBC4CA /* RootViewModel.swift */; };
 		82A39D5A2972E327004F6267 /* LikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D592972E327004F6267 /* LikApp.swift */; };
 		82A39D5E2972E32C004F6267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D5D2972E32C004F6267 /* Assets.xcassets */; };
@@ -43,6 +43,7 @@
 		829DF71829924E1200BA0E67 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		829EC2102973112B002D0CA0 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		82A01EAD298D98710013B40F /* RootScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScreen.swift; sourceTree = "<group>"; };
+		82A11D072A37AC8400A70533 /* LikParsing */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = LikParsing; path = /Users/vladyslavfil/iOS_Developer/Lik/LikParsing; sourceTree = "<absolute>"; };
 		82A19AFD2A17795700EBC4CA /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		82A39D562972E327004F6267 /* Lik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A39D592972E327004F6267 /* LikApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikApp.swift; sourceTree = "<group>"; };
@@ -56,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82155AC229903E95004BCF8E /* Parsing in Frameworks */,
+				82A11D092A37AFF000A70533 /* LikParsing in Frameworks */,
 				826CD7422A1BD98100413306 /* LikVision in Frameworks */,
 				82979A102A1F61EF009B9FBA /* SwiftUINavigation in Frameworks */,
 			);
@@ -68,6 +69,7 @@
 		826CD73F2A1BD49400413306 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				82A11D072A37AC8400A70533 /* LikParsing */,
 				826CD7402A1BD49400413306 /* LikVision */,
 			);
 			name = Packages;
@@ -244,9 +246,9 @@
 			);
 			name = Lik;
 			packageProductDependencies = (
-				82155AC129903E95004BCF8E /* Parsing */,
 				826CD7412A1BD98100413306 /* LikVision */,
 				82979A0F2A1F61EF009B9FBA /* SwiftUINavigation */,
+				82A11D082A37AFF000A70533 /* LikParsing */,
 			);
 			productName = ReceiptScanner;
 			productReference = 82A39D562972E327004F6267 /* Lik.app */;
@@ -277,7 +279,6 @@
 			);
 			mainGroup = 82A39D4D2972E327004F6267;
 			packageReferences = (
-				82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */,
 				82979A0E2A1F61EF009B9FBA /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 			);
 			productRefGroup = 82A39D572972E327004F6267 /* Products */;
@@ -376,7 +377,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -430,7 +431,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -460,9 +461,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -498,9 +499,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -538,14 +539,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-parsing";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.11.0;
-			};
-		};
 		82979A0E2A1F61EF009B9FBA /* XCRemoteSwiftPackageReference "swiftui-navigation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swiftui-navigation";
@@ -557,11 +550,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		82155AC129903E95004BCF8E /* Parsing */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 82155AC029903E95004BCF8E /* XCRemoteSwiftPackageReference "swift-parsing" */;
-			productName = Parsing;
-		};
 		826CD7412A1BD98100413306 /* LikVision */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LikVision;
@@ -570,6 +558,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 82979A0E2A1F61EF009B9FBA /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
 			productName = SwiftUINavigation;
+		};
+		82A11D082A37AFF000A70533 /* LikParsing */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LikParsing;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

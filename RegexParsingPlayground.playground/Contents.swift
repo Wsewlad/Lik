@@ -145,11 +145,11 @@ let dateRegex = Regex {
     )
 }
 
-//if let match = silpo1ReceiptText.firstMatch(of: dateRegex) {
-//    print(match.output)
-//} else {
-//    print("Date not found")
-//}
+if let match = silpo1ReceiptText.firstMatch(of: dateRegex) {
+    print(match.output.1)
+} else {
+    print("Date not found")
+}
 
 // СУМА  190,14 ГРН
 let sum = Reference(Double.self)

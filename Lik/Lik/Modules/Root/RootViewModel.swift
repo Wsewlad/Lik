@@ -7,22 +7,25 @@
 
 import Foundation
 import LikVision
+import LikParsing
 import UIKit
 import Combine
+import Observation
 
 enum Destination {
     case details(Receipt)
 }
 
-class RootViewModel: ObservableObject {
-    @Published private(set) var receipts: [Receipt]
-    @Published var isCameraPresented: Bool = false
-    @Published var isFileImporterPresented: Bool = false
+@Observable class RootViewModel {
+    private(set) var receipts: [Receipt] = []
+    var isCameraPresented: Bool = false
+    var isFileImporterPresented: Bool = false
     
-    @Published var destination: Destination?
+    var destination: Destination? = nil
     
-    private(set) var textScanner: TextScanner
-    private(set) var textExtractor: RecognizedTextDataSourceDelegate
+    private(set) var textScanner: TextScanner = TextScanner(customWords: Array(kCustomWords))
+    private(set) var textExtractor: RecognizedTextDataSourceDelegate = TextExtractor()
+    private(set) var receiptParser: ReceiptParserProtocol = ReceiptParser()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -30,19 +33,24 @@ class RootViewModel: ObservableObject {
         receipts: [Receipt] = [],
         destination: Destination? = nil,
         textScanner: TextScanner = TextScanner(customWords: Array(kCustomWords)),
-        textExtractor: RecognizedTextDataSourceDelegate = TextExtractor()
+        textExtractor: RecognizedTextDataSourceDelegate = TextExtractor(),
+        receiptParser: ReceiptParserProtocol = ReceiptParser()
     ) {
         self.receipts = receipts
         self.destination = destination
         self.textScanner = textScanner
         
         self.textExtractor = textExtractor
+        self.receiptParser = receiptParser
         self.textExtractor.extractedTextPublisher
             .receive(on: RunLoop.main)
+            .map {
+                receiptParser.parse(text: $0)
+            }
             .sink {
                 print($0)
-            } receiveValue: { text in
-                print(text)
+            } receiveValue: { receipt in
+                self.receipts.append(receipt.asReceipt)
             }
             .store(in: &self.cancellables)
 

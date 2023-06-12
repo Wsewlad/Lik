@@ -32,7 +32,7 @@ struct ReceiptDetailsView: View {
                         }
 
                         Spacer()
-                        Text("\(product.quantity.formatted(points: 2))")
+                        Text("\(product.amount.formatted(points: 2))")
                             
                         Text("шт")
                     }
