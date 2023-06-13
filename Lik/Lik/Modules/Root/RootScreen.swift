@@ -55,16 +55,8 @@ private extension RootScreen {
         }
         .scrollContentBackground(.hidden)
         .listStyle(.insetGrouped)
-//        .sheet(
-//            unwrapping: $model.destination,
-//            case: /Destination.details
-//        ) { $receipt in
-//            NavigationStack {
-//                ReceiptDetailsView(receipt: $receipt)
-//            }
-//            .presentationDragIndicator(.visible)
-//            .presentationDetents([.medium, .large])
-//        }
+        .sheet(
+            unwrapping: $model.destination,
             case: /Destination.details
         ) { $receipt in
             NavigationStack {
