@@ -22,11 +22,11 @@ struct ReceiptRowView: View {
                         Text(product.name)
                     }, icon: {
                         Image(systemName: "carrot.fill")
-                        .foregroundColor(.orange)
+                            .foregroundColor(.orange)
                     })
 
                     Spacer()
-                    Text("\(product.amount.formatted(points: 2))")
+                    Text(product.amount.formatted(points: 2))
                         
                     Text(product.amountType.label)
                 }

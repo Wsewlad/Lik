@@ -16,13 +16,19 @@ struct ReceiptDetailsView: View {
     var body: some View {
         Form {
             Section {
+                TextField("Shop", text: $receipt.shop, prompt: Text("Shop name"))
                 DatePicker("Date", selection: $receipt.date, displayedComponents: .date)
+                HStack {
+                    Text("Sum")
+                    Spacer()
+                    Text(receipt.sum, format: .currency(code: "UAH"))
+                }
             } header: {
                 Text("Info")
             }
             
             Section {
-                ForEach(receipt.products, id: \.id) { product in
+                ForEach($receipt.products, id: \.id) { $product in
                     HStack(alignment: .top) {
                         Label {
                             Text(product.name)
@@ -32,10 +38,13 @@ struct ReceiptDetailsView: View {
                         }
 
                         Spacer()
-                        Text("\(product.amount.formatted(points: 2))")
+                        Text(product.amount.formatted(points: 2))
                             
-                        Text("шт")
+                        Text(product.amountType.label)
                     }
+                }
+                .onDelete { indices in
+                    
                 }
             } header: {
                 Text("Items")
@@ -47,16 +56,17 @@ struct ReceiptDetailsView: View {
                 Text("Full text")
             }
         }
+        .textSelection(.enabled)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Dismiss") {
                     dismiss()
                 }
             }
-            
-            ToolbarItem(placement: .primaryAction) {
-                EditButton()
-            }
+//            
+//            ToolbarItem(placement: .primaryAction) {
+//                EditButton()
+//            }
         }
     }
 }

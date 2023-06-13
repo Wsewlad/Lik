@@ -55,37 +55,56 @@ let sumRegex = Regex {
 
 //MARK: - Amout
 let number = Regex {
-    Capture { /\d+[,\.]*\d*/ } transform: { Double($0.replacing(",", with: "."))! }
+    Capture {
+        /\d+/
+        ZeroOrMore(/[,\.]+\d+/)
+    } transform: { Double($0.replacing(",", with: ".")) ?? 0 }
 }
 let number2 = Regex {
-    Capture { /\d+[,\.\s]*\d*/ } transform: { Double($0.replacing(/[,\.\s]+/, with: "."))! }
+    Capture {
+        /\d+/
+        ZeroOrMore(/[,\.\s]+\d+/)
+    } transform: { Double($0.replacing(/[,\.\s]+/, with: ".")) ?? 0 }
 }
 let amountRegex = Regex {
     number2
-    OneOrMore(.whitespace)
-    /X|×/
-    OneOrMore(.whitespace)
+    OneOrMore(" ")
+    One(.any)
+    OneOrMore(" ")
     number
 }
 .ignoresCase()
 
 //MARK: - Price
 let priceRegex = Regex {
+    One(.whitespace)
     number
     OneOrMore(.whitespace)
-    /A|Б/
-    /\s|\n/
+    One(/\p{Letter}/)
+    Anchor.endOfLine
 }
 .ignoresCase()
 
 //MARK: - Product
-let productRegex = Regex {
+let productNameRegex = Regex {
     Capture {
-        OneOrMore(/[\w\d%',\s\n\/]/, .reluctant)
+        OneOrMore(.reluctant) {
+            CharacterClass(
+                .anyOf("%',/"),
+                .word,
+                .digit,
+                .whitespace
+            )
+        }
     }
-    ZeroOrMore(/[\s\n]/)
-    ZeroOrMore(amountRegex)
-    OneOrMore(.whitespace)
+}
+
+let productRegex = Regex {
+    Anchor.startOfLine
+    productNameRegex
+    ZeroOrMore(.whitespace)
+    Optionally(amountRegex)
+    ZeroOrMore(.whitespace)
     priceRegex
 }
 .ignoresCase()

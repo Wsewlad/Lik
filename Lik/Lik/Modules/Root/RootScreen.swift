@@ -12,7 +12,7 @@ import LikVision
 import SwiftUINavigation
 
 struct RootScreen: View {
-    @Bindable var model: RootViewModel
+    @ObservedObject var model: RootViewModel
 
     var body: some View {
         TabView {
@@ -44,7 +44,7 @@ struct RootScreen: View {
 private extension RootScreen {
     var receiptsListView: some View {
         List {
-            ForEach(model.receipts, id: \.id) { receipt in
+            ForEach($model.receipts, id: \.id) { $receipt in
                 ReceiptRowView(
                     receipt: receipt,
                     isLast: model.receipts.last == receipt
@@ -65,6 +65,13 @@ private extension RootScreen {
 //            .presentationDragIndicator(.visible)
 //            .presentationDetents([.medium, .large])
 //        }
+            case: /Destination.details
+        ) { $receipt in
+            NavigationStack {
+                ReceiptDetailsView(receipt: $receipt)
+            }
+            .presentationDragIndicator(.visible)
+        }
     }
 }
 

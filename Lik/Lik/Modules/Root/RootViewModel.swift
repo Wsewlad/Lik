@@ -16,12 +16,12 @@ enum Destination {
     case details(Receipt)
 }
 
-@Observable class RootViewModel {
-    private(set) var receipts: [Receipt] = []
-    var isCameraPresented: Bool = false
-    var isFileImporterPresented: Bool = false
+@MainActor final class RootViewModel: ObservableObject {
+    @Published var receipts: [Receipt] = []
+    @Published var isCameraPresented: Bool = false
+    @Published var isFileImporterPresented: Bool = false
     
-    var destination: Destination? = nil
+    @Published var destination: Destination? = nil
     
     private(set) var textScanner: TextScanner = TextScanner(customWords: Array(kCustomWords))
     private(set) var textExtractor: RecognizedTextDataSourceDelegate = TextExtractor()
