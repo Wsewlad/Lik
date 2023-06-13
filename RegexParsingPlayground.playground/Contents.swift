@@ -146,6 +146,11 @@ RRN  301718978596
 ABOAAAVUAAAAABUAC69h  AAINWgIMKO0XPi/xtpA=
 ФІСКАЛЬНИЙ ЧЕК  ₴ Екселліо
 """
+
+let checkNumber = Regex {
+    /\s*\d+\/\d+\/\d+\s*/
+}
+
 // ТОВ "СІЛЬПО-ФУД"
 let tovRegex = /ТОВ\s*\"([\w\-]+)\"/
 
@@ -251,7 +256,7 @@ let amountRegex = Regex {
 }
 .ignoresCase()
 // silpo1ReceiptText  silpo1ReceiptText2  silpo2ReceiptText  atb1ReceiptText
-//let amountMatches = silpo1ReceiptText2.matches(of: amountRegex)
+//let amountMatches = input.matches(of: amountRegex)
 //print("Amount matches count: \(amountMatches.count)")
 //for match in amountMatches {
 //    print(match.output)
@@ -266,35 +271,62 @@ let priceRegex = Regex {
 }
 .ignoresCase()
 
-let priceMatches = atb1ReceiptText.matches(of: priceRegex)
-print("Price matches count: \(priceMatches.count)")
-for match in priceMatches {
-    print(match.output)
+//let priceMatches = atb1ReceiptText.matches(of: priceRegex)
+//print("Price matches count: \(priceMatches.count)")
+//for match in priceMatches {
+//    print(match.output)
+//}
+
+let input2 = """
+# ЧЕК N 31/2155/296
+Хл300Київхл СімейнНар 14,59 Б
+Рул300Київхл
+МакВ/гВу  29,79 Б
+КартопляКгБіла
+1,758 Х 7,59  13,34 Б
+ЯбликоКгПіноваГ олЧер  1,62 X 20,99
+Сос275ГлобМортадВсВу  31,00 в
+Смет 350МіМіМ120П/е  39,99 Б
+ПакфасовМайНДПЕ  2 X 0,22  0,44 Б
+Незабаром здійсниться
+ваша дитяча мрія.
+"""
+let productNameRegex = Regex {
+    Capture {
+        OneOrMore(.reluctant) {
+            CharacterClass(
+                .anyOf("%',/"),
+                .word,
+                .digit,
+                .whitespace
+            )
+        }
+    }
 }
 
 let productRegex = Regex {
-    Capture {
-        OneOrMore(/[\w\d%',\s\n\/]/, .reluctant)
-    }
-    ZeroOrMore(/[\s\n]/)
-    ZeroOrMore(amountRegex)
-    OneOrMore(.whitespace)
+    Anchor.startOfLine
+    productNameRegex
+    ZeroOrMore(.whitespace)
+    Optionally(amountRegex)
+    ZeroOrMore(.whitespace)
     priceRegex
 }
 .ignoresCase()
 
-let productMatches = silpo1ReceiptText2.matches(of: productRegex)
+
+let productMatches = input2.matches(of: productRegex)
 print("count: \(productMatches.count)")
-//for match in productMatches {
-//    var productString = "\(match.output.1) \t"
-//    
-////    if let amount = match.output.2 {
-////        productString += " \(amount)"
-////    }
-////    if let cost = match.output.3 {
-////        productString += " \(cost)"
-////    }
-////    productString += " \(match.output.4)"
-//    
-//    print(productString)
-//}
+for match in productMatches {
+//    var productString = "\(match.output)\n"
+    
+//    if let amount = match.output.2 {
+//        productString += " \(amount)"
+//    }
+//    if let cost = match.output.3 {
+//        productString += " \(cost)"
+//    }
+//    productString += " \(match.output.4)"
+    
+    print(match.output)
+}
