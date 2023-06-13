@@ -244,32 +244,33 @@ let number2 = Regex {
 }
 let amountRegex = Regex {
     number2
-    OneOrMore(.whitespace)
+    OneOrMore(" ")
     One(.any)
     OneOrMore(" ")
     number
 }
 .ignoresCase()
-// silpo1ReceiptText  silpo2ReceiptText  atb1ReceiptText
-let amountMatches = silpo1ReceiptText2.matches(of: amountRegex)
-print("Amount matches count: \(amountMatches.count)")
-for match in amountMatches {
-    print(match.output)
-}
+// silpo1ReceiptText  silpo1ReceiptText2  silpo2ReceiptText  atb1ReceiptText
+//let amountMatches = silpo1ReceiptText2.matches(of: amountRegex)
+//print("Amount matches count: \(amountMatches.count)")
+//for match in amountMatches {
+//    print(match.output)
+//}
 
 let priceRegex = Regex {
+    One(.whitespace)
     number
     OneOrMore(.whitespace)
-    /A|Б/
-    /\s|\n/
+    One(/\p{Letter}/)
+    Anchor.endOfLine
 }
 .ignoresCase()
 
-//let priceMatches = input.matches(of: priceRegex)
-//print("Price matches count: \(priceMatches.count)")
-//for match in priceMatches {
-//    print(match.output)
-//}
+let priceMatches = atb1ReceiptText.matches(of: priceRegex)
+print("Price matches count: \(priceMatches.count)")
+for match in priceMatches {
+    print(match.output)
+}
 
 let productRegex = Regex {
     Capture {
