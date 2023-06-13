@@ -45,7 +45,8 @@ enum Destination {
         self.textExtractor.extractedTextPublisher
             .receive(on: RunLoop.main)
             .map {
-                receiptParser.parse(text: $0)
+                print($0)
+                return receiptParser.parse(text: $0)
             }
             .sink {
                 print($0)

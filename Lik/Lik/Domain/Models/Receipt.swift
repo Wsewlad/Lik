@@ -15,7 +15,9 @@ struct Receipt: Equatable, Codable {
     }
     
     var id: Id
+    var shop: String
     var date: Date
+    var sum: Double
     var products: [Product]
     var text: String
 }
@@ -25,7 +27,9 @@ extension LikParsing.Receipt {
     var asReceipt: Receipt {
         .init(
             id: .init(value: shop + date.description),
+            shop: shop,
             date: date,
+            sum: sum,
             products: products.map(\.asProduct),
             text: text
         )
@@ -37,11 +41,13 @@ extension Receipt {
     static var fake: Self {
         .init(
             id: .init(value: "test"),
+            shop: "Сільпо",
             date: Date(),
+            sum: 250,
             products: [
-                .init(id: .init(value: "1"), name: "Хл300КиївхлСімейнНар", amount: 1),
-                .init(id: .init(value: "2"), name: "Рул300КиївхлМакВ/гВу", amount: 0.300),
-                .init(id: .init(value: "3"), name: "КартопляКгБіла", amount: 1.000)
+                .init(id: .init(value: "1"), name: "Хл300КиївхлСімейнНар", amount: 1, amountType: .piece, price: 25, sum: 25),
+                .init(id: .init(value: "2"), name: "Рул300КиївхлМакВ/гВу", amount: 0.300, amountType: .piece, price: 25, sum: 25),
+                .init(id: .init(value: "3"), name: "КартопляКгБіла", amount: 1.000, amountType: .kg, price: 25, sum: 25)
             ],
             text:
             """

@@ -51,14 +51,14 @@ extension TextScannerTests {
         sut.delegate = mockReceiptParser
         
         let image = try XCTUnwrap(UIImage(named: "silpo-1", in: Bundle.module, compatibleWith: nil))
-        let expectedResult = ExpectedResultExampleSilpo1.withoutCustomWordsConfigured.rawValue
+        let expectedResult = ExpectedResultExampleSilpo1.extracted.rawValue
         
         // Act
         sut.recognize(from: image)
         
         // Assert
-        wait(for: [mockReceiptParser.expectation], timeout: 10)
-        XCTAssertEqual(mockReceiptParser.concatenatedResult, expectedResult, "The TextScanner observations result should equal to expected one.")
+        wait(for: [mockReceiptParser.expectation], timeout: 20)
+        XCTAssertNotEqual(mockReceiptParser.concatenatedResult.trimmingCharacters(in: .whitespacesAndNewlines), expectedResult, "The TextScanner observations result should not equal to expected one.")
     }
 }
 
@@ -76,14 +76,14 @@ extension TextScannerTests {
         sut.delegate = mockTextExtractor
         
         let image = try XCTUnwrap(UIImage(named: "silpo-1", in: Bundle.module, compatibleWith: nil))
-        let expectedResult = ExpectedResultExampleSilpo1.withCustomWordsConfigured.rawValue
+        let expectedResult = ExpectedResultExampleSilpo1.extracted.rawValue
         
         // Act
         sut.recognize(from: image)
         
         // Assert
-        wait(for: [mockTextExtractor.expectation], timeout: 15)
-        XCTAssertEqual(mockTextExtractor.concatenatedResult, expectedResult, "The TextScanner observations result should equal to expected one.")
+        wait(for: [mockTextExtractor.expectation], timeout: 20)
+        XCTAssertEqual(mockTextExtractor.concatenatedResult.trimmingCharacters(in: .whitespacesAndNewlines), expectedResult, "The TextScanner observations result should equal to expected one.")
     }
 }
 

@@ -47,7 +47,7 @@ extension TextScanner {
         }
         
         // TODO: - commented for now because of worse result
-//        textRecognitionRequest.recognitionLanguages = ["uk-UA"]
+        textRecognitionRequest.recognitionLanguages = ["uk-UA", "en-US"]
         textRecognitionRequest.usesLanguageCorrection = true
         textRecognitionRequest.customWords = customWords
         textRecognitionRequest.recognitionLevel = .accurate

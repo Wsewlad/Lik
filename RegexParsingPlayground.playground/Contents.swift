@@ -109,6 +109,43 @@ ABOAAAQRAAAAABUADag1
 AAFKJWD7LIOLGIEIEh4=
 мЕСКаЛЬНиЙ ЧЕК  eBi
 """
+var silpo1ReceiptText2 =
+"""
+ТОВ "СІЛЬПО-ФУД", магазин
+м.Київ, вулиця Дорогожицька, будинок 2  ПН 407201926538
+00001 Каса Островська О.Л.  01
+# ЧЕК N 31/2155/296
+Хл300КиївхлСімейнНар  14,59 Б
+Рул300КиївхлМакВ/гВу  29,79 Б
+КартопляКгБіла
+1,758 Х 7,59  13,34 Б
+ЯбликоКгПіноваГ олЧер  1,62 X 20,99
+Сос275ГлобМортадВсВу  31,00 в
+Смет 350МіМіМ120П/е  39,99 Б
+ПакфасовМайНДПЕ  2 X 0,22  0,44 Б
+Незабаром здійсниться
+ваша дитяча мрія.
+В.В. 28349266
+Бали в моб. додатку  СУМА  190,14 ГРН
+ПДВ Б  0,00%  0,00
+КАРТКА  -  190,14 ГРН
+ІДЕНТ. ЕКВАЙРА  QR2029
+ТЕРМІНАЛ  QR2029
+КОМІСІЯ  0,00
+ПЛАТІЖНА СИСТЕМА
+ВИД ОПЕРАЦІЇ  ОПЛАТА
+ЕПЗ  XXXXXX4642
+КОД АВТ.  828939
+RRN  301718978596
+КАСИР:
+ДЕРЖАТЕЛЬ ЕПЗ:  #
+#
+Восток
+0633713 0609622  17-01-2023 18:40:18
+ЗН КС00005950  ОН 3000272824
+ABOAAAVUAAAAABUAC69h  AAINWgIMKO0XPi/xtpA=
+ФІСКАЛЬНИЙ ЧЕК  ₴ Екселліо
+"""
 // ТОВ "СІЛЬПО-ФУД"
 let tovRegex = /ТОВ\s*\"([\w\-]+)\"/
 
@@ -145,11 +182,11 @@ let dateRegex = Regex {
     )
 }
 
-if let match = silpo1ReceiptText.firstMatch(of: dateRegex) {
-    print(match.output.1)
-} else {
-    print("Date not found")
-}
+//if let match = silpo1ReceiptText.firstMatch(of: dateRegex) {
+//    print(match.output.1)
+//} else {
+//    print("Date not found")
+//}
 
 // СУМА  190,14 ГРН
 let sum = Reference(Double.self)
@@ -181,40 +218,44 @@ let sumRegex = Regex {
 
 
 let input  = """
-# ЧЕК N 31/2155/296  #
+# ЧЕК N 31/2155/296
 Хл300КиївхлСімейнНар  14,59 Б
-Рул300КиївхлМакВ/ГВу  29,79 Б
+Рул300КиївхлМакВ/гВу  29,79 Б
 КартопляКгБіла
-1,  .758 X 7.59  13,34 Б
-ЯБлукокгПіноваГолЧер
-1,62 × 20,99  34,00 Б
-Сос275ГлобМортадВсВи  57,99 Б
-Смет350MiMiMilk201ve  39,99 Б
-ПакфасовМайнДГе
-2 X 0,22  0,44 Б
-Незабаром здійсниться  #
-ваша дитяча мрія.  #
+1,758 Х 7,59  13,34 Б
+ЯбликоКгПіноваГ олЧер  1,62 X 20,99
+Сос275ГлобМортадВсВу  31,00 в
+Смет 350МіМіМ120П/е  39,99 Б
+ПакфасовМайНДПЕ  2 X 0,22  0,44 Б
+Незабаром здійсниться
+ваша дитяча мрія.
 """
 let number = Regex {
-    Capture { /\d+[,\.]*\d*/ } transform: { Double($0.replacing(",", with: "."))! }
+    Capture {
+        /\d+/
+        ZeroOrMore(/[,\.]+\d+/)
+    } transform: { Double($0.replacing(",", with: ".")) ?? 0 }
 }
 let number2 = Regex {
-    Capture { /\d+[,\.\s]*\d*/ } transform: { Double($0.replacing(/[,\.\s]+/, with: "."))! }
+    Capture {
+        /\d+/
+        ZeroOrMore(/[,\.\s]+\d+/)
+    } transform: { Double($0.replacing(/[,\.\s]+/, with: ".")) ?? 0 }
 }
 let amountRegex = Regex {
     number2
     OneOrMore(.whitespace)
-    /X|×/
-    OneOrMore(.whitespace)
+    One(.any)
+    OneOrMore(" ")
     number
 }
 .ignoresCase()
-
-//let amountMatches = input.matches(of: amountRegex)
-//print("Amount matches count: \(amountMatches.count)")
-//for match in amountMatches {
-//    print(match.output)
-//}
+// silpo1ReceiptText  silpo2ReceiptText  atb1ReceiptText
+let amountMatches = silpo1ReceiptText2.matches(of: amountRegex)
+print("Amount matches count: \(amountMatches.count)")
+for match in amountMatches {
+    print(match.output)
+}
 
 let priceRegex = Regex {
     number
@@ -241,18 +282,18 @@ let productRegex = Regex {
 }
 .ignoresCase()
 
-let productMatches = atb1ReceiptText.matches(of: productRegex)
+let productMatches = silpo1ReceiptText2.matches(of: productRegex)
 print("count: \(productMatches.count)")
-for match in productMatches {
-    var productString = "\(match.output.1) \t"
-    
-    if let amount = match.output.2 {
-        productString += " \(amount)"
-    }
-    if let cost = match.output.3 {
-        productString += " \(cost)"
-    }
-    productString += " \(match.output.4)"
-    
-    print(productString)
-}
+//for match in productMatches {
+//    var productString = "\(match.output.1) \t"
+//    
+////    if let amount = match.output.2 {
+////        productString += " \(amount)"
+////    }
+////    if let cost = match.output.3 {
+////        productString += " \(cost)"
+////    }
+////    productString += " \(match.output.4)"
+//    
+//    print(productString)
+//}

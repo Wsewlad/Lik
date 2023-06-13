@@ -14,6 +14,8 @@ struct ReceiptRowView: View {
     
     var body: some View {
         Section(content: {
+            Text(receipt.shop)
+            
             ForEach(receipt.products, id: \.id) { product in
                 HStack(alignment: .top) {
                     Label(title: {
@@ -26,7 +28,7 @@ struct ReceiptRowView: View {
                     Spacer()
                     Text("\(product.amount.formatted(points: 2))")
                         
-                    Text("шт")
+                    Text(product.amountType.label)
                 }
             }
         }, header: {

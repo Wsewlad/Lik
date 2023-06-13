@@ -16,6 +16,9 @@ struct Product: Equatable, Codable {
     var id: Id
     var name: String
     var amount: Double
+    var amountType: AmountType
+    var price: Double
+    var sum: Double
 }
 
 extension LikParsing.Product {
@@ -23,7 +26,10 @@ extension LikParsing.Product {
         .init(
             id: .init(value: name),
             name: name,
-            amount: amount
+            amount: amount,
+            amountType: amountType.asAmountType,
+            price: price,
+            sum: sum
         )
     }
 }

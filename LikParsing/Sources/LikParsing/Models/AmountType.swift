@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum AmountType {
+public enum AmountType: String {
     case kg
     case piece
 }

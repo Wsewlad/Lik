@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension CGFloat {
+public extension CGFloat {
     func lvRounded(points: Double = 2) -> Self {
         let multiplier = pow(10.0, points)
         return Double(Int(self * multiplier)) / multiplier
