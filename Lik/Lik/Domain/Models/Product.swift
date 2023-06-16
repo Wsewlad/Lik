@@ -8,7 +8,7 @@
 import Foundation
 import LikParsing
 
-struct Product: Equatable, Codable {
+struct Product: Identifiable, Equatable, Codable {
     struct Id: Hashable, Codable {
         var value: String
     }

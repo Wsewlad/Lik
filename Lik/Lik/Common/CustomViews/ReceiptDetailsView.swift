@@ -29,18 +29,25 @@ struct ReceiptDetailsView: View {
             
             Section {
                 ForEach($receipt.products, id: \.id) { $product in
-                    HStack(alignment: .top) {
-                        Label {
-                            Text(product.name)
-                        } icon: {
-                            Image(systemName: "carrot.fill")
-                                .foregroundColor(.orange)
-                        }
-
-                        Spacer()
-                        Text(product.amount.formatted(points: 2))
+                    VStack {
+                        HStack(alignment: .top) {
+                            Label {
+                                Text(product.name)
+                            } icon: {
+                                Image(systemName: "carrot.fill")
+                                    .foregroundColor(.orange)
+                            }
                             
-                        Text(product.amountType.label)
+                            Spacer()
+                            Text(product.amount.formatted(points: 2))
+                            
+                            Text(product.amountType.label)
+                        }
+                        HStack {
+                            Text(product.price, format: .currency(code: "UAH"))
+                            Spacer()
+                            Text(product.sum, format: .currency(code: "UAH"))
+                        }
                     }
                 }
                 .onDelete { indices in
@@ -89,12 +96,10 @@ struct FullTextView: View {
     }
 }
 
-struct ReceiptDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            ReceiptDetailsView(
-                receipt: .constant(.fake)
-            )
-        }
+#Preview {
+    NavigationStack {
+        ReceiptDetailsView(
+            receipt: .constant(.fake)
+        )
     }
 }

@@ -18,6 +18,7 @@ enum Destination {
 
 @MainActor final class RootViewModel: ObservableObject {
     @Published var receipts: [Receipt] = []
+    @Published var images: [UIImage] = []
     @Published var isCameraPresented: Bool = false
     @Published var isFileImporterPresented: Bool = false
     
@@ -90,7 +91,8 @@ extension RootViewModel {
         switch result {
         case let .success(scan):
             textScanner.recognize(from: scan)
-            
+            let image = scan.imageOfPage(at: 0)
+            images.append(image)
         case let .failure(error):
             // TODO: - handle error
             print(error.localizedDescription)
@@ -114,6 +116,14 @@ extension RootViewModel {
                 return
             }
             url.stopAccessingSecurityScopedResource()
+//            let cancellable = detectAndCropWhiteArea(in: image)
+//                .sink { croppedImage in
+//                    if let croppedImage = croppedImage {
+//                        self.images.append(croppedImage)
+//                    } else {
+//                        print("Error: Failed to crop the white area")
+//                    }
+//                }
             textScanner.recognize(from: image)
             
         case let .failure(error):

@@ -27,6 +27,8 @@
 		82A39D5A2972E327004F6267 /* LikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A39D592972E327004F6267 /* LikApp.swift */; };
 		82A39D5E2972E32C004F6267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D5D2972E32C004F6267 /* Assets.xcassets */; };
 		82A39D612972E32C004F6267 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A39D602972E32C004F6267 /* Preview Assets.xcassets */; };
+		82A60C332A3BB18D009BFE96 /* CodableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A60C322A3BB18D009BFE96 /* CodableImage.swift */; };
+		82A60C352A3BB425009BFE96 /* ImageCrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A60C342A3BB425009BFE96 /* ImageCrop.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		82A39D592972E327004F6267 /* LikApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikApp.swift; sourceTree = "<group>"; };
 		82A39D5D2972E32C004F6267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		82A39D602972E32C004F6267 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		82A60C322A3BB18D009BFE96 /* CodableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableImage.swift; sourceTree = "<group>"; };
+		82A60C342A3BB425009BFE96 /* ImageCrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCrop.swift; sourceTree = "<group>"; };
 		82A9D27F298DDA6A00A111AF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -108,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				829EC2102973112B002D0CA0 /* AppViewModel.swift */,
+				82A60C342A3BB425009BFE96 /* ImageCrop.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -126,6 +131,7 @@
 				82970913297D626400D70871 /* Receipt.swift */,
 				82970915297D62BA00D70871 /* Product.swift */,
 				822860542A38629C007190DD /* AmountType.swift */,
+				82A60C322A3BB18D009BFE96 /* CodableImage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -312,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82970914297D626400D70871 /* Receipt.swift in Sources */,
+				82A60C352A3BB425009BFE96 /* ImageCrop.swift in Sources */,
 				82970910297D61D100D70871 /* Array.swift in Sources */,
 				829DF7102991B1AD00BA0E67 /* Color.swift in Sources */,
 				8297090A297D52FF00D70871 /* CGFloat.swift in Sources */,
@@ -321,6 +328,7 @@
 				8297091E297DE0FA00D70871 /* DateFormatter.swift in Sources */,
 				82A01EAE298D98710013B40F /* RootScreen.swift in Sources */,
 				822860552A38629C007190DD /* AmountType.swift in Sources */,
+				82A60C332A3BB18D009BFE96 /* CodableImage.swift in Sources */,
 				829EC2112973112B002D0CA0 /* AppViewModel.swift in Sources */,
 				829DF71929924E1200BA0E67 /* Font.swift in Sources */,
 				8297091C297D728500D70871 /* ReceiptRowView.swift in Sources */,

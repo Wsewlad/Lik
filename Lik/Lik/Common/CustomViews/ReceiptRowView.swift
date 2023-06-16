@@ -44,15 +44,13 @@ struct ReceiptRowView: View {
     }
 }
 
-struct ReceiptView_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            ReceiptRowView(
-                receipt: .fake,
-                isLast: false,
-                onDetailsButtonTapped: {}
-            )
-        }
-        .listStyle(.insetGrouped)
+#Preview {
+    List {
+        ReceiptRowView(
+            receipt: .fake,
+            isLast: false,
+            onDetailsButtonTapped: {}
+        )
     }
+    .listStyle(.insetGrouped)
 }

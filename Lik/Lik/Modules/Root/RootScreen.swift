@@ -44,6 +44,17 @@ struct RootScreen: View {
 private extension RootScreen {
     var receiptsListView: some View {
         List {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(model.images, id: \.self) { uiImage in
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 100)
+                            .padding()
+                    }
+                }
+            }
             ForEach($model.receipts, id: \.id) { $receipt in
                 ReceiptRowView(
                     receipt: receipt,

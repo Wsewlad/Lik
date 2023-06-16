@@ -8,6 +8,7 @@
 import Foundation
 import LikVision
 import LikParsing
+import UIKit
 
 struct Receipt: Equatable, Codable {
     struct Id: Hashable, Codable {
@@ -20,6 +21,7 @@ struct Receipt: Equatable, Codable {
     var sum: Double
     var products: [Product]
     var text: String
+    var image: CodableImage?
 }
 
 //MARK: - asReceipt
